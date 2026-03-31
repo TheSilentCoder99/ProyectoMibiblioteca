@@ -372,4 +372,210 @@ INSERT INTO libro (title, year_publicacion, pages, description, opinion) VALUES
 ('1984', 1949, 328, 'En un estado totalitario, Winston Smith desafía al sistema de vigilancia y control del Gran Hermano.', NULL),
 ('Rebelión en la granja', 1945, 112, 'Los animales de una granja se rebelan contra los humanos, pero la revolución degenera en una nueva tiranía.', NULL),
 ('El señor de las moscas', 1954, 224, 'Un grupo de niños náufragos intenta organizarse, pero descienden a la barbarie y la violencia tribal.', NULL),
-('Vida líquida', 200
+('Vida líquida', 2005, 160, 'Describe la fragilidad de los vínculos humanos en la modernidad líquida, donde todo es provisional y desechable.', NULL),
+('El concepto de la angustia', 1844, 200, 'Análisis de la angustia como experiencia fundamental humana ligada a la libertad y posibilidad.', NULL),
+('El ego es el enemigo', 2016, 226, 'Argumenta que el ego obstaculiza el éxito y propone cultivar humildad, disciplina y resiliencia.', NULL),
+('Viaje al centro de la tierra', 1864, 400, 'Un profesor y su sobrino descienden por un volcán hacia el interior de la Tierra, descubriendo mundos prehistóricos.', NULL),
+('El obstáculo es el camino', 2014, 224, 'Usa la filosofía estoica para mostrar cómo convertir obstáculos en oportunidades de crecimiento y éxito.', NULL),
+('El mito de Sísifo', 1942, 160, 'Ensayo sobre el absurdo de la existencia y la respuesta de la rebelión, simbolizada por Sísifo condenado a empujar una roca eternamente.', NULL),
+('El extranjero', 1942, 123, 'Meursault, indiferente ante la muerte de su madre y un asesinato, enfrenta juicio y existencia absurda.', NULL),
+('El huésped', 1957, 864, 'Un maestro en una remota escuela argelina debe escoltar a un prisionero árabe, enfrentando dilemas morales y políticos.', NULL),
+('El misterioso caso de Styles', 1920, 256, 'Primera aparición de Hercule Poirot, investigando el envenenamiento de la rica señora Inglethorp en una mansión.', NULL),
+('La muerte feliz', 1971, 200, 'Primera novela de Camus sobre un hombre que busca la felicidad a través del asesinato y el dinero, temas de absurdo.', NULL),
+('No-cosas', 2021, 120, 'Crítica a la digitalización que reemplaza las cosas físicas por información, vaciando la realidad y las relaciones.', NULL),
+('Salud salvaje', 2018, 264, '', NULL),
+('Si esto es un hombre', 1947, 200, 'Testimonio del autor como superviviente de Auschwitz, reflexionando sobre la deshumanización en los campos.', NULL),
+('Un mundo feliz', 1932, 268, 'En una sociedad futura donde la estabilidad se logra mediante condicionamiento, drogas y eliminación de emociones fuertes.', NULL),
+('Trafalgar (B.P. Galdós)', 1873, 250, 'Primer episodio nacional, recrea la batalla de Trafalgar desde la perspectiva de un niño testigo.', NULL),
+('Nociones elementales de ajedrez', 1923, 160, '', NULL),
+('Muerte en el Nilo', 1937, 344, 'Hercule Poirot investiga el asesinato de una heredera durante un crucero por el Nilo.', NULL),
+('De la providencia', 64, 60, 'Ensayo que defiende que los males son pruebas del destino para fortalecer al sabio, no castigos injustos.', NULL),
+('Antifragil', 2012, 544, 'Concepto de sistemas que se benefician del estrés y el desorden (antifrágiles), más allá de la resiliencia.', NULL),
+('Pierre et Jean', 1888, 224, 'Dos hermanos descubren que uno es hijo ilegítimo, explorando celos, herencia y relaciones familiares en la burguesía francesa.', NULL),
+('La revolución de la inteligencia', 1975, 159, '', NULL),
+('El camino de la soledad', 1645, 1, '', NULL),
+('Your brain on porn', 2014, 250, 'Explica los efectos neurológicos de la pornografía en internet, argumentando que puede crear adicción y dañar la sexualidad.', NULL),
+('La comunicación no verbal', 1973, 320, '', NULL),
+('The brain that changes itself', 2007, 440, 'Presenta casos de neuroplasticidad: el cerebro puede reorganizarse y recuperarse de daños o cambiar hábitos.', NULL),
+('Une bouteille dans la mer de Gaza', 2005, 192, 'Una joven israelí y un palestino intercambian emails tras lanzar una botella al mar, explorando conflicto y humanidad.', NULL),
+('Un avventura di viaggio', 1966, 15, '', NULL),
+('Martin Eden', 1909, 400, 'Un marinero sin educación se esfuerza por convertirse en escritor y ganar el amor de una mujer de clase alta, crítica al sueño americano.', NULL),
+('La Presentación de la persona en la vida cotidiana', 1956, 272, 'Teoría de la interacción social como una representación teatral, donde gestionamos impresiones en distintos escenarios.', NULL),
+('Invierte en ti', 2021, 240, '', NULL),
+('La caída', 1956, 147, 'Un ex abogado confiesa su hipocresía y culpa en un bar de Ámsterdam, explorando la condición humana y la moralidad.', NULL),
+('El anticristo', 1895, 100, 'Ataque feroz al cristianismo como religión de la debilidad y resentimiento, que niega los valores vitales.', NULL),
+('Dos conceptos de libertad', 1958, 100, 'Distinción entre libertad negativa (ausencia de interferencia) y positiva (capacidad de autogobierno).', NULL),
+('El hombre más rico de babilonia', 1926, 144, 'Parábolas ambientadas en la antigua Babilonia que enseñan principios de ahorro, inversión y riqueza.', NULL),
+('Hable menos y actúe más', 2017, 120, '', NULL),
+('La economía en una lección', 1946, 218, 'Exposición de principios económicos básicos, enfatizando las consecuencias no intencionadas de las políticas a largo plazo.', NULL),
+('La biblia del vendedor', 1998, 250, 'Principios y técnicas de ventas, comunicación y persuasión para alcanzar el éxito en el ámbito comercial.', NULL),
+('El arte de la buena vida', 2017, 368, '', NULL),
+('Los 10 principios básicos del orden político liberal', 2019, 272, '', NULL),
+('Los 4 acuerdos', 1997, 160, 'Basado en sabiduría tolteca: cuatro principios para la libertad personal (sé impecable con tu palabra, no tomes nada personal, etc.).', NULL),
+('Ten peor coche que tu vecino', 2021, 176, '', NULL),
+('El gen egoísta', 1976, 360, 'Expone la teoría del gen como unidad de selección natural, donde los organismos son vehículos para genes "egoístas".', NULL),
+('Una habitación propia', 1929, 172, 'Reflexión sobre la necesidad de independencia económica y espacio físico para que las mujeres escriban literatura.', NULL),
+('La rebelión de las masas', 1930, 250, 'Análisis de la sociedad de masas y el hombre-masa que actúa sin criterio propio, amenazando la excelencia cultural.', NULL),
+('Falacias de la justicia social', 2024, 208, '', NULL),
+('Tratado sobre la tolerancia', 1763, 150, 'Defensa de la tolerancia religiosa y crítica al fanatismo, inspirado por el caso de ejecución injusta de Jean Calas.', NULL),
+('El mito de la monogamia', 2003, 391, '', NULL),
+('Seis lecciones sobre el capitalismo', 1959, 128, '', NULL),
+('El hombre contra el estado', 1884, 200, 'Defensa del liberalismo clásico y crítica al crecimiento del estado intervencionista, que amenaza la libertad individual.', NULL),
+('Walden', 1854, 320, 'Reflexión sobre vida simple en la naturaleza, autosuficiencia y crítica a la sociedad industrial y consumista.', NULL),
+('Caminar', 1862, 50, 'Ensaje que celebra el acto de caminar como conexión con la naturaleza y rebelión contra las convenciones sociales.', NULL),
+('El crepúsculo de los ídolos', 1889, 160, 'Ataque a las "ídolos" de la cultura occidental (Sócrates, cristianismo, moral tradicional) como decadentes.', NULL),
+('El economista callejero', 2022, 144, '', NULL),
+('Temor y temblor', 1843, 150, 'Reflexión sobre la fe a través de la historia de Abraham e Isaac, explorando la paradoja de la relación individual con Dios.', NULL),
+('La ciencia del sexo', 2023, 288, '', NULL),
+('¿Qué hago con mi vida?', 2002, 400, 'Historias reales de personas que buscaron sentido y cambio en sus carreras y vidas, motivando al lector a reflexionar.', NULL),
+('Discriminación y disparidades', 2018, 192, 'Análisis de diferencias económicas entre grupos, argumentando que no todas se deben a discriminación sino a múltiples factores.', NULL),
+('El sabueso de los Baskerville', 1902, 256, 'Sherlock Holmes investiga la misteriosa muerte de un baronet, aparentemente relacionada con una leyenda de un perro infernal.', NULL),
+('Angeli', 2022, 280, '', NULL),
+('Invierte con poco', 2022, 320, '', NULL),
+('Sapiens: de animales a dioses', 2011, 496, 'Recorrido por la historia humana desde la evolución hasta el presente, examinando revoluciones cognitiva, agrícola y científica.', NULL),
+('Basta ya de ser un Tipo Lindo', 2021, 229, '', NULL),
+('La energía nuclear salvará el mundo', 2021, 336, 'Divulgación sobre la seguridad y necesidad de adaptar la energía nuclear como la forma más importante de energía para el mundo.', NULL);
+
+-- ============================================
+-- 9. CREAR RELACIONES EN TABLAS DE UNIÓN
+-- ============================================
+
+-- Insertar relaciones libro-autor (un autor por libro inicialmente)
+INSERT INTO autor_libro (libro_id, autor_id) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10),
+(11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (16, 16), (17, 17), (18, 18), (19, 19), (20, 20),
+(21, 21), (22, 22), (23, 15), (24, 23), (25, 24), (26, 25), (27, 26), (28, 27), (29, 28), (30, 28),
+(31, 29), (32, 27), (33, 30), (34, 31), (35, 32), (36, 33), (37, 11), (38, 34), (39, 28), (40, 35),
+(41, 28), (42, 36), (43, 37), (44, 38), (45, 7), (46, 39), (47, 8), (48, 29), (49, 40), (50, 28),
+(51, 41), (52, 8), (53, 42), (54, 43), (55, 44), (56, 8), (57, 45), (58, 46), (59, 47), (60, 48),
+(61, 49), (62, 18), (63, 28), (64, 50), (65, 50), (66, 50), (67, 29), (68, 29), (69, 51), (70, 52),
+(71, 8), (72, 53), (73, 54), (74, 55), (75, 24), (76, 56), (77, 57), (78, 58), (79, 59), (80, 59),
+(81, 60), (82, 57), (83, 61), (84, 62), (85, 18), (86, 62), (87, 63), (88, 63), (89, 63), (90, 8),
+(91, 63), (92, 50), (93, 64), (94, 65), (95, 66), (96, 67), (97, 68), (98, 8), (99, 28), (100, 69),
+(101, 70), (102, 71), (103, 72), (104, 73), (105, 74), (106, 75), (107, 76), (108, 77), (109, 78), (110, 79),
+(111, 80), (112, 63), (113, 39), (114, 81), (115, 82), (116, 83), (117, 84), (118, 85), (119, 86), (120, 87),
+(121, 88), (122, 89), (123, 90), (124, 91), (125, 53), (126, 92), (127, 93), (128, 94), (129, 95), (130, 96),
+(131, 97), (132, 97), (133, 39), (134, 98), (135, 61), (136, 99), (137, 100), (138, 92), (139, 101), (140, 102),
+(141, 80), (142, 103), (143, 104), (144, 105);
+
+-- Insertar relaciones libro-género (un género por libro inicialmente)
+INSERT INTO genero_libro (libro_id, genere_id) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 3), (8, 7), (9, 8), (10, 9),
+(11, 10), (12, 11), (13, 12), (14, 13), (15, 3), (16, 3), (17, 8), (18, 11), (19, 15), (20, 16),
+(21, 11), (22, 3), (23, 2), (24, 8), (25, 3), (26, 14), (27, 5), (28, 2), (29, 8), (30, 8),
+(31, 12), (32, 17), (33, 18), (34, 6), (35, 6), (36, 8), (37, 10), (38, 5), (39, 8), (40, 41),
+(41, 8), (42, 13), (43, 19), (44, 15), (45, 20), (46, 21), (47, 7), (48, 22), (49, 8), (50, 8),
+(51, 23), (52, 7), (53, 28), (54, 24), (55, 25), (56, 7), (57, 26), (58, 8), (59, 11), (60, 29),
+(61, 28), (62, 11), (63, 8), (64, 8), (65, 8), (66, 8), (67, 22), (68, 22), (69, 3), (70, 30),
+(71, 7), (72, 8), (73, 31), (74, 31), (75, 3), (76, 33), (77, 32), (78, 30), (79, 34), (80, 35),
+(81, 25), (82, 32), (83, 8), (84, 5), (85, 1), (86, 5), (87, 8), (88, 3), (89, 3), (90, 7),
+(91, 3), (92, 8), (93, 28), (94, 42), (95, 1), (96, 29), (97, 43), (98, 7), (99, 8), (100, 36),
+(101, 3), (102, 39), (103, 8), (104, 28), (105, 32), (106, 4), (107, 3), (108, 3), (109, 17), (110, 32),
+(111, 31), (112, 3), (113, 8), (114, 8), (115, 31), (116, 5), (117, 36), (118, 37), (119, 8), (120, 15),
+(121, 38), (122, 31), (123, 4), (124, 39), (125, 32), (126, 32), (127, 8), (128, 18), (129, 36), (130, 8),
+(131, 18), (132, 8), (133, 8), (134, 36), (135, 16), (136, 4), (137, 5), (138, 36), (139, 7), (140, 3),
+(141, 31), (142, 42), (143, 5), (144, 18);
+
+-- ============================================
+-- 10. CREAR VISTAS ÚTILES
+-- ============================================
+
+-- Vista: Todos los géneros
+CREATE OR REPLACE VIEW todos_los_generos AS
+SELECT * FROM genero ORDER BY nombre;
+
+-- Vista: Todos los autores
+CREATE OR REPLACE VIEW todos_los_autores AS
+SELECT 
+    CONCAT_WS(' ', autor.nombre, autor.apellido1, autor.apellido2) AS nombre,
+    IFNULL(autor.year_nacimiento, '-') AS nacimiento,
+    IFNULL(autor.year_fallecimiento, '-') AS fallecimiento,
+    pais.nombre AS pais
+FROM autor
+INNER JOIN pais ON pais.id = autor.pais_id
+ORDER BY nombre;
+
+-- Vista: Todos los libros (con autores concatenados)
+CREATE OR REPLACE VIEW todos_los_libros AS
+SELECT 
+    libro.id,
+    libro.title AS titulo,
+    libro.year_publicacion AS publicacion,
+    libro.pages AS n_paginas,
+    libro.description AS descripcion,
+    libro.opinion AS opinion,
+    GROUP_CONCAT(DISTINCT CONCAT_WS(' ', autor.nombre, autor.apellido1, autor.apellido2) 
+                  ORDER BY autor.apellido1 SEPARATOR ', ') AS autores
+FROM libro 
+LEFT JOIN autor_libro ON autor_libro.libro_id = libro.id
+LEFT JOIN autor ON autor_libro.autor_id = autor.id
+GROUP BY libro.id
+ORDER BY libro.title;
+
+-- Vista: Catálogo completo (con autores y géneros)
+CREATE OR REPLACE VIEW catalogo_completo AS
+SELECT 
+    libro.id,
+    libro.title AS titulo,
+    libro.year_publicacion AS año_publicacion,
+    libro.pages AS páginas,
+    libro.description AS descripción,
+    libro.opinion AS opinión,
+    GROUP_CONCAT(DISTINCT CONCAT_WS(' ', autor.nombre, autor.apellido1, autor.apellido2) 
+                  ORDER BY autor.apellido1 SEPARATOR ', ') AS autores,
+    GROUP_CONCAT(DISTINCT genero.nombre ORDER BY genero.nombre SEPARATOR ', ') AS géneros
+FROM libro
+LEFT JOIN autor_libro ON autor_libro.libro_id = libro.id
+LEFT JOIN autor ON autor_libro.autor_id = autor.id
+LEFT JOIN genero_libro ON genero_libro.libro_id = libro.id
+LEFT JOIN genero ON genero_libro.genere_id = genero.id
+GROUP BY libro.id
+ORDER BY libro.title;
+
+-- Vista: Libros del Siglo XXI
+CREATE OR REPLACE VIEW libros_SigloXXI AS
+SELECT 
+    title AS titulo,
+    year_publicacion AS publicacion,
+    pages AS n_paginas,
+    description AS descripcion,
+    opinion
+FROM libro 
+WHERE year_publicacion >= 2000
+ORDER BY year_publicacion DESC;
+
+-- Vista: Autores más leídos
+CREATE OR REPLACE VIEW autores_mas_leidos AS
+SELECT 
+    autor.nombre,
+    autor.apellido1,
+    CASE 
+        WHEN autor.apellido2 IS NULL OR autor.apellido2 = '' THEN '-'
+        ELSE autor.apellido2
+    END AS apellido2,
+    COUNT(autor_libro.autor_id) AS num_libros
+FROM autor_libro
+INNER JOIN autor ON autor_libro.autor_id = autor.id
+GROUP BY autor.id
+ORDER BY num_libros DESC;
+
+-- ============================================
+-- 11. VERIFICACIÓN FINAL
+-- ============================================
+
+-- Mostrar conteo de registros
+SELECT '=== VERIFICACIÓN DE DATOS ===' AS mensaje;
+SELECT 'pais' AS tabla, COUNT(*) AS registros FROM pais
+UNION ALL SELECT 'genero', COUNT(*) FROM genero
+UNION ALL SELECT 'autor', COUNT(*) FROM autor
+UNION ALL SELECT 'libro', COUNT(*) FROM libro
+UNION ALL SELECT 'autor_libro', COUNT(*) FROM autor_libro
+UNION ALL SELECT 'genero_libro', COUNT(*) FROM genero_libro;
+
+-- Mostrar algunos ejemplos
+SELECT '=== EJEMPLOS DE CATÁLOGO ===' AS mensaje;
+SELECT * FROM catalogo_completo LIMIT 10;
+
+-- ============================================
+-- FIN DEL SCRIPT
+-- ============================================
