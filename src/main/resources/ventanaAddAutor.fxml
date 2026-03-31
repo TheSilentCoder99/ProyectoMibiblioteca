@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" alignment="TOP_CENTER" 
+      xmlns="http://javafx.com/javafx/21" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.alan.controllers.ventanaAddAutorController">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Label text="Añadir Nuevo Autor" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Separator/>
+    
+    <GridPane hgap="10" vgap="10">
+        <padding>
+            <Insets top="10" bottom="10"/>
+        </padding>
+        
+        <!-- Fila 1: Nombre (obligatorio) -->
+        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+                   promptText="Ej: Gabriel" prefWidth="400"/>
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        
+        <!-- Fila 2: Primer apellido -->
+        <Label text="Primer apellido:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtApellido1" GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                   promptText="Ej: García"/>
+        
+        <!-- Fila 3: Segundo apellido -->
+        <Label text="Segundo apellido:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtApellido2" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+                   promptText="Ej: Márquez (opcional)"/>
+        
+        <!-- Fila 4: País (obligatorio) -->
+        <Label text="País:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="cbPais" GridPane.columnIndex="1" GridPane.rowIndex="3" 
+                  prefWidth="400" promptText="Selecciona un país"/>
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        
+        <!-- Fila 5: Año de nacimiento -->
+        <Label text="Año nacimiento:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtYearNacimiento" GridPane.columnIndex="1" GridPane.rowIndex="4" 
+                   promptText="Ej: 1927"/>
+        
+        <!-- Fila 6: Año de fallecimiento -->
+        <Label text="Año fallecimiento:" GridPane.columnIndex="0" GridPane.rowIndex="5" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtYearFallecimiento" GridPane.columnIndex="1" GridPane.rowIndex="5" 
+                   promptText="Ej: 2014 (dejar vacío si vive)"/>
+        
+        <!-- Fila 7: Mensaje -->
+        <Label fx:id="lblMensaje" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+    </GridPane>
+    
+    <Separator/>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Guardar" fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Button text="Cancelar" fx:id="btnCancelar"/>
+    </HBox>
+    
+</VBox>

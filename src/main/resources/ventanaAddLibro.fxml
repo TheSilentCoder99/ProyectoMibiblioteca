@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" alignment="TOP_CENTER" 
+      xmlns="http://javafx.com/javafx/21" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.alan.controllers.ventanaAddLibroController">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <!-- Título de la ventana -->
+    <Label text="Añadir Nuevo Libro" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    
+    <Separator/>
+    
+    <!-- Formulario -->
+    <GridPane hgap="10" vgap="10">
+        <padding>
+            <Insets top="10" bottom="10"/>
+        </padding>
+        
+        <!-- Fila 1: Título (obligatorio) -->
+        <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtTitulo" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+                   promptText="Ej: Cien años de soledad" prefWidth="400"/>
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        
+        <!-- Fila 2: Año de publicación -->
+        <Label text="Año publicación:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtYearPublicacion" GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                   promptText="Ej: 1967"/>
+        
+        <!-- Fila 3: Número de páginas -->
+        <Label text="Páginas:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="txtPaginas" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+                   promptText="Ej: 496"/>
+        
+        <!-- Fila 4: Descripción -->
+        <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="txtDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="3" 
+                  prefHeight="100" promptText="Sinopsis o descripción del libro..."/>
+        
+        <!-- Fila 5: Opinión personal -->
+        <Label text="Opinión:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="txtOpinion" GridPane.columnIndex="1" GridPane.rowIndex="4" 
+                  prefHeight="80" promptText="Tu opinión sobre el libro..."/>
+        
+        <!-- Fila 6: Mensaje de error/éxito -->
+        <Label fx:id="lblMensaje" GridPane.columnIndex="1" GridPane.rowIndex="5" 
+               style="-fx-text-fill: red;"/>
+    </GridPane>
+    
+    <Separator/>
+    
+    <!-- Botones -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Guardar" fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Button text="Cancelar" fx:id="btnCancelar"/>
+    </HBox>
+    
+</VBox>

@@ -1,0 +1,19 @@
+module com.alan {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires java.sql;
+    opens com.alan to javafx.fxml;
+    exports com.alan;
+    exports com.alan.controladores;
+    opens com.alan.controladores to javafx.fxml;
+}
+
+//Explicación línea por línea:
+//
+//        requires javafx.controls; → Para usar botones, labels, etc.
+//
+//        requires javafx.fxml; → Para poder usar FXMLLoader y @FXML
+//
+//        opens com.alan to javafx.fxml; → Permite que JavaFX acceda a tu controlador por reflexión
+//
+//        exports com.alan; → Exporta tu paquete para que otros módulos puedan usarlo

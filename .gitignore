@@ -1,19 +1,21 @@
 # Archivos de configuración con credenciales
 **/database.properties
 **/application.properties
-src/main/resources/database.properties
+*.properties
+!*.properties.example
+!**/*.properties.example
 
+# Directorios de compilación
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Kotlin
 .kotlin
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
