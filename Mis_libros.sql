@@ -1,25 +1,76 @@
+-- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS misLibros_db;
-
 USE misLibros_db;
 
-CREATE TABLE pais(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(300)
+-- ============================================
+-- TABLAS PRINCIPALES
+-- ============================================
+
+-- Tabla de países
+CREATE TABLE pais (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(300) NOT NULL,
+    codigo_ISO VARCHAR(3)  -- ← añadido según diagrama
 );
 
-CREATE TABLE genre(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR (300)
+-- Tabla de géneros
+CREATE TABLE genero (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(300) NOT NULL
 );
 
-CREATE TABLE author(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(250) NOT NULL,
-apellido1 VARCHAR(250),
-apellido2 VARCHAR(250),
-edad INT UNSIGNED NOT NULL,
-pais_id INT UNSIGNED NOT NULL,
-
-FOREIGN KEY(pais_id) REFERENCES pais(id)
-
+-- Tabla de autores
+CREATE TABLE autor (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(250) NOT NULL,
+    apellido1 VARCHAR(250),
+    apellido2 VARCHAR(250),
+    year_nacimiento INT UNSIGNED,
+    year_fallecimiento INT UNSIGNED,
+    pais_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (pais_id) REFERENCES pais(id)
 );
+
+-- Tabla de libros (SIN author_id, SIN genre_id)
+CREATE TABLE libro (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(250) NOT NULL,
+    year_publicacion INT,
+    pages INT UNSIGNED,
+    description TEXT,
+    opinion TEXT
+);
+
+-- ============================================
+-- TABLAS DE UNIÓN (relaciones muchos a muchos)
+-- ============================================
+
+-- Unión libros-autores
+CREATE TABLE autor_libro (
+    libro_id INT UNSIGNED NOT NULL,
+    autor_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (libro_id, autor_id),
+    FOREIGN KEY (libro_id) REFERENCES libro(id) ON DELETE CASCADE,
+    FOREIGN KEY (autor_id) REFERENCES autor(id) ON DELETE CASCADE
+);
+
+-- Unión libros-géneros
+CREATE TABLE genero_libro (
+    libro_id INT UNSIGNED NOT NULL,
+    genere_id INT UNSIGNED NOT NULL,  -- ← nota: en diagrama está "genere_id"
+    PRIMARY KEY (libro_id, genere_id),
+    FOREIGN KEY (libro_id) REFERENCES libro(id) ON DELETE CASCADE,
+    FOREIGN KEY (genere_id) REFERENCES genero(id) ON DELETE CASCADE
+);
+
+-- ============================================
+-- ÍNDICES (para mejorar rendimiento)
+-- ============================================
+
+CREATE INDEX idx_autor_nombre ON autor(nombre);
+CREATE INDEX idx_autor_apellido1 ON autor(apellido1);
+CREATE INDEX idx_libro_title ON libro(title);
+CREATE INDEX idx_genero_nombre ON genero(nombre);
 
 CREATE TABLE libros(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 title VARCHAR(250) NOT NULL,
