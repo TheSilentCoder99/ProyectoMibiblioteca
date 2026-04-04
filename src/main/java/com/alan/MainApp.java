@@ -16,6 +16,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setTitle("MI BIBLIOTECA");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);  // ← Esto maximiza la ventana
         primaryStage.show();
     }
 

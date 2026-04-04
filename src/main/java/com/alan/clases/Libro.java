@@ -3,7 +3,7 @@ package com.alan.clases;
 /**
  * CLASE LIBROo creada a partir de la tabla clase de la BD misLibros_db*/
 
-public class libro {
+public class Libro {
 
     private int id;
     private String titulo;
@@ -13,11 +13,11 @@ public class libro {
     private String opinion;
 
 //    CONSTRUCTORES
-    public libro(){
+    public Libro(){
 
     }
 
-    public libro(int id, String titulo, int yearPublicacion, int paginas, String descripcion, String opinion){
+    public Libro(int id, String titulo, int yearPublicacion, int paginas, String descripcion, String opinion){
         this.id = id;
         this.titulo = titulo;
         this.yearPublicacion = yearPublicacion;
@@ -26,7 +26,7 @@ public class libro {
         this.opinion = opinion;
     }
 
-    public libro(String titulo, int yearPublicacion, int paginas, String descripcion, String opinion){
+    public Libro(String titulo, int yearPublicacion, int paginas, String descripcion, String opinion){
         this.titulo = titulo;
         this.yearPublicacion = yearPublicacion;
         this.paginas = paginas;

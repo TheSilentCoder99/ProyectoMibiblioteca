@@ -1,12 +1,12 @@
 package com.alan.clases;
 
-import com.alan.DataAccesObjects.libroDAO;
+import com.alan.DataAccesObjects.AutorDAO;
+import com.alan.DataAccesObjects.GeneroDAO;
+import com.alan.DataAccesObjects.LibroDAO;
+import com.alan.DataAccesObjects.PaisDAO;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class pruebaConexion {
@@ -14,16 +14,22 @@ public class pruebaConexion {
         try (Connection conn = conexionDB.getConnection()) {
             System.out.println("✅ Conexión exitosa!");
             //        EJEMPLO DE USO
-            libroDAO librodao = new libroDAO();
-            List<libro> listaLibros = librodao.getAllLibros();
+//            LibroDAO librodao = new LibroDAO();
+//            AutorDAO autordao = new AutorDAO();
+//            GeneroDAO generodao = new GeneroDAO();
+            PaisDAO paisdao = new PaisDAO();
 
-            for (libro libro : listaLibros) {
-                System.out.println(libro.getTitulo());
+            List <Pais> listaPaises = paisdao.getAllPaises();
+
+
+            for (Pais p : listaPaises) {
+                System.out.println(p.getNombre() + " | " + p.getCodigoISO());
             }
-        } catch (SQLException e) {
-            System.out.println("❌ Error: " + e.getMessage());
+
+            } catch(SQLException e){
+                System.out.println("❌ Error: " + e.getMessage());
+            }
+
+
         }
-
-
     }
-}

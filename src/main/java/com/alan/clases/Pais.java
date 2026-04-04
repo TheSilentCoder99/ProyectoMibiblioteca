@@ -1,22 +1,22 @@
 package com.alan.clases;
 
-public class pais {
+public class Pais {
     private int id;
     private String nombre;
     private String codigoISO;
 
 //    CONSTRUCTORES
-    pais(){
+    public Pais(){
 
     }
 
-    pais(int id, String nombre, String codigoISO) {
+    public Pais(int id, String nombre, String codigoISO) {
         this.id = id;
         this.nombre = nombre;
         this.codigoISO = codigoISO;
     }
 
-    pais(String nombre, String codigoISO) {
+    public Pais(String nombre, String codigoISO) {
         this.nombre = nombre;
         this.codigoISO = codigoISO;
     }

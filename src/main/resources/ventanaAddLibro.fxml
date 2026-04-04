@@ -7,7 +7,7 @@
 <VBox spacing="15" alignment="TOP_CENTER" 
       xmlns="http://javafx.com/javafx/21" 
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.alan.controllers.ventanaAddLibroController">
+      fx:controller="com.alan.controladores.ventanaAddLibroController">
     
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
@@ -26,28 +26,28 @@
         
         <!-- Fila 1: Título (obligatorio) -->
         <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="txtTitulo" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+        <TextField fx:id="inputTitulo" GridPane.columnIndex="1" GridPane.rowIndex="0"
                    promptText="Ej: Cien años de soledad" prefWidth="400"/>
         <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
         
         <!-- Fila 2: Año de publicación -->
         <Label text="Año publicación:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="txtYearPublicacion" GridPane.columnIndex="1" GridPane.rowIndex="1" 
+        <TextField fx:id="inputYearPublicacion" GridPane.columnIndex="1" GridPane.rowIndex="1"
                    promptText="Ej: 1967"/>
         
         <!-- Fila 3: Número de páginas -->
         <Label text="Páginas:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="txtPaginas" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+        <TextField fx:id="inputPaginas" GridPane.columnIndex="1" GridPane.rowIndex="2"
                    promptText="Ej: 496"/>
         
         <!-- Fila 4: Descripción -->
         <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
-        <TextArea fx:id="txtDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="3" 
+        <TextArea fx:id="inputDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="3"
                   prefHeight="100" promptText="Sinopsis o descripción del libro..."/>
         
         <!-- Fila 5: Opinión personal -->
         <Label text="Opinión:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
-        <TextArea fx:id="txtOpinion" GridPane.columnIndex="1" GridPane.rowIndex="4" 
+        <TextArea fx:id="inputOpinion" GridPane.columnIndex="1" GridPane.rowIndex="4"
                   prefHeight="80" promptText="Tu opinión sobre el libro..."/>
         
         <!-- Fila 6: Mensaje de error/éxito -->

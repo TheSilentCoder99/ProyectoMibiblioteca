@@ -3,37 +3,37 @@ package com.alan.clases;
 /**
  * CLASE AUTOR creada a partir de la tabla autor de la BD misLibros_db*/
 
-public class autor {
+public class Autor {
     private int id;
     private String nombre;
     private String apellido1;
     private String apellido2;
-    private String pais;
+    private int pais_id;
     private int yearNacimiento;
     private int yearFallecimiento;
 
-    autor(){
+    Autor(){
 
     }
 
     // Constructor para NUEVOS autores (sin ID porque se generan en la BD al hacer insert into)
-    public autor(String nombre, String apellido1, String apellido2,
-                 String pais, int yearNacimiento, int yearFallecimiento) {
+    public Autor(String nombre, String apellido1, String apellido2,
+                 int pais_id, int yearNacimiento, int yearFallecimiento) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
-        this.pais = pais;
+        this.pais_id = pais_id;
         this.yearNacimiento = yearNacimiento;
         this.yearFallecimiento = yearFallecimiento;
     }
 
 //    CONSTRUCTOR PARA AUTORES EXISTENTES (con ID, viene de la BD). Se asignan a los objetos a la hora de cargar los datos desde la BD
-    autor(int id, String nombre,String apellido1,String apellido2, String pais, int yearNacimiento, int yearFallecimiento){
+    public Autor(int id, String nombre, String apellido1, String apellido2, int pais_id, int yearNacimiento, int yearFallecimiento){
         this.id = id;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
-        this.pais = pais;
+        this.pais_id = pais_id;
         this.yearNacimiento = yearNacimiento;
         this.yearFallecimiento = yearFallecimiento;
     }
@@ -64,12 +64,12 @@ public class autor {
         this.apellido2 = apellido2;
     }
 
-    public String getPais() {
-        return pais;
+    public int getPais_id() {
+        return pais_id;
     }
 
-    public void setPais(String pais) {
-        this.pais = pais;
+    public void setPais_id(int pais_id) {
+        this.pais_id = pais_id;
     }
 
     public int getYearNacimiento() {

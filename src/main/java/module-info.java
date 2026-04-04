@@ -6,6 +6,7 @@ module com.alan {
     exports com.alan;
     exports com.alan.controladores;
     opens com.alan.controladores to javafx.fxml;
+    opens com.alan.clases to javafx.base;
 }
 
 //Explicación línea por línea:

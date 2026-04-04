@@ -60,16 +60,34 @@
             <Button fx:id="addGenero" layoutX="265.0" layoutY="29.0" mnemonicParsing="false" text="Añadir género" />
             <TableView fx:id="mostrarLibros" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0">
               <columns>
-                <TableColumn fx:id="colTitulo" prefWidth="75.0" text="Titulo" />
-                  <TableColumn fx:id="colGenero" prefWidth="92.0" text="Geńero" />
-                <TableColumn fx:id="colPaginas" prefWidth="80.79998779296875" text="Páginas" />
-                  <TableColumn fx:id="colPublicacion" prefWidth="120.0" text="Publicación" />
-                  <TableColumn fx:id="colAutor" prefWidth="78.39998168945311" text="Autor" />
+                <TableColumn fx:id="colTitulo" prefWidth="283.99996185302734" text="Titulo" />
+                <TableColumn fx:id="colPaginas" prefWidth="76.00006103515625" text="Páginas" />
+                  <TableColumn fx:id="colPublicacion" prefWidth="85.60000610351562" text="Publicación" />
+
               </columns>
             </TableView>
-            <Button fx:id="mostrarAllLibros" layoutX="80.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los libros" />
-            <Button fx:id="mostrarAllAutores" layoutX="239.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los autores" />
-            <Button fx:id="mostrarAllGeneros" layoutX="394.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los géneros" />
+
+           <TableView fx:id="mostrarAutores" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0" visible="false">
+             <columns>
+               <TableColumn fx:id="colNombreAutor" prefWidth="200.0" text="Nombre" />
+               <TableColumn fx:id="colApellidoAutor" prefWidth="247.0" text="Apellido" />
+               <TableColumn fx:id="colApellido2Autor" prefWidth="247.0" text="Apellido 2" />
+               <TableColumn fx:id="colNacimiento" prefWidth="247.0" text="Nacimiento" />
+               <TableColumn fx:id="colFallecimiento" prefWidth="247.0" text="Fallecimiento" />
+               <TableColumn fx:id="colPaisAutor" prefWidth="247.0" text="Pais" />
+             </columns>
+           </TableView>
+
+           <TableView fx:id="mostrarGeneros" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0" visible="false">
+             <columns>
+               <TableColumn fx:id="colIDGenero" prefWidth="447.0" text="ID" />
+               <TableColumn fx:id="colNombreGenero" prefWidth="447.0" text="Género"/>
+             </columns>
+           </TableView>
+
+            <Button fx:id="mostrarAllLibros" onAction="#mostrarLibros" layoutX="80.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los libros" />
+            <Button fx:id="mostrarAllAutores" onAction="#mostrarAutores" layoutX="239.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los autores" />
+            <Button fx:id="mostrarAllGeneros" onAction="#mostrarGeneros" layoutX="394.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los géneros" />
             <TextField fx:id="inputBuscarLibro" layoutX="370.0" layoutY="29.0" prefHeight="26.0" prefWidth="157.0" promptText="Buscar por titulo o autor..." />
             <Label fx:id="mostrarDescripcion" layoutX="535.0" layoutY="66.0" text="Selecciona para ver la sinopsis del libro..." />
          </children>

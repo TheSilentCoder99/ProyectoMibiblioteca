@@ -2,21 +2,21 @@ package com.alan.clases;
 /**
  * CLASE GÉNERO creada a partir de la tabla género de la BD misLibros_db*/
 
-public class genero {
+public class Genero {
     private int id;
     private String nombre;
 
 //    CONSTRUCTORES
-    genero(){
+    public Genero(){
 
     }
 
-    genero(int id, String nombre) {
+    public Genero(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    genero(String nombre) {
+    public Genero(String nombre) {
         this.nombre = nombre;
     }
 
