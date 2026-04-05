@@ -62,7 +62,7 @@
     <!-- Botones -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button text="Guardar" onAction="#guardarLibro"  fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Cancelar" onAction="#cerrarVentana" fx:id="btnCancelar"/>
+        <Button text="Cancelar" onAction="#cerrarVentanaLibro" fx:id="btnCancelar"/>
     </HBox>
     
 </VBox>

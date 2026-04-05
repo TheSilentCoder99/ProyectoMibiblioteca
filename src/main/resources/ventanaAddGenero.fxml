@@ -22,7 +22,7 @@
         </padding>
         
         <Label text="Nombre del género:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+        <TextField fx:id="inputNombre" GridPane.columnIndex="1" GridPane.rowIndex="0"
                    promptText="Ej: Distopía, Novela histórica, Ensayo, Terror..." prefWidth="400"/>
         <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
         
@@ -32,8 +32,8 @@
     <Separator/>
     
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Guardar" fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Cancelar" fx:id="btnCancelar"/>
+        <Button text="Guardar" onAction="#guardarGenero"  fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Button text="Cancelar" onAction="#cerrarVentanaGenero"  fx:id="btnCancelar"/>
     </HBox>
     
 </VBox>

@@ -41,4 +41,15 @@ public class Alertas {
         return alertaConfirmacion;
     }
 
+    public Alert mostrarAlertaError(String titulo, String contenido, String cabecera) {
+        Alert alertaError = new Alert(Alert.AlertType.ERROR);
+        alertaError.setHeight(300);
+        alertaError.setWidth(300);
+        alertaError.setTitle(titulo);
+        alertaError.setContentText(contenido);
+        alertaError.setHeaderText(cabecera);
+        alertaError.showAndWait();
+
+        return alertaError;
+    }
 }

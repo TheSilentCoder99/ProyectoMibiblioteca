@@ -39,8 +39,8 @@ public class ventanaAddLibroController {
     private Label lblMensaje;
 
 
-    public void cerrarVentana() {
-        List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
+    public void cerrarVentanaLibro() {
+        List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion,inputDescripcion,inputOpinion));
 
         if (inputPaginas.getText().isEmpty() && inputYearPublicacion.getText().isEmpty() &&
                 inputTitulo.getText().isEmpty()) {
@@ -53,6 +53,8 @@ public class ventanaAddLibroController {
                 if (Elemento instanceof TextField tf) {
                     tf.clear();
 //                    AÑADIR QUE SE BORRE TAMBIÉN EL CONTENIDO DEL TEXTAREA
+                } else if (Elemento instanceof TextArea ta) {
+                    ta.clear();
                 }
             }
         }
@@ -62,7 +64,6 @@ public class ventanaAddLibroController {
     public void guardarLibro() {
 
         try{
-
 //            TOMAR
         String titulo = inputTitulo.getText();
         String yearPublicacion = inputYearPublicacion.getText();
@@ -73,7 +74,6 @@ public class ventanaAddLibroController {
                 tipoAlerta.mostrarAlertaWarning("FALTA TITULO, Nº DE PÁGINAS O FECHA DE PUBLICACIÓN","DEBES INGRESAR EL TITULO, Nº DE PÁGINAS Y LA FECHA DE PUBLICACIÓN PARA CONTINUAR CON EL GUARDADO DEL LIBRO","RELLENAR CAMPOS OBLIGATORIOS");
                 return;
             }
-
 //            PARSEAR
         int yearPublicacionParseado = Integer.parseInt(yearPublicacion);
         int paginasParseada = Integer.parseInt(paginas);
@@ -92,9 +92,21 @@ public class ventanaAddLibroController {
             librodao.insertarLibro(titulo,yearPublicacionParseado,paginasParseada,descripcion,opinion);
         }
 
+//        LIMPIO LOS CAMPOS TRAS AÑADIR UN LIBRO
+        List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion,inputDescripcion,inputOpinion));
+
+            for (Node Elemento : ElementosVentana) {
+                if (Elemento instanceof TextField tf) {
+                    tf.clear();
+//
+                } else if (Elemento instanceof TextArea ta) {
+                    ta.clear();
+                }
+            }
+
     }catch(NumberFormatException e){
         e.printStackTrace();
-            tipoAlerta.mostrarAlertaWarning("HA OCURRIDO UN ERROR","SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO","REVISAR CAMPOS");
+            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR","SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO","REVISAR CAMPOS");
     }
 }
 }
