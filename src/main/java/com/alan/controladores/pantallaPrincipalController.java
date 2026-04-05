@@ -8,13 +8,21 @@ import com.alan.clases.Genero;
 import com.alan.clases.Libro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class pantallaPrincipalController {
 
@@ -141,7 +149,7 @@ public class pantallaPrincipalController {
         mostrarAutores.setVisible(true);
     }
 
-    public void mostrarGeneros(){
+    public void mostrarGeneros() {
         mostrarLibros.setVisible(false);
         mostrarAutores.setVisible(false);
         //        SOLO MUESTRO LOS GENEROS
@@ -149,5 +157,34 @@ public class pantallaPrincipalController {
 
     }
 
+    public void cambiarVentanas(Event e) throws IOException {
+        Button botonVentana = (Button) e.getSource();
+        String rutaVentana = "";
+        Stage primaryStage = new Stage();
+
+        switch (botonVentana.getId()) {
+            case "addLibro":
+                rutaVentana = "/ventanaAddLibro.fxml";
+                primaryStage.setTitle("AÑADIR LIBRO");
+                break;
+            case "addAutor":
+                rutaVentana = "/ventanaAddAutor.fxml";
+                primaryStage.setTitle("AÑADIR AUTOR");
+                break;
+            case "addGenero":
+                rutaVentana = "/ventanaAddGenero.fxml";
+                primaryStage.setTitle("AÑADIR GÉNERO");
+                break;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root, 400, 300);
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+    }
 
 }

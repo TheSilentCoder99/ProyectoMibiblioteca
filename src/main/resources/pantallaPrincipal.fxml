@@ -55,9 +55,9 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="349.0" prefWidth="774.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="addLibro" layoutX="80.0" layoutY="29.0" mnemonicParsing="false" text="Añadir libro" />
-            <Button fx:id="addAutor" layoutX="172.0" layoutY="29.0" mnemonicParsing="false" text="Añadir autor" />
-            <Button fx:id="addGenero" layoutX="265.0" layoutY="29.0" mnemonicParsing="false" text="Añadir género" />
+            <Button fx:id="addLibro"  onAction="#cambiarVentanas"  layoutX="80.0" layoutY="29.0" mnemonicParsing="false" text="Añadir libro" />
+            <Button fx:id="addAutor"  onAction="#cambiarVentanas"  layoutX="172.0" layoutY="29.0" mnemonicParsing="false" text="Añadir autor" />
+            <Button fx:id="addGenero"  onAction="#cambiarVentanas"  layoutX="265.0" layoutY="29.0" mnemonicParsing="false" text="Añadir género" />
             <TableView fx:id="mostrarLibros" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0">
               <columns>
                 <TableColumn fx:id="colTitulo" prefWidth="283.99996185302734" text="Titulo" />

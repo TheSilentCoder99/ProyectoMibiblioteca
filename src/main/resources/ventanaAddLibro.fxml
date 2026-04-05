@@ -34,11 +34,13 @@
         <Label text="Año publicación:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
         <TextField fx:id="inputYearPublicacion" GridPane.columnIndex="1" GridPane.rowIndex="1"
                    promptText="Ej: 1967"/>
-        
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+
         <!-- Fila 3: Número de páginas -->
         <Label text="Páginas:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
         <TextField fx:id="inputPaginas" GridPane.columnIndex="1" GridPane.rowIndex="2"
                    promptText="Ej: 496"/>
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
         
         <!-- Fila 4: Descripción -->
         <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
@@ -59,8 +61,8 @@
     
     <!-- Botones -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Guardar" fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Cancelar" fx:id="btnCancelar"/>
+        <Button text="Guardar" onAction="#guardarLibro"  fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Button text="Cancelar" onAction="#cerrarVentana" fx:id="btnCancelar"/>
     </HBox>
     
 </VBox>

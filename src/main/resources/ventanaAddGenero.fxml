@@ -7,7 +7,7 @@
 <VBox spacing="15" alignment="TOP_CENTER" 
       xmlns="http://javafx.com/javafx/21" 
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.alan.controllers.ventanaAddGeneroController">
+      fx:controller="com.alan.controladores.ventanaAddGeneroController">
     
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>

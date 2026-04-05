@@ -2,6 +2,7 @@ module com.alan {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires mysql.connector.j;
     opens com.alan to javafx.fxml;
     exports com.alan;
     exports com.alan.controladores;
