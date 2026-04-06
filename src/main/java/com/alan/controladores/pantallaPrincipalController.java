@@ -8,6 +8,7 @@ import com.alan.clases.Genero;
 import com.alan.clases.Libro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class pantallaPrincipalController {
 
@@ -86,6 +88,8 @@ public class pantallaPrincipalController {
     @FXML
     private TableColumn<Libro, String> colTitulo;
 
+    FilteredList<Libro> librosFiltrados;
+
     @FXML
     public void initialize() {
 
@@ -97,11 +101,19 @@ public class pantallaPrincipalController {
 //        LA OBSERVABLE SE RELLENA CON UN ARRAYLIST, DESPUÉS METES LA OBSERVABLE EN EL TABLEVIEW
         ObservableList<Libro> listaLibrosObservable = FXCollections.observableArrayList();
         listaLibrosObservable.addAll(librodao.getAllLibros());
-        mostrarLibros.setItems(listaLibrosObservable);
+        librosFiltrados = new FilteredList<>(listaLibrosObservable);
+        mostrarLibros.setItems(librosFiltrados);
 
+//        LISTENER PARA EL BUSCADO POR TITULO
+        inputBuscarLibro.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarLibros(newValue);
+        });
+
+//        LISTENER PARA LA DESCRIPCIÓN
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             mostrarDescripcion.setText(newValue.getDescripcion());
         });
+
 
 //        COLUMNAS DE LA TABLEVIEW AUTOR
         colNombreAutor.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -126,12 +138,28 @@ public class pantallaPrincipalController {
         listaGenerosObservable.addAll(generodao.getAllGeneros());
         mostrarGeneros.setItems(listaGenerosObservable);
 
-
+//ESTADO INICIAL DE LAS TABLEVIEW
         mostrarLibros.setVisible(true);
         mostrarAutores.setVisible(false);
         mostrarGeneros.setVisible(false);
+
+
+//        CREANDO LA FILTEREDLIST
+
     }
 
+//    MÉTOoDO PARA DEFINIR EL PREDICADO DE FILTRADO
+    @FXML
+    void filtrarLibros(String textoBusqueda) {  // ← Recibe el texto como parámetro
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
+            librosFiltrados.setPredicate(l -> true);  // Muestra todos
+        } else {
+            String busqueda = textoBusqueda.toLowerCase();
+            librosFiltrados.setPredicate(l ->
+                    l.getTitulo().toLowerCase().contains(busqueda)
+            );
+        }
+    }
 
     @FXML
     public void mostrarLibros() {
