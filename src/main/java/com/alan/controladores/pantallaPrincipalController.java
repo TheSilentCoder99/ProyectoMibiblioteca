@@ -45,6 +45,9 @@ public class pantallaPrincipalController {
     private TextField inputBuscarLibro;
 
     @FXML
+    private TextField inputBuscarAutor;
+
+    @FXML
     private Button mostrarAllAutores;
 
     @FXML
@@ -89,6 +92,7 @@ public class pantallaPrincipalController {
     private TableColumn<Libro, String> colTitulo;
 
     FilteredList<Libro> librosFiltrados;
+    FilteredList<Autor>autoresFiltrados;
 
     @FXML
     public void initialize() {
@@ -114,7 +118,6 @@ public class pantallaPrincipalController {
             mostrarDescripcion.setText(newValue.getDescripcion());
         });
 
-
 //        COLUMNAS DE LA TABLEVIEW AUTOR
         colNombreAutor.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellidoAutor.setCellValueFactory(new PropertyValueFactory<>("apellido1"));
@@ -127,7 +130,13 @@ public class pantallaPrincipalController {
         ObservableList<Autor> listaAutoresObservable = FXCollections.observableArrayList();
         listaAutoresObservable.addAll(autordao.getAllAutores());
         mostrarAutores.setItems(listaAutoresObservable);
+        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
+        mostrarAutores.setItems(autoresFiltrados);
 
+//        LISTENER PARA EL BUSCADO POR NOMBRE O APELLIDO
+        inputBuscarAutor.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarAutores(newValue);
+        });
 
         //        COLUMNAS DE LA TABLEVIEW GENERO
         colIDGenero.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -159,22 +168,37 @@ public class pantallaPrincipalController {
                     l.getTitulo().toLowerCase().contains(busqueda)
             );
         }
-    }
+    }    
 
+    void filtrarAutores(String textoBusqueda) {  // ← Recibe el texto como parámetro
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
+            autoresFiltrados.setPredicate(a -> true);  // Muestra todos
+        } else {
+            String busqueda = textoBusqueda.toLowerCase();
+            autoresFiltrados.setPredicate(a ->
+                    a.getNombre().toLowerCase().contains(busqueda) ||
+                            a.getApellido1().toLowerCase().contains(busqueda)
+            );
+        }
+    }
+//¿PUEDO PONER TODOS LOS FILTROS EN EL MISMO MÉTOoDO? CREO QUE NO PORQUE LAS TABLEVIEW NO SON LA MISMA
     @FXML
     public void mostrarLibros() {
         //        SOLO MUESTRO LOS LIBROS
-
         mostrarLibros.setVisible(true);
+
         mostrarGeneros.setVisible(false);
         mostrarAutores.setVisible(false);
+        inputBuscarAutor.setVisible(false);
     }
 
     public void mostrarAutores() {
         mostrarLibros.setVisible(false);
         mostrarGeneros.setVisible(false);
+        inputBuscarLibro.setVisible(false);
 //        SOLO MUESTRO LOS AUTORES
         mostrarAutores.setVisible(true);
+        inputBuscarAutor.setVisible(true);
     }
 
     public void mostrarGeneros() {
