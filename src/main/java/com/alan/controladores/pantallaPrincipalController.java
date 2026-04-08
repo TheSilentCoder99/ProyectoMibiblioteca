@@ -4,6 +4,8 @@ import com.alan.DataAccesObjects.AutorDAO;
 import com.alan.DataAccesObjects.LibroDAO;
 import com.alan.DataAccesObjects.GeneroDAO;
 import com.alan.clases.Autor;
+import com.alan.DataAccesObjects.AutorLibroDAO;
+import com.alan.clases.AutorLibro;
 import com.alan.clases.Genero;
 import com.alan.clases.Libro;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class pantallaPrincipalController {
@@ -31,6 +34,7 @@ public class pantallaPrincipalController {
     LibroDAO librodao = new LibroDAO();
     AutorDAO autordao = new AutorDAO();
     GeneroDAO generodao = new GeneroDAO();
+    AutorLibroDAO autorlibrodao = new AutorLibroDAO();
 
     @FXML
     private Button addAutor;
@@ -46,6 +50,9 @@ public class pantallaPrincipalController {
 
     @FXML
     private TextField inputBuscarAutor;
+
+    @FXML
+    private TextField inputBuscarGenero;
 
     @FXML
     private Button mostrarAllAutores;
@@ -66,6 +73,19 @@ public class pantallaPrincipalController {
     @FXML
     private TableView<Genero> mostrarGeneros;
     @FXML
+    private TableView<AutorLibro> mostrarLibroAutor;
+
+    //    COLUMNAS AUTORLIBRO
+    @FXML
+    private TableColumn<AutorLibro, String> colTituloLibroAutor;
+    @FXML
+    private TableColumn<AutorLibro, Integer> colPaginaLibroAutor;
+    @FXML
+    private TableColumn<AutorLibro, Integer> colPublicacionLibroAutor;
+
+
+    //    COLUMNAS TABLA AUTOR
+    @FXML
     private TableColumn<Autor, String> colNombreAutor;
     @FXML
     private TableColumn<Autor, String> colApellidoAutor;
@@ -83,7 +103,7 @@ public class pantallaPrincipalController {
     @FXML
     private TableColumn<Genero, String> colIDGenero;
 
-
+    //COLUMNAS TABLA LIBRO
     @FXML
     private TableColumn<Libro, Integer> colPaginas;
     @FXML
@@ -92,7 +112,10 @@ public class pantallaPrincipalController {
     private TableColumn<Libro, String> colTitulo;
 
     FilteredList<Libro> librosFiltrados;
-    FilteredList<Autor>autoresFiltrados;
+    FilteredList<Autor> autoresFiltrados;
+    FilteredList<Genero> generosFiltrados;
+    List<AutorLibro> resultadoConsulta;
+
 
     @FXML
     public void initialize() {
@@ -139,27 +162,53 @@ public class pantallaPrincipalController {
         });
 
         //        COLUMNAS DE LA TABLEVIEW GENERO
-        colIDGenero.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombreGenero.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colIDGenero.setCellValueFactory(new PropertyValueFactory<>("id"));
+
 
 //        OBSERVABLE DE GENEROS
         ObservableList<Genero> listaGenerosObservable = FXCollections.observableArrayList();
         listaGenerosObservable.addAll(generodao.getAllGeneros());
-        mostrarGeneros.setItems(listaGenerosObservable);
+        generosFiltrados = new FilteredList<>(listaGenerosObservable);
+        mostrarGeneros.setItems(generosFiltrados);
+
+//        LISTENER PARA BUSCAR EL GÉNERO
+        inputBuscarGenero.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarGeneros(newValue);
+        });
+
+//        COLUMNAS DE MOSTRAR LOS LIBROS DE CADA AUTOR
+        colTituloLibroAutor.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colPaginaLibroAutor.setCellValueFactory(new PropertyValueFactory<>("paginas"));
+        colPublicacionLibroAutor.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
+
+        //        DECLARO LA OBSERVABLE DE AUTORLIBRO
+        ObservableList<AutorLibro> autorLibroObservable = FXCollections.observableArrayList();
+
+        resultadoConsulta = new ArrayList<>();
+
+//        LISTENER PARA TRAER LOS LIBROS DEL AUTOR QUE HAYA SIDO SELECCIONADO EN ESE MOMENTO
+        mostrarAutores.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            autorLibroObservable.clear();
+            resultadoConsulta = autorlibrodao.getLibrosPorAutor(newValue.getId());
+            autorLibroObservable.addAll(resultadoConsulta);
+            mostrarLibroAutor.setItems(autorLibroObservable);
+        });
+
+
 
 //ESTADO INICIAL DE LAS TABLEVIEW
         mostrarLibros.setVisible(true);
         mostrarAutores.setVisible(false);
         mostrarGeneros.setVisible(false);
-
-
-//        CREANDO LA FILTEREDLIST
+        mostrarLibroAutor.setVisible(false);
 
     }
 
+    //    MÉTODOS
 //    MÉTOoDO PARA DEFINIR EL PREDICADO DE FILTRADO
     @FXML
-    void filtrarLibros(String textoBusqueda) {  // ← Recibe el texto como parámetro
+    void filtrarLibros(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             librosFiltrados.setPredicate(l -> true);  // Muestra todos
         } else {
@@ -168,9 +217,9 @@ public class pantallaPrincipalController {
                     l.getTitulo().toLowerCase().contains(busqueda)
             );
         }
-    }    
+    }
 
-    void filtrarAutores(String textoBusqueda) {  // ← Recibe el texto como parámetro
+    void filtrarAutores(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             autoresFiltrados.setPredicate(a -> true);  // Muestra todos
         } else {
@@ -181,32 +230,52 @@ public class pantallaPrincipalController {
             );
         }
     }
-//¿PUEDO PONER TODOS LOS FILTROS EN EL MISMO MÉTOoDO? CREO QUE NO PORQUE LAS TABLEVIEW NO SON LA MISMA
+
+    void filtrarGeneros(String textoBusqueda) {
+        if (textoBusqueda == null || textoBusqueda.isEmpty()) {
+            generosFiltrados.setPredicate(a -> true);
+        } else {
+            String busqueda = textoBusqueda.toLowerCase();
+            generosFiltrados.setPredicate(a ->
+                    a.getNombre().toLowerCase().contains(busqueda)
+            );
+        }
+    }
+
+
     @FXML
     public void mostrarLibros() {
-        //        SOLO MUESTRO LOS LIBROS
-        mostrarLibros.setVisible(true);
-
         mostrarGeneros.setVisible(false);
         mostrarAutores.setVisible(false);
         inputBuscarAutor.setVisible(false);
+        inputBuscarGenero.setVisible(false);
+
+        //        SOLO MUESTRO LOS LIBROS Y EL BUSCADOR DE LIBROS
+        mostrarLibros.setVisible(true);
+        inputBuscarLibro.setVisible(true);
     }
 
     public void mostrarAutores() {
         mostrarLibros.setVisible(false);
         mostrarGeneros.setVisible(false);
         inputBuscarLibro.setVisible(false);
-//        SOLO MUESTRO LOS AUTORES
+        inputBuscarGenero.setVisible(false);
+
+//        SOLO MUESTRO LOS AUTORES Y EL BUSCADOR DE AUTORES
         mostrarAutores.setVisible(true);
         inputBuscarAutor.setVisible(true);
+        mostrarLibroAutor.setVisible(true);
+
     }
 
     public void mostrarGeneros() {
         mostrarLibros.setVisible(false);
         mostrarAutores.setVisible(false);
-        //        SOLO MUESTRO LOS GENEROS
+        inputBuscarAutor.setVisible(false);
+        inputBuscarLibro.setVisible(false);
+        //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
         mostrarGeneros.setVisible(true);
-
+        inputBuscarGenero.setVisible(true);
     }
 
     public void cambiarVentanas(Event e) throws IOException {

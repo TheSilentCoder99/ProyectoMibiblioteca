@@ -12,7 +12,19 @@ public class AutorDAO {
     //    MÉTOoDO QUE ABRE LA CONEXION, EJECUTA LA QUERY Y ME TRAE TODOS LOS AUTORES
     public List<Autor> getAllAutores() {
 //        LA CONSULTA A EJECUTAR
-        String consultaDevolverAutores = "SELECT * FROM autor ORDER BY nombre, apellido1";
+        String consultaDevolverAutores = "SELECT\n" +
+                "\tid,\n" +
+                "\tnombre,\n" +
+                "\tapellido1,\n" +
+                "\tapellido2,\n" +
+                "\tpais_id,\n" +
+                "\tyear_nacimiento,\n" +
+                "\tIFNULL(year_fallecimiento,'Vivo') AS fallecido\n" +
+                "FROM\n" +
+                "\tautor\n" +
+                "ORDER BY\n" +
+                "\tnombre,\n" +
+                "\tapellido1;";
 
 //        CREO EL ARRAYLIST, SE CREA UN ARRAY LIST NUEVO CADA VEZ QUE SE LLAMA AL MÉToODO PORQUE CADA CONSULTA ES INDEPENDIENTE.
 //        TIENE SENTIDO QUE CADA UNA DEVUELVA UN ARRAYLIST DIFERENTE
@@ -29,7 +41,7 @@ public class AutorDAO {
 
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Autor autor = new Autor(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido1"), rs.getString("apellido2"),rs.getInt("pais_id"),rs.getInt("year_nacimiento"),rs.getInt("year_fallecimiento") );
+                Autor autor = new Autor(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido1"), rs.getString("apellido2"),rs.getInt("pais_id"),rs.getInt("year_nacimiento"),rs.getString("fallecido") );
 
                 listaAutores.add(autor);
             }
