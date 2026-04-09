@@ -2,6 +2,7 @@ package com.alan.DataAccesObjects;
 
 import com.alan.clases.conexionDB;
 import com.alan.clases.Libro;
+import com.alan.controladores.pantallaPrincipalController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 //CLASE QUE SE OCUPA DE HACER CONSULTAS EN LA BD RELACIONADAS CON LA TABLA LIBRO
 public class LibroDAO {
+
 
     //    MÉTOoDO QUE ABRE LA CONEXION, EJECUTA LA QUERY Y ME TRAE TODOS LOS LIBROS
     public List<Libro> getAllLibros() {
@@ -42,11 +44,10 @@ public class LibroDAO {
         return listaLibros;
     }
 
-    public void insertarLibro(String titulo, int yearPublicacion, int paginas, String descripcion, String opinion) {
+    public int insertarLibro(String titulo, int yearPublicacion, int paginas, String descripcion, String opinion) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("INSERT INTO libro (title, year_publicacion, pages, description, opinion) VALUES (?,?,?,?,?)"
-            );
+            PreparedStatement consulta = conn.prepareStatement("INSERT INTO libro (title, year_publicacion, pages, description, opinion) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
 //            ASIGNAS VALORES A LA FILA QUE VAS A INSERTAR
             consulta.setString(1, titulo);
@@ -54,29 +55,34 @@ public class LibroDAO {
             consulta.setInt(3, paginas);
             consulta.setString(4, descripcion);
             consulta.setString(5, opinion);
-
             consulta.execute();
 
+            ResultSet rs = consulta.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // devuelve
+            } else{
+                return -1;
+            }
+
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public void borrarLibro(int idLibro) {
+        public void borrarLibro(int idLibro) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("DELETE FROM libro WHERE id = (?)"
+            PreparedStatement consulta = conn.prepareStatement("DELETE FROM libro WHERE id = ?"
             );
 
 //            ASIGNAS VALORES DE LA FILA QUE VAS A BORRAR
             consulta.setInt(1,idLibro);
 
-            consulta.execute();
+            consulta.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
 }

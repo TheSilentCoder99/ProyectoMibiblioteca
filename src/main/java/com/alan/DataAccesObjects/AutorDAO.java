@@ -1,6 +1,7 @@
 package com.alan.DataAccesObjects;
 import com.alan.clases.Autor;
 import com.alan.clases.conexionDB;
+import com.alan.controladores.pantallaPrincipalController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class AutorDAO {
             consulta.setInt(5, yearNacimiento);
             consulta.setInt(6, yearMuerte);
 
-            consulta.execute();
+            consulta.executeUpdate();;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,18 +77,19 @@ public class AutorDAO {
     public void borrarAutor(int idAutor) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("DELETE FROM autor WHERE id = (?)"
+            PreparedStatement consulta = conn.prepareStatement("DELETE FROM autor WHERE id = ?"
             );
 
 //            ASIGNAS VALORES DE LA FILA QUE VAS A BORRAR
             consulta.setInt(1,idAutor);
 
-            consulta.execute();
+            consulta.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 
 

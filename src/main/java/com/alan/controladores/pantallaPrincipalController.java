@@ -22,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -35,6 +36,10 @@ public class pantallaPrincipalController {
     AutorDAO autordao = new AutorDAO();
     GeneroDAO generodao = new GeneroDAO();
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
+
+    @FXML
+    private
+    Button botonEliminar;
 
     @FXML
     private Button addAutor;
@@ -115,6 +120,10 @@ public class pantallaPrincipalController {
     FilteredList<Autor> autoresFiltrados;
     FilteredList<Genero> generosFiltrados;
     List<AutorLibro> resultadoConsulta;
+    ObservableList<Genero> listaGenerosObservable = FXCollections.observableArrayList();
+    ObservableList<Libro> listaLibrosObservable = FXCollections.observableArrayList();
+    ObservableList<Autor> listaAutoresObservable = FXCollections.observableArrayList();
+
 
 
     @FXML
@@ -126,7 +135,6 @@ public class pantallaPrincipalController {
         colPaginas.setCellValueFactory(new PropertyValueFactory<>("paginas"));
 
 //        LA OBSERVABLE SE RELLENA CON UN ARRAYLIST, DESPUÉS METES LA OBSERVABLE EN EL TABLEVIEW
-        ObservableList<Libro> listaLibrosObservable = FXCollections.observableArrayList();
         listaLibrosObservable.addAll(librodao.getAllLibros());
         librosFiltrados = new FilteredList<>(listaLibrosObservable);
         mostrarLibros.setItems(librosFiltrados);
@@ -139,6 +147,7 @@ public class pantallaPrincipalController {
 //        LISTENER PARA LA DESCRIPCIÓN
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             mostrarDescripcion.setText(newValue.getDescripcion());
+
         });
 
 //        COLUMNAS DE LA TABLEVIEW AUTOR
@@ -150,11 +159,10 @@ public class pantallaPrincipalController {
         colPaisAutor.setCellValueFactory(new PropertyValueFactory<>("pais_id"));
 
 //        OBSERVABLE DE AUTORES
-        ObservableList<Autor> listaAutoresObservable = FXCollections.observableArrayList();
+        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
         listaAutoresObservable.addAll(autordao.getAllAutores());
         mostrarAutores.setItems(listaAutoresObservable);
-        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
-        mostrarAutores.setItems(autoresFiltrados);
+
 
 //        LISTENER PARA EL BUSCADO POR NOMBRE O APELLIDO
         inputBuscarAutor.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -167,7 +175,6 @@ public class pantallaPrincipalController {
 
 
 //        OBSERVABLE DE GENEROS
-        ObservableList<Genero> listaGenerosObservable = FXCollections.observableArrayList();
         listaGenerosObservable.addAll(generodao.getAllGeneros());
         generosFiltrados = new FilteredList<>(listaGenerosObservable);
         mostrarGeneros.setItems(generosFiltrados);
@@ -184,7 +191,6 @@ public class pantallaPrincipalController {
 
         //        DECLARO LA OBSERVABLE DE AUTORLIBRO
         ObservableList<AutorLibro> autorLibroObservable = FXCollections.observableArrayList();
-
         resultadoConsulta = new ArrayList<>();
 
 //        LISTENER PARA TRAER LOS LIBROS DEL AUTOR QUE HAYA SIDO SELECCIONADO EN ESE MOMENTO
@@ -194,7 +200,6 @@ public class pantallaPrincipalController {
             autorLibroObservable.addAll(resultadoConsulta);
             mostrarLibroAutor.setItems(autorLibroObservable);
         });
-
 
 
 //ESTADO INICIAL DE LAS TABLEVIEW
@@ -247,12 +252,15 @@ public class pantallaPrincipalController {
     public void mostrarLibros() {
         mostrarGeneros.setVisible(false);
         mostrarAutores.setVisible(false);
+        mostrarLibroAutor.setVisible(false);
         inputBuscarAutor.setVisible(false);
         inputBuscarGenero.setVisible(false);
 
         //        SOLO MUESTRO LOS LIBROS Y EL BUSCADOR DE LIBROS
         mostrarLibros.setVisible(true);
         inputBuscarLibro.setVisible(true);
+        mostrarDescripcion.setVisible(true);
+
     }
 
     public void mostrarAutores() {
@@ -260,6 +268,7 @@ public class pantallaPrincipalController {
         mostrarGeneros.setVisible(false);
         inputBuscarLibro.setVisible(false);
         inputBuscarGenero.setVisible(false);
+        mostrarDescripcion.setVisible(false);
 
 //        SOLO MUESTRO LOS AUTORES Y EL BUSCADOR DE AUTORES
         mostrarAutores.setVisible(true);
@@ -271,11 +280,14 @@ public class pantallaPrincipalController {
     public void mostrarGeneros() {
         mostrarLibros.setVisible(false);
         mostrarAutores.setVisible(false);
+        mostrarLibroAutor.setVisible(false);
         inputBuscarAutor.setVisible(false);
         inputBuscarLibro.setVisible(false);
+        mostrarDescripcion.setVisible(false);
         //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
         mostrarGeneros.setVisible(true);
         inputBuscarGenero.setVisible(true);
+
     }
 
     public void cambiarVentanas(Event e) throws IOException {
@@ -308,4 +320,28 @@ public class pantallaPrincipalController {
         primaryStage.show();
     }
 
-}
+    public void eliminarElemento() {
+
+            if (mostrarLibros.isVisible()) {
+                Libro seleccionado = mostrarLibros.getSelectionModel().getSelectedItem();
+                if (seleccionado != null) {
+                    librodao.borrarLibro(seleccionado.getId());
+                }
+            }
+
+            if (mostrarAutores.isVisible()) {
+            Autor seleccionado = mostrarAutores.getSelectionModel().getSelectedItem();
+            if (seleccionado != null) {
+                autordao.borrarAutor(seleccionado.getId());
+            }
+        }
+
+        if (mostrarGeneros.isVisible()) {
+            Genero seleccionado = mostrarGeneros.getSelectionModel().getSelectedItem();
+            if (seleccionado != null) {
+                generodao.borrarGenero(seleccionado.getId());
+            }
+        }
+
+        }
+    }

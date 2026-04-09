@@ -82,4 +82,5 @@ public class Libro {
     public void setOpinion(String opinion) {
         this.opinion = opinion;
     }
+
 }

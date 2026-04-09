@@ -1,6 +1,7 @@
 package com.alan.DataAccesObjects;
 import com.alan.clases.Genero;
 import com.alan.clases.conexionDB;
+import com.alan.controladores.pantallaPrincipalController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class GeneroDAO {
 //            ASIGNAS VALORES A LA FILA QUE VAS A INSERTAR
             consulta.setString(1, nombre);
 
-            consulta.execute();
+            consulta.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,13 +59,13 @@ public class GeneroDAO {
     public void borrarGenero(int idGenero) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("DELETE FROM genero WHERE id = (?)"
+            PreparedStatement consulta = conn.prepareStatement("DELETE FROM genero WHERE id = ?"
             );
 
 //            ASIGNAS VALORES DE LA FILA QUE VAS A BORRAR
             consulta.setInt(1,idGenero);
 
-            consulta.execute();
+            consulta.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

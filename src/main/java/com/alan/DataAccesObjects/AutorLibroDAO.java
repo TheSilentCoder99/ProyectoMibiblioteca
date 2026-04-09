@@ -32,12 +32,26 @@ public class AutorLibroDAO {
             ResultSet rs = consulta.executeQuery();
 
             while (rs.next()) {
-                librosDelAutor.add(new AutorLibro(rs.getInt("id"), rs.getString("title"),rs.getInt("pages"),rs.getInt("year_publicacion"),
-                        rs.getString("nombre"),rs.getString("apellido1"),rs.getString("nombrePais")));
+                librosDelAutor.add(new AutorLibro(rs.getInt("id"), rs.getString("title"), rs.getInt("pages"), rs.getInt("year_publicacion"),
+                        rs.getString("nombre"), rs.getString("apellido1"), rs.getString("nombrePais")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return librosDelAutor;
+    }
+
+    public void actualizarTablaLibroAutor(int idLibro, int idAutor) {
+        try (Connection conn = conexionDB.getConnection()) {
+            PreparedStatement consulta = conn.prepareStatement(
+                    "INSERT INTO autor_libro VALUES (?, ?);"
+            );
+            consulta.setInt(1,idLibro);
+            consulta.setInt(2,idAutor);
+            consulta.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
