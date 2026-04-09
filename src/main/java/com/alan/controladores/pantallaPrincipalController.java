@@ -159,9 +159,9 @@ public class pantallaPrincipalController {
         colPaisAutor.setCellValueFactory(new PropertyValueFactory<>("pais_id"));
 
 //        OBSERVABLE DE AUTORES
-        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
         listaAutoresObservable.addAll(autordao.getAllAutores());
-        mostrarAutores.setItems(listaAutoresObservable);
+        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
+        mostrarAutores.setItems(autoresFiltrados);
 
 
 //        LISTENER PARA EL BUSCADO POR NOMBRE O APELLIDO
