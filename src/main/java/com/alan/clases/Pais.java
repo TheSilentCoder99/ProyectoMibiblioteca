@@ -45,4 +45,9 @@ public class Pais {
     public void setCodigoISO(String codigoISO) {
         this.codigoISO = codigoISO;
     }
+
+    @Override
+    public String toString(){
+        return this.nombre + " " + this.codigoISO;
+    }
 }

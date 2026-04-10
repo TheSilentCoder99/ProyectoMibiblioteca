@@ -3,6 +3,9 @@ package com.alan.controladores;
 import com.alan.DataAccesObjects.AutorDAO;
 import com.alan.clases.Alertas;
 import com.alan.clases.Pais;
+import com.alan.DataAccesObjects.PaisDAO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -16,6 +19,9 @@ public class ventanaAddAutorController {
 
     AutorDAO autordao = new AutorDAO();
     Alertas tipoAlerta = new Alertas();
+    PaisDAO pais = new PaisDAO();
+    ObservableList<Pais> seleccionPaisObservable = FXCollections.observableArrayList();
+
 
     @FXML
     private Button btnCancelar;
@@ -45,6 +51,14 @@ public class ventanaAddAutorController {
     private TextField inputYearNacimiento;
 
 
+    public void initialize() {
+        seleccionPaisObservable.addAll(pais.getAllPaises());
+        cbPais.setItems(seleccionPaisObservable);
+//        IMPLEMENTAR BÚSQUEDA POR LETRA,
+//        ES DECIR, QUE AL PULSAR UNA LETRA
+//        SALGAN TODOS LOS AUTORES QUE EMPIECEN POR ESA LETRA
+    }
+
 
     public void cerrarVentanaAutor() {
         List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputYearFallecimiento, inputYearNacimiento, inputNombre, inputApellido2, inputApellido1));
@@ -68,7 +82,7 @@ public class ventanaAddAutorController {
     }
 
     public void guardarAutor() {
-        try{
+        try {
 //            CREO QUE AQUÍ HAY MUCHAS CONVERSIONES INNECESARIAS, REVISAR
 //            AHORA NO ESTOY SEGURO DE QUE LAS HAYA. REVISAR
 
@@ -80,9 +94,9 @@ public class ventanaAddAutorController {
             String apellido2 = inputApellido2.getText();
 
 //            COMPROBAR
-            if(inputNombre.getText().length() < 2 || !inputNombre.getText().matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || !inputApellido1.getText().matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+")|| inputApellido1.getText().length() < 2 || inputYearNacimiento.getText().isEmpty()) {
+            if (inputNombre.getText().length() < 2 || !inputNombre.getText().matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || !inputApellido1.getText().matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || inputApellido1.getText().length() < 2 || inputYearNacimiento.getText().isEmpty()) {
 
-                tipoAlerta.mostrarAlertaWarning("FALTA NOMBRE, PRIMER APELLIDO, O FECHA DE NACIMIENTO.","DEBES INGRESAR EL NOMBRE, PRIMER APELLIDO Y LA FECHA DE NACIMIENTO PARA CONTINUAR CON EL GUARDADO DEL AUTOR.","RELLENAR CAMPOS OBLIGATORIOS.");
+                tipoAlerta.mostrarAlertaWarning("FALTA NOMBRE, PRIMER APELLIDO, O FECHA DE NACIMIENTO.", "DEBES INGRESAR EL NOMBRE, PRIMER APELLIDO Y LA FECHA DE NACIMIENTO PARA CONTINUAR CON EL GUARDADO DEL AUTOR.", "RELLENAR CAMPOS OBLIGATORIOS.");
                 return;
             }
 
@@ -90,20 +104,20 @@ public class ventanaAddAutorController {
             int NacimientoParseada = Integer.parseInt(yearNacimiento);
             int FallecimientoParseada = 0;
 
-            if(inputApellido2.getText().isEmpty()){
+            if (inputApellido2.getText().isEmpty()) {
                 inputApellido2.setText(" ");
             }
 
-            if(inputYearFallecimiento.getText().isEmpty()){
-                inputYearFallecimiento.setText(" ");}
-            else{
+            if (inputYearFallecimiento.getText().isEmpty()) {
+                inputYearFallecimiento.setText(" ");
+            } else {
                 FallecimientoParseada = Integer.parseInt(yearFallecimiento);
             }
 
-            Alert resultadoIngresoLibro = tipoAlerta.alertaConfirmacion("INGRESAR AUTOR.","VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + apellido1 +  " ¿ESTAS SEGURO DE CONTINUAR?","INGRESAR NUEVO AUTOR.");
+            Alert resultadoIngresoLibro = tipoAlerta.alertaConfirmacion("INGRESAR AUTOR.", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + apellido1 + " ¿ESTAS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR.");
 
-            if(resultadoIngresoLibro.getResult() == ButtonType.OK){
-                autordao.insertarAutor(nombre,apellido1,apellido2,cbPais.getTypeSelector(),NacimientoParseada,FallecimientoParseada);
+            if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
+                autordao.insertarAutor(nombre, apellido1, apellido2, cbPais.getTypeSelector(), NacimientoParseada, FallecimientoParseada);
             }
 
 //        LIMPIO LOS CAMPOS TRAS AÑADIR UN AUTOR
@@ -115,9 +129,9 @@ public class ventanaAddAutorController {
                 }
             }
 
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             e.printStackTrace();
-            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR.","SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO.","REVISAR CAMPOS.");
+            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR.", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO.", "REVISAR CAMPOS.");
         }
     }
 

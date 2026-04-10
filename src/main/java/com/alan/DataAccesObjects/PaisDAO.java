@@ -13,7 +13,7 @@ public class PaisDAO {
     //    MÉTOoDO QUE ABRE LA CONEXION, EJECUTA LA QUERY Y ME TRAE TODOS LOS PAISES
     public List<Pais> getAllPaises() {
 //        LA CONSULTA A EJECUTAR
-        String consultaDevolverGeneros = "SELECT * FROM pais ORDER BY nombre";
+        String consultaDevolverGeneros = "SELECT * FROM pais ORDER BY nombrePais";
 
 //        CREO EL ARRAYLIST, SE CREA UN ARRAY LIST NUEVO CADA VEZ QUE SE LLAMA AL MÉToODO PORQUE CADA CONSULTA ES INDEPENDIENTE.
 //        TIENE SENTIDO QUE CADA UNA DEVUELVA UN ARRAYLIST DIFERENTE
@@ -30,7 +30,7 @@ public class PaisDAO {
 
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Pais autor = new Pais(rs.getInt("id"),rs.getString("nombre"),rs.getString("codigo_ISO"));
+                Pais autor = new Pais(rs.getInt("id"),rs.getString("nombrePais"),rs.getString("codigo_ISO"));
                 listaPaises.add(autor);
             }
 

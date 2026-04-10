@@ -8,6 +8,7 @@ import com.alan.DataAccesObjects.AutorLibroDAO;
 import com.alan.clases.AutorLibro;
 import com.alan.clases.Genero;
 import com.alan.clases.Libro;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -134,21 +135,6 @@ public class pantallaPrincipalController {
         colPublicacion.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
         colPaginas.setCellValueFactory(new PropertyValueFactory<>("paginas"));
 
-//        LA OBSERVABLE SE RELLENA CON UN ARRAYLIST, DESPUÉS METES LA OBSERVABLE EN EL TABLEVIEW
-        listaLibrosObservable.addAll(librodao.getAllLibros());
-        librosFiltrados = new FilteredList<>(listaLibrosObservable);
-        mostrarLibros.setItems(librosFiltrados);
-
-//        LISTENER PARA EL BUSCADO POR TITULO
-        inputBuscarLibro.textProperty().addListener((observable, oldValue, newValue) -> {
-            filtrarLibros(newValue);
-        });
-
-//        LISTENER PARA LA DESCRIPCIÓN
-        mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            mostrarDescripcion.setText(newValue.getDescripcion());
-
-        });
 
 //        COLUMNAS DE LA TABLEVIEW AUTOR
         colNombreAutor.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -158,21 +144,47 @@ public class pantallaPrincipalController {
         colFallecimiento.setCellValueFactory(new PropertyValueFactory<>("yearFallecimiento"));
         colPaisAutor.setCellValueFactory(new PropertyValueFactory<>("pais_id"));
 
-//        OBSERVABLE DE AUTORES
-        listaAutoresObservable.addAll(autordao.getAllAutores());
-        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
-        mostrarAutores.setItems(autoresFiltrados);
-
-
-//        LISTENER PARA EL BUSCADO POR NOMBRE O APELLIDO
-        inputBuscarAutor.textProperty().addListener((observable, oldValue, newValue) -> {
-            filtrarAutores(newValue);
-        });
 
         //        COLUMNAS DE LA TABLEVIEW GENERO
         colNombreGenero.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colIDGenero.setCellValueFactory(new PropertyValueFactory<>("id"));
 
+        //        COLUMNAS DE MOSTRAR LOS LIBROS DE CADA AUTOR
+        colTituloLibroAutor.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colPaginaLibroAutor.setCellValueFactory(new PropertyValueFactory<>("paginas"));
+        colPublicacionLibroAutor.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
+
+
+        //     LA OBSERVABLE SE RELLENA CON UN ARRAYLIST, DESPUÉS METES LA OBSERVABLE EN EL TABLEVIEW
+        listaLibrosObservable.addAll(librodao.getAllLibros());
+        librosFiltrados = new FilteredList<>(listaLibrosObservable);
+        mostrarLibros.setItems(librosFiltrados);
+
+
+//        LISTENER PARA EL BUSCADO POR TITULO
+        inputBuscarLibro.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarLibros(newValue);
+        });
+
+//        LISTENER PARA LA DESCRIPCIÓN
+        mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+
+            if(newValue.getDescripcion() == null){
+                mostrarDescripcion.setText("Descripción no añadida.");
+            } else{
+                mostrarDescripcion.setText(newValue.getDescripcion());
+            }
+        });
+
+//        OBSERVABLE DE AUTORES
+        listaAutoresObservable.addAll(autordao.getAllAutores());
+        autoresFiltrados = new FilteredList<>(listaAutoresObservable);
+        mostrarAutores.setItems(autoresFiltrados);
+
+//        LISTENER PARA EL BUSCADO POR NOMBRE O APELLIDO
+        inputBuscarAutor.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarAutores(newValue);
+        });
 
 //        OBSERVABLE DE GENEROS
         listaGenerosObservable.addAll(generodao.getAllGeneros());
@@ -184,10 +196,6 @@ public class pantallaPrincipalController {
             filtrarGeneros(newValue);
         });
 
-//        COLUMNAS DE MOSTRAR LOS LIBROS DE CADA AUTOR
-        colTituloLibroAutor.setCellValueFactory(new PropertyValueFactory<>("title"));
-        colPaginaLibroAutor.setCellValueFactory(new PropertyValueFactory<>("paginas"));
-        colPublicacionLibroAutor.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
 
         //        DECLARO LA OBSERVABLE DE AUTORLIBRO
         ObservableList<AutorLibro> autorLibroObservable = FXCollections.observableArrayList();
@@ -201,12 +209,13 @@ public class pantallaPrincipalController {
             mostrarLibroAutor.setItems(autorLibroObservable);
         });
 
-
 //ESTADO INICIAL DE LAS TABLEVIEW
         mostrarLibros.setVisible(true);
         mostrarAutores.setVisible(false);
         mostrarGeneros.setVisible(false);
         mostrarLibroAutor.setVisible(false);
+
+        Platform.runLater(() -> inputBuscarLibro.requestFocus());
 
     }
 
@@ -247,7 +256,6 @@ public class pantallaPrincipalController {
         }
     }
 
-
     @FXML
     public void mostrarLibros() {
         mostrarGeneros.setVisible(false);
@@ -260,8 +268,8 @@ public class pantallaPrincipalController {
         mostrarLibros.setVisible(true);
         inputBuscarLibro.setVisible(true);
         mostrarDescripcion.setVisible(true);
-
     }
+
 
     public void mostrarAutores() {
         mostrarLibros.setVisible(false);
@@ -274,7 +282,6 @@ public class pantallaPrincipalController {
         mostrarAutores.setVisible(true);
         inputBuscarAutor.setVisible(true);
         mostrarLibroAutor.setVisible(true);
-
     }
 
     public void mostrarGeneros() {
@@ -287,7 +294,6 @@ public class pantallaPrincipalController {
         //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
         mostrarGeneros.setVisible(true);
         inputBuscarGenero.setVisible(true);
-
     }
 
     public void cambiarVentanas(Event e) throws IOException {
