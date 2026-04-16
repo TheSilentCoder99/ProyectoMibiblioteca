@@ -69,8 +69,8 @@ public class ventanaAddLibroController {
     }
 
     public void recargarTabla(){
+        autoresObservable.clear();
         autoresObservable.addAll(autordao.getAllAutores());
-        listaTablaAutor.setItems(autoresObservable);
     }
 
     public void cerrarVentanaLibro() {
@@ -164,6 +164,9 @@ public class ventanaAddLibroController {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
 
-    }
+        primaryStage.setOnHiding(event -> {
+            recargarTabla();
+    });
+}
 }
 

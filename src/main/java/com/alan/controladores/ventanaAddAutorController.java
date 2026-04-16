@@ -22,7 +22,6 @@ public class ventanaAddAutorController {
     PaisDAO pais = new PaisDAO();
     ObservableList<Pais> seleccionPaisObservable = FXCollections.observableArrayList();
 
-
     @FXML
     private Button btnCancelar;
 
@@ -117,6 +116,7 @@ public class ventanaAddAutorController {
 
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
                 autordao.insertarAutor(nombre, apellido1, apellido2, cbPais.getTypeSelector(), NacimientoParseada, FallecimientoParseada);
+
             }
 
 //        LIMPIO LOS CAMPOS TRAS AÑADIR UN AUTOR
@@ -127,6 +127,7 @@ public class ventanaAddAutorController {
                     tf.clear();
                 }
             }
+
 
         } catch (NumberFormatException e) {
             e.printStackTrace();

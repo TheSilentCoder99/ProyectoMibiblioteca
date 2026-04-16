@@ -319,6 +319,8 @@ public class pantallaPrincipalController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));
         Parent root = loader.load();
 
+
+
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
