@@ -1,5 +1,6 @@
 package com.alan.controladores;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,11 +13,16 @@ import com.alan.clases.Autor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ventanaAddLibroController {
+
     LibroDAO librodao = new LibroDAO();
     Alertas tipoAlerta = new Alertas();
 
@@ -47,6 +53,10 @@ public class ventanaAddLibroController {
     @FXML
     private Label lblMensaje;
 
+    @FXML
+    private ListView<Autor> listaTablaAutor;
+
+
     ObservableList<Autor> autoresObservable = FXCollections.observableArrayList();
     AutorDAO autordao = new AutorDAO();
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
@@ -54,11 +64,13 @@ public class ventanaAddLibroController {
 
     public void initialize() {
         autoresObservable.addAll(autordao.getAllAutores());
-        comboBoxAutores.setItems(autoresObservable);
-
+        listaTablaAutor.setItems(autoresObservable);
 //        IMPLEMENTAR BÚSQUEDA POR LETRA, ES DECIR, QUE AL PULSAR UNA LETRA SALGAN TODOS LOS AUTORES QUE EMPIECEN POR ESA LETRA
+    }
 
-
+    public void recargarTabla(){
+        autoresObservable.addAll(autordao.getAllAutores());
+        listaTablaAutor.setItems(autoresObservable);
     }
 
     public void cerrarVentanaLibro() {
@@ -119,7 +131,7 @@ public class ventanaAddLibroController {
 
 //        SECCIÓN PARA ACTUALIZAR TABLA LIBRO AUTOR AL REALIZAR EL GUARDADO DEL LIBRO
             seleccionado = (Autor) comboBoxAutores.getValue();
-            autorlibrodao.actualizarTablaLibroAutor(idLibro, seleccionado.getId());
+            /*autorlibrodao.actualizarTablaLibroAutor(idLibro, seleccionado.getId());*/
 
 //        LIMPIO LOS CAMPOS TRAS AÑADIR UN LIBRO
             List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion, inputDescripcion, inputOpinion));
@@ -137,6 +149,21 @@ public class ventanaAddLibroController {
             e.printStackTrace();
             tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO", "REVISAR CAMPOS");
         }
+    }
+
+    public void abrirInsertarAutor() throws IOException {
+
+        Stage primaryStage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaAddAutor.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root, 400, 300);
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+
     }
 }
 

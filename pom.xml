@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <javafx.version>25.0.2</javafx.version>
+        <javafx.version>21.0.7</javafx.version>  <!-- ✅ Cambiado de 25.0.2 -->
     </properties>
 
     <dependencies>
@@ -25,6 +25,11 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>   <!-- ✅ Añadido, lo usas en module-info -->
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
@@ -51,9 +56,11 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
+                    <!-- ✅ Formato correcto: modulo/paquete.Clase -->
                     <mainClass>com.alan.MainApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>

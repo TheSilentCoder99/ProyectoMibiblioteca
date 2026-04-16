@@ -41,17 +41,22 @@ public class AutorLibroDAO {
         return librosDelAutor;
     }
 
-    public void actualizarTablaLibroAutor(int idLibro, int idAutor) {
-        try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement(
-                    "INSERT INTO autor_libro VALUES (?, ?);"
-            );
-            consulta.setInt(1,idLibro);
-            consulta.setInt(2,idAutor);
-            consulta.executeUpdate();
+    public void actualizarTablaLibroAutor(int idLibro, int [] idAutor) {
+        for(int i = 0; i<idAutor.length ;i++){
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            try (Connection conn = conexionDB.getConnection()) {
+                PreparedStatement consulta = conn.prepareStatement(
+                        "INSERT INTO autor_libro VALUES (?, ?);"
+                );
+                consulta.setInt(1,idLibro);
+                consulta.setInt(2,idAutor[i]);
+                consulta.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
+
     }
 }

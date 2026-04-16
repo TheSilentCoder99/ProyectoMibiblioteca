@@ -1,68 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15" alignment="TOP_CENTER" 
-      xmlns="http://javafx.com/javafx/21" 
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.alan.controladores.ventanaAddLibroController">
+<VBox alignment="TOP_CENTER" spacing="15" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alan.controladores.ventanaAddLibroController">
     
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
     
     <!-- Título de la ventana -->
-    <Label text="Añadir Nuevo Libro" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Añadir Nuevo Libro" />
     
-    <Separator/>
+    <Separator />
     
     <!-- Formulario -->
     <GridPane hgap="10" vgap="10">
         <padding>
-            <Insets top="10" bottom="10"/>
+            <Insets bottom="10" top="10" />
         </padding>
         
         <!-- Fila 1: Título (obligatorio) -->
-        <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="inputTitulo" GridPane.columnIndex="1" GridPane.rowIndex="0"
-                   promptText="Ej: Cien años de soledad" prefWidth="400"/>
-        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <Label style="-fx-font-weight: bold;" text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="inputTitulo" prefWidth="400" promptText="Ej: Cien años de soledad" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="0" />
         
         <!-- Fila 2: Año de publicación -->
-        <Label text="Año publicación:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="inputYearPublicacion" GridPane.columnIndex="1" GridPane.rowIndex="1"
-                   promptText="Ej: 1967"/>
-        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Label style="-fx-font-weight: bold;" text="Año publicación:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="inputYearPublicacion" promptText="Ej: 1967" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
         <!-- Fila 3: Número de páginas -->
-        <Label text="Páginas:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="inputPaginas" GridPane.columnIndex="1" GridPane.rowIndex="2"
-                   promptText="Ej: 496"/>
-        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Label style="-fx-font-weight: bold;" text="Páginas:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="inputPaginas" promptText="Ej: 496" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="*" textFill="red" GridPane.columnIndex="2" GridPane.rowIndex="2" />
         
         <!-- Fila 4: Descripción -->
-        <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
-        <TextArea fx:id="inputDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="3"
-                  prefHeight="100" promptText="Sinopsis o descripción del libro..."/>
+        <Label style="-fx-font-weight: bold;" text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <TextArea fx:id="inputDescripcion" prefHeight="100" promptText="Sinopsis o descripción del libro..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
         
         <!-- Fila 5: Opinión personal -->
-        <Label text="Opinión:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
-        <TextArea fx:id="inputOpinion" GridPane.columnIndex="1" GridPane.rowIndex="4"
-                  prefHeight="80" promptText="Tu opinión sobre el libro..."/>
+        <Label style="-fx-font-weight: bold;" text="Opinión:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextArea fx:id="inputOpinion" prefHeight="126.0" prefWidth="516.0" promptText="Tu opinión sobre el libro..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
         
         <!-- Fila 6: Mensaje de error/éxito -->
-        <Label fx:id="lblMensaje" GridPane.columnIndex="1" GridPane.rowIndex="5" 
-               style="-fx-text-fill: red;"/>
+        <Label fx:id="lblMensaje" style="-fx-text-fill: red;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <ListView fx:id="listaTablaAutor" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Label fx:id="autor" style="-fx-font-weight: bold;" text="Autor:" GridPane.rowIndex="8" />
+      <Button fx:id="insertarAutor" mnemonicParsing="false" text="NUEVO AUTOR..." GridPane.columnIndex="1" GridPane.rowIndex="10" onAction="#abrirInsertarAutor"/>
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
     
-    <Separator/>
+    <Separator />
     
     <!-- Botones -->
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Guardar" onAction="#guardarLibro"  fx:id="btnGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button text="Cancelar" onAction="#cerrarVentanaLibro" fx:id="btnCancelar"/>
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button fx:id="btnGuardar" onAction="#guardarLibro" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Guardar" />
+        <Button fx:id="btnCancelar" onAction="#cerrarVentanaLibro" text="Cancelar" />
     </HBox>
     
 </VBox>

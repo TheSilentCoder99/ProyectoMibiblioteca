@@ -332,6 +332,7 @@ public class pantallaPrincipalController {
                 Libro seleccionado = mostrarLibros.getSelectionModel().getSelectedItem();
                 if (seleccionado != null) {
                     librodao.borrarLibro(seleccionado.getId());
+                    listaLibrosObservable.remove(seleccionado);
                 }
             }
 
@@ -339,6 +340,7 @@ public class pantallaPrincipalController {
             Autor seleccionado = mostrarAutores.getSelectionModel().getSelectedItem();
             if (seleccionado != null) {
                 autordao.borrarAutor(seleccionado.getId());
+                listaAutoresObservable.remove(seleccionado);
             }
         }
 
@@ -346,6 +348,7 @@ public class pantallaPrincipalController {
             Genero seleccionado = mostrarGeneros.getSelectionModel().getSelectedItem();
             if (seleccionado != null) {
                 generodao.borrarGenero(seleccionado.getId());
+                listaGenerosObservable.remove(seleccionado);
             }
         }
 

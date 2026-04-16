@@ -85,6 +85,17 @@
              </columns>
            </TableView>
 
+           <TableView fx:id="mostrarLibroAutor" layoutX="535.0" layoutY="66.0" prefHeight="234.0" prefWidth="350.0" visible="false">
+             <columns>
+               <TableColumn fx:id="colTituloLibroAutor" prefWidth="160.0" text="Título" />
+               <TableColumn fx:id="colPaginaLibroAutor" prefWidth="90.0" text="Páginas" />
+               <TableColumn fx:id="colPublicacionLibroAutor" prefWidth="100.0" text="Publicación" />
+             </columns>
+           </TableView>
+           <TextField fx:id="inputBuscarAutor" layoutX="370.0" layoutY="29.0" prefHeight="26.0" prefWidth="157.0" promptText="Buscar por nombre o apellido..." visible="false" />
+           <TextField fx:id="inputBuscarGenero" layoutX="370.0" layoutY="29.0" prefHeight="26.0" prefWidth="157.0" promptText="Buscar género..." visible="false" />
+           <Button fx:id="botonEliminar" layoutX="535.0" layoutY="309.0" mnemonicParsing="false" onAction="#eliminarElemento" text="Eliminar" visible="false" />
+
             <Button fx:id="mostrarAllLibros" onAction="#mostrarLibros" layoutX="80.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los libros" />
             <Button fx:id="mostrarAllAutores" onAction="#mostrarAutores" layoutX="239.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los autores" />
             <Button fx:id="mostrarAllGeneros" onAction="#mostrarGeneros" layoutX="394.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los géneros" />
