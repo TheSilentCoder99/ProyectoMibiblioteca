@@ -50,7 +50,6 @@ public class ventanaAddAutorController {
     @FXML
     private TextField inputYearNacimiento;
 
-
     public void initialize() {
         seleccionPaisObservable.addAll(pais.getAllPaises());
         cbPais.setItems(seleccionPaisObservable);
