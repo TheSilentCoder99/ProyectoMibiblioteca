@@ -66,7 +66,6 @@ public class ventanaAddAutorController {
 //            OBTENER VENTANA EN LA QUE ESTAS
             Stage stage = (Stage) inputNombre.getScene().getWindow();
             stage.close();
-
         } else {
             for (Node Elemento : ElementosVentana) {
                 if (Elemento instanceof TextField tf) {
@@ -77,6 +76,7 @@ public class ventanaAddAutorController {
                 }
             }
         }
+
     }
 
     public void guardarAutor() {

@@ -3,11 +3,8 @@ package com.alan.controladores;
 import com.alan.DataAccesObjects.AutorDAO;
 import com.alan.DataAccesObjects.LibroDAO;
 import com.alan.DataAccesObjects.GeneroDAO;
-import com.alan.clases.Autor;
+import com.alan.clases.*;
 import com.alan.DataAccesObjects.AutorLibroDAO;
-import com.alan.clases.AutorLibro;
-import com.alan.clases.Genero;
-import com.alan.clases.Libro;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,11 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -40,7 +33,7 @@ public class pantallaPrincipalController {
 
     @FXML
     private
-    Button botonEliminar;
+    Button botonEliminarElemento;
 
     @FXML
     private Button addAutor;
@@ -258,6 +251,7 @@ public class pantallaPrincipalController {
 
     @FXML
     public void mostrarLibros() {
+        botonEliminarElemento.setText("Eliminar libro");
         mostrarGeneros.setVisible(false);
         mostrarAutores.setVisible(false);
         mostrarLibroAutor.setVisible(false);
@@ -272,6 +266,7 @@ public class pantallaPrincipalController {
 
 
     public void mostrarAutores() {
+        botonEliminarElemento.setText("Eliminar autor");
         mostrarLibros.setVisible(false);
         mostrarGeneros.setVisible(false);
         inputBuscarLibro.setVisible(false);
@@ -285,6 +280,7 @@ public class pantallaPrincipalController {
     }
 
     public void mostrarGeneros() {
+        botonEliminarElemento.setText("Eliminar género");
         mostrarLibros.setVisible(false);
         mostrarAutores.setVisible(false);
         mostrarLibroAutor.setVisible(false);
@@ -319,40 +315,76 @@ public class pantallaPrincipalController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));
         Parent root = loader.load();
 
-
-
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
+
+        // AL CERRARSE CUALQUIERA DE LAS VENTANAS, ESTA LÍNEA SE DISPARA Y LO QUE HACE ES EJECUTAR LO QUE SEA QUE LO PONGAMOS DENTRO.
+        primaryStage.setOnHiding(event -> {
+            //System.out.println("¡HOLA! LA VENTANA SE CERRÓ Y ESTO SE ESCRIBIÓ");
+            actualizarVentana();
+        });
     }
 
     public void eliminarElemento() {
 
+        Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        Alertas alertainfo = new Alertas();
+
+        //ELIMINAR LIBRO
             if (mostrarLibros.isVisible()) {
                 Libro seleccionado = mostrarLibros.getSelectionModel().getSelectedItem();
-                if (seleccionado != null) {
+
+                alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
+                alertaConfirmacion.setContentText("¿ELIMINAR LIBRO " + seleccionado.getTitulo() + "?");
+                alertaConfirmacion.showAndWait();
+                if (alertaConfirmacion.getResult() == ButtonType.OK) {
                     librodao.borrarLibro(seleccionado.getId());
                     listaLibrosObservable.remove(seleccionado);
+                    alertainfo.mostrarAlertaInfo( "SE HA ELIMINADO EL LIBRO",seleccionado.getTitulo(),"LIBRO ELIMINADO");
+
                 }
+
             }
 
-            if (mostrarAutores.isVisible()) {
+        //ELIMINAR AUTOR
+        if (mostrarAutores.isVisible()) {
             Autor seleccionado = mostrarAutores.getSelectionModel().getSelectedItem();
-            if (seleccionado != null) {
+                alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
+                alertaConfirmacion.setContentText("ELIMINAR AUTOR " + seleccionado.getNombre() +" "+ seleccionado.getApellido1());
+            alertaConfirmacion.showAndWait();
+            if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 autordao.borrarAutor(seleccionado.getId());
                 listaAutoresObservable.remove(seleccionado);
+                alertainfo.mostrarAlertaInfo( "AUTOR ELIMINADO",seleccionado.getNombre() + " "+ seleccionado.getApellido1(),"EL AUTOR SE HA ELIMINADO");
             }
         }
-
+            //ELIMINAR GÉNERO
         if (mostrarGeneros.isVisible()) {
             Genero seleccionado = mostrarGeneros.getSelectionModel().getSelectedItem();
-            if (seleccionado != null) {
+            alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
+            alertaConfirmacion.setContentText("ELIMINAR GÉNERO" + seleccionado.getNombre() + "?");
+            alertaConfirmacion.showAndWait();
+            if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 generodao.borrarGenero(seleccionado.getId());
                 listaGenerosObservable.remove(seleccionado);
+                alertainfo.mostrarAlertaInfo( "SE HA ELIMINADO EL GÉNERO LITERARIO", seleccionado.getNombre(),"ESTE GÉNERO SE ELIMINÓ");
             }
         }
 
+        }
+
+        public void actualizarVentana(){
+
+            listaLibrosObservable.clear();
+            listaLibrosObservable.addAll(librodao.getAllLibros());
+
+            listaAutoresObservable.clear();
+            listaAutoresObservable.addAll(autordao.getAllAutores());
+
+            listaGenerosObservable.clear();
+            listaGenerosObservable.addAll(generodao.getAllGeneros());
         }
     }
