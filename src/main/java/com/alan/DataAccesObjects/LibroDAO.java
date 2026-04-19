@@ -57,6 +57,8 @@ public class LibroDAO {
             consulta.setString(5, opinion);
             consulta.execute();
 
+//            ESTO DEVUELVE EL ID DEL LIBRO QUE SE ACABA DE INGRESAR, ES LO QUE USAS EN EL CONTROLADOR DE VENTANA ADD LIBRO
+//            PARA ACTUALIZAR LA TABLA DE AUTOR Y LIBRO
             ResultSet rs = consulta.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1); // devuelve

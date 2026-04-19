@@ -41,15 +41,15 @@ public class AutorLibroDAO {
         return librosDelAutor;
     }
 
-    public void actualizarTablaLibroAutor(int idLibro, int [] idAutor) {
-        for(int i = 0; i<idAutor.length ;i++){
+    public void actualizarTablaLibroAutor(int idLibro, List<Integer> idAutor) {
+        for(int i = 0; i<idAutor.size();i++){
 
             try (Connection conn = conexionDB.getConnection()) {
                 PreparedStatement consulta = conn.prepareStatement(
                         "INSERT INTO autor_libro VALUES (?, ?);"
                 );
                 consulta.setInt(1,idLibro);
-                consulta.setInt(2,idAutor[i]);
+                consulta.setInt(2,idAutor.get(i));
                 consulta.executeUpdate();
 
             } catch (SQLException e) {

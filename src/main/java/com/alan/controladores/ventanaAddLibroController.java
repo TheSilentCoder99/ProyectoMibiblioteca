@@ -61,11 +61,16 @@ public class ventanaAddLibroController {
     AutorDAO autordao = new AutorDAO();
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
     Autor seleccionado;
+    List<Integer> actualizarAutorLibro = new ArrayList<>();
 
     public void initialize() {
         autoresObservable.addAll(autordao.getAllAutores());
         listaTablaAutor.setItems(autoresObservable);
 //        IMPLEMENTAR BÚSQUEDA POR LETRA, ES DECIR, QUE AL PULSAR UNA LETRA SALGAN TODOS LOS AUTORES QUE EMPIECEN POR ESA LETRA
+
+//        DEFINO LA LISTVIEW QUE MUESTRA LOS AUTORES COMO DE SELECCIÓN MÚLTIPLE
+        listaTablaAutor.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
     }
 
     public void recargarTabla(){
@@ -126,12 +131,16 @@ public class ventanaAddLibroController {
             int idLibro = 0;
 
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
+//                EL MÉTHOD INSERTAR LIBRO ME DEVUELVE EL ID DEL LIBRO RECIÉN INSERTADO PARA PODER TRABAJAR CON ÉL MÁS ABAJO. POR ESO LO ALMACENO EN UNA VARIBALE
                 idLibro = librodao.insertarLibro(titulo, yearPublicacionParseado, paginasParseada, descripcion, opinion);
             }
 
-//        SECCIÓN PARA ACTUALIZAR TABLA LIBRO AUTOR AL REALIZAR EL GUARDADO DEL LIBRO
-            seleccionado = (Autor) comboBoxAutores.getValue();
-            /*autorlibrodao.actualizarTablaLibroAutor(idLibro, seleccionado.getId());*/
+//        AQUÍ ACTUALIZO LA TABLA LIBRO AUTOR AL REALIZAR EL GUARDADO DEL LIBRO
+            ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
+            for (int i = 0; i < seleccionados.size(); i++) {
+                actualizarAutorLibro.add(seleccionados.get(i).getId());
+            }
+            autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
 
 //        LIMPIO LOS CAMPOS TRAS AÑADIR UN LIBRO
             List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion, inputDescripcion, inputOpinion));
