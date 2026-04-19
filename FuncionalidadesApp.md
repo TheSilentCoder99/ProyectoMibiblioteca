@@ -15,6 +15,8 @@ Editar un libro existente
 
 Eliminar un libro 🆗
 
+modificar un libro
+
 
 
 Autores:
@@ -25,10 +27,10 @@ Insertar autor nuevo 🆗
 
 Ver qué libros ha escrito cada autor 🆗
 
+modificar autores 
 
 
 Géneros:
 Ver todos los géneros 🆗
 
 Añadir nuevos géneros 🆗
-

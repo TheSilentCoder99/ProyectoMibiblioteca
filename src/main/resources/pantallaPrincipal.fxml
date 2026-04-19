@@ -85,13 +85,13 @@
     </TableView>
 
     <!-- PANEL LATERAL -->
-    <VBox fx:id="panelLateral" spacing="10" prefWidth="400" visible="false" managed="false">
+    <VBox fx:id="panelLateral" spacing="10" prefWidth="350" visible="false" managed="false">
       <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="colTituloLibroAutor" text="Título"/>
           <TableColumn fx:id="colPaginaLibroAutor" text="Páginas"/>
-          <TableColumn fx:id="colPublicacionLibroAutor" text="Publicación"/>
+          <TableColumn fx:id="colPublicacionLibroAutor" text="Año"/>
         </columns>
       </TableView>
     </VBox>
