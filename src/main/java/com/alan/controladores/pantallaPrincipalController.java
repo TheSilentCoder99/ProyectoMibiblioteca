@@ -1,10 +1,12 @@
 package com.alan.controladores;
-
+//AtlantaFX es una librería de temas visuales para JavaFX. CON ELLA PUEDO CAMBIAR EL TEMA DE LA APP
+import atlantafx.base.theme.Dracula;
 import com.alan.DataAccesObjects.AutorDAO;
 import com.alan.DataAccesObjects.LibroDAO;
 import com.alan.DataAccesObjects.GeneroDAO;
 import com.alan.clases.*;
 import com.alan.DataAccesObjects.AutorLibroDAO;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -61,6 +63,9 @@ public class pantallaPrincipalController {
 
     @FXML
     private Button mostrarAllLibros;
+
+    @FXML
+    private VBox panelLateral;
 
     @FXML
     private Label mostrarDescripcion;
@@ -122,6 +127,8 @@ public class pantallaPrincipalController {
 
     @FXML
     public void initialize() {
+        // APLICO UN TEMA DE COLOR U OTRO A LA APP USANDO ATLANTAFX
+        Application.setUserAgentStylesheet(new Dracula().getUserAgentStylesheet());
 
         //        COLUMNAS DE LA TABLAVIEW LIBROS
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
@@ -156,12 +163,17 @@ public class pantallaPrincipalController {
 
 //        LISTENER PARA EL BUSCADO POR TITULO
         inputBuscarLibro.textProperty().addListener((observable, oldValue, newValue) -> {
+            // en el listener de libros
+            panelLateral.setVisible(true);
+            panelLateral.setManaged(true);
             filtrarLibros(newValue);
         });
 
 //        LISTENER PARA LA DESCRIPCIÓN
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-
+            // en el listener de autores
+            panelLateral.setVisible(true);
+            panelLateral.setManaged(true);
             if(newValue.getDescripcion() == null){
                 mostrarDescripcion.setText("Descripción no añadida.");
             } else{
@@ -253,13 +265,21 @@ public class pantallaPrincipalController {
     public void mostrarLibros() {
         botonEliminarElemento.setText("Eliminar libro");
         mostrarGeneros.setVisible(false);
+        mostrarGeneros.setManaged(false);
+
         mostrarAutores.setVisible(false);
+        mostrarAutores.setManaged(false);
+
         mostrarLibroAutor.setVisible(false);
+        mostrarLibroAutor.setManaged(false);
+
         inputBuscarAutor.setVisible(false);
         inputBuscarGenero.setVisible(false);
 
         //        SOLO MUESTRO LOS LIBROS Y EL BUSCADOR DE LIBROS
         mostrarLibros.setVisible(true);
+        mostrarLibros.setManaged(true);
+
         inputBuscarLibro.setVisible(true);
         mostrarDescripcion.setVisible(true);
     }
@@ -268,13 +288,19 @@ public class pantallaPrincipalController {
     public void mostrarAutores() {
         botonEliminarElemento.setText("Eliminar autor");
         mostrarLibros.setVisible(false);
+        mostrarLibros.setManaged(false);
+
         mostrarGeneros.setVisible(false);
+        mostrarGeneros.setManaged(false);
+
         inputBuscarLibro.setVisible(false);
         inputBuscarGenero.setVisible(false);
         mostrarDescripcion.setVisible(false);
 
 //        SOLO MUESTRO LOS AUTORES Y EL BUSCADOR DE AUTORES
         mostrarAutores.setVisible(true);
+        mostrarAutores.setManaged(true);
+
         inputBuscarAutor.setVisible(true);
         mostrarLibroAutor.setVisible(true);
     }
@@ -282,13 +308,21 @@ public class pantallaPrincipalController {
     public void mostrarGeneros() {
         botonEliminarElemento.setText("Eliminar género");
         mostrarLibros.setVisible(false);
+        mostrarLibros.setManaged(false);
+
         mostrarAutores.setVisible(false);
+        mostrarAutores.setManaged(false);
+
         mostrarLibroAutor.setVisible(false);
+        mostrarLibroAutor.setManaged(false);
+
         inputBuscarAutor.setVisible(false);
         inputBuscarLibro.setVisible(false);
         mostrarDescripcion.setVisible(false);
         //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
         mostrarGeneros.setVisible(true);
+        mostrarGeneros.setManaged(true);
+
         inputBuscarGenero.setVisible(true);
     }
 

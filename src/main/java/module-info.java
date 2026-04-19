@@ -9,6 +9,7 @@ module com.alan {
     opens com.alan.controladores to javafx.fxml;
     opens com.alan.clases to javafx.base;
     requires javafx.base;
+    requires atlantafx.base;
 }
 
 //Explicación línea por línea:

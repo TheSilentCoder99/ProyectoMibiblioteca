@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -9,101 +10,101 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alan.controladores.pantallaPrincipalController">
-  <children>
-    <MenuBar prefHeight="26.0" prefWidth="787.0" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="349.0" prefWidth="774.0" VBox.vgrow="ALWAYS">
-         <children>
-            <Button fx:id="addLibro"  onAction="#cambiarVentanas"  layoutX="80.0" layoutY="29.0" mnemonicParsing="false" text="Añadir libro" />
-            <Button fx:id="addAutor"  onAction="#cambiarVentanas"  layoutX="172.0" layoutY="29.0" mnemonicParsing="false" text="Añadir autor" />
-            <Button fx:id="addGenero"  onAction="#cambiarVentanas"  layoutX="265.0" layoutY="29.0" mnemonicParsing="false" text="Añadir género" />
-            <TableView fx:id="mostrarLibros" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0">
-              <columns>
-                <TableColumn fx:id="colTitulo" prefWidth="283.99996185302734" text="Titulo" />
-                <TableColumn fx:id="colPaginas" prefWidth="76.00006103515625" text="Páginas" />
-                  <TableColumn fx:id="colPublicacion" prefWidth="85.60000610351562" text="Publicación" />
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.alan.controladores.pantallaPrincipalController">
 
-              </columns>
-            </TableView>
+  <!-- MENÚ -->
+  <MenuBar VBox.vgrow="NEVER">
+    <menus>
+      <Menu text="File">
+        <items>
+          <MenuItem text="New"/>
+          <MenuItem text="Open…"/>
+          <SeparatorMenuItem/>
+          <MenuItem text="Quit"/>
+        </items>
+      </Menu>
+      <Menu text="Edit">
+        <items>
+          <MenuItem text="Undo"/>
+          <MenuItem text="Redo"/>
+        </items>
+      </Menu>
+      <Menu text="Help">
+        <items>
+          <MenuItem text="About"/>
+        </items>
+      </Menu>
+    </menus>
+  </MenuBar>
 
-           <TableView fx:id="mostrarAutores" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0" visible="false">
-             <columns>
-               <TableColumn fx:id="colNombreAutor" prefWidth="200.0" text="Nombre" />
-               <TableColumn fx:id="colApellidoAutor" prefWidth="247.0" text="Apellido" />
-               <TableColumn fx:id="colApellido2Autor" prefWidth="247.0" text="Apellido 2" />
-               <TableColumn fx:id="colNacimiento" prefWidth="247.0" text="Nacimiento" />
-               <TableColumn fx:id="colFallecimiento" prefWidth="247.0" text="Fallecimiento" />
-               <TableColumn fx:id="colPaisAutor" prefWidth="247.0" text="Pais" />
-             </columns>
-           </TableView>
+  <!-- BARRA SUPERIOR: BOTONES AÑADIR + BUSCADOR -->
+  <HBox spacing="10" VBox.vgrow="NEVER">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <Button fx:id="addLibro" text="Añadir libro" onAction="#cambiarVentanas"/>
+    <Button fx:id="addAutor" text="Añadir autor" onAction="#cambiarVentanas"/>
+    <Button fx:id="addGenero" text="Añadir género" onAction="#cambiarVentanas"/>
+    <TextField fx:id="inputBuscarLibro" promptText="Buscar por título..." HBox.hgrow="ALWAYS"/>
+    <TextField fx:id="inputBuscarAutor" promptText="Buscar por nombre o apellido..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
+    <TextField fx:id="inputBuscarGenero" promptText="Buscar género..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
+  </HBox>
 
-           <TableView fx:id="mostrarGeneros" layoutX="80.0" layoutY="66.0" prefHeight="234.0" prefWidth="447.0" visible="false">
-             <columns>
-               <TableColumn fx:id="colIDGenero" prefWidth="447.0" text="ID" />
-               <TableColumn fx:id="colNombreGenero" prefWidth="447.0" text="Género"/>
-             </columns>
-           </TableView>
+  <!-- CONTENIDO PRINCIPAL -->
+  <HBox spacing="10" VBox.vgrow="ALWAYS">
+    <padding><Insets right="10" bottom="0" left="10"/></padding>
 
-           <TableView fx:id="mostrarLibroAutor" layoutX="535.0" layoutY="66.0" prefHeight="234.0" prefWidth="350.0" visible="false">
-             <columns>
-               <TableColumn fx:id="colTituloLibroAutor" prefWidth="160.0" text="Título" />
-               <TableColumn fx:id="colPaginaLibroAutor" prefWidth="90.0" text="Páginas" />
-               <TableColumn fx:id="colPublicacionLibroAutor" prefWidth="100.0" text="Publicación" />
-             </columns>
-           </TableView>
-           <TextField fx:id="inputBuscarAutor" layoutX="370.0" layoutY="29.0" prefHeight="26.0" prefWidth="157.0" promptText="Buscar por nombre o apellido..." visible="false" />
-           <TextField fx:id="inputBuscarGenero" layoutX="370.0" layoutY="29.0" prefHeight="26.0" prefWidth="157.0" promptText="Buscar género..." visible="false" />
+    <!-- TABLAS PRINCIPALES -->
+    <TableView fx:id="mostrarLibros" HBox.hgrow="ALWAYS">
+      <columns>
+        <TableColumn fx:id="colTitulo" text="Título"/>
+        <TableColumn fx:id="colPaginas" text="Páginas"/>
+        <TableColumn fx:id="colPublicacion" text="Año"/>
+      </columns>
+    </TableView>
 
+    <TableView fx:id="mostrarAutores" HBox.hgrow="ALWAYS" visible="false" managed="false">
+      <columns>
+        <TableColumn fx:id="colNombreAutor" text="Nombre"/>
+        <TableColumn fx:id="colApellidoAutor" text="Apellido"/>
+        <TableColumn fx:id="colApellido2Autor" text="Apellido 2"/>
+        <TableColumn fx:id="colNacimiento" text="Nacimiento"/>
+        <TableColumn fx:id="colFallecimiento" text="Fallecimiento"/>
+        <TableColumn fx:id="colPaisAutor" text="País"/>
+      </columns>
+    </TableView>
 
-            <Button fx:id="mostrarAllLibros" onAction="#mostrarLibros" layoutX="80.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los libros" />
-           <Button fx:id="botonEliminarElemento" layoutX="80.0" layoutY="345.0" mnemonicParsing="false" onAction="#eliminarElemento" text="Eliminar"/>
-            <Button fx:id="mostrarAllAutores" onAction="#mostrarAutores" layoutX="239.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los autores" />
-            <Button fx:id="mostrarAllGeneros" onAction="#mostrarGeneros" layoutX="394.0" layoutY="309.0" mnemonicParsing="false" text="Ver todos los géneros" />
-            <TextField fx:id="inputBuscarLibro" layoutX="370.0" layoutY="29.0" prefHeight="26.0" prefWidth="157.0" promptText="Buscar por titulo o autor..." />
-            <Label fx:id="mostrarDescripcion" layoutX="535.0" layoutY="66.0" text="Selecciona para ver la sinopsis del libro..." />
-         </children>
-    </AnchorPane>
-      <TextField />
-  </children>
+    <TableView fx:id="mostrarGeneros" HBox.hgrow="ALWAYS" visible="false" managed="false">
+      <columns>
+        <TableColumn fx:id="colIDGenero" text="ID"/>
+        <TableColumn fx:id="colNombreGenero" text="Género"/>
+      </columns>
+    </TableView>
+
+    <!-- PANEL LATERAL -->
+    <VBox fx:id="panelLateral" spacing="10" prefWidth="400" visible="false" managed="false">
+      <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
+      <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="colTituloLibroAutor" text="Título"/>
+          <TableColumn fx:id="colPaginaLibroAutor" text="Páginas"/>
+          <TableColumn fx:id="colPublicacionLibroAutor" text="Publicación"/>
+        </columns>
+      </TableView>
+    </VBox>
+
+  </HBox>
+
+  <!-- BARRA INFERIOR -->
+  <HBox spacing="10" VBox.vgrow="NEVER">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <Button fx:id="mostrarAllLibros" text="Ver todos los libros" onAction="#mostrarLibros"/>
+    <Button fx:id="mostrarAllAutores" text="Ver todos los autores" onAction="#mostrarAutores"/>
+    <Button fx:id="mostrarAllGeneros" text="Ver todos los géneros" onAction="#mostrarGeneros"/>
+    <Button fx:id="botonEliminarElemento" text="Eliminar" onAction="#eliminarElemento"/>
+  </HBox>
+
 </VBox>
