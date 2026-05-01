@@ -1,8 +1,5 @@
 package com.alan.clases;
 
-import com.alan.DataAccesObjects.AutorDAO;
-import com.alan.DataAccesObjects.GeneroDAO;
-import com.alan.DataAccesObjects.LibroDAO;
 import com.alan.DataAccesObjects.PaisDAO;
 
 import java.sql.Connection;
@@ -23,7 +20,7 @@ public class pruebaConexion {
 
 
             for (Pais p : listaPaises) {
-                System.out.println(p.getNombre() + " | " + p.getCodigoISO());
+                System.out.println(p.getNombrePais() + " | " + p.getCodigo_ISO());
             }
 
             } catch(SQLException e){

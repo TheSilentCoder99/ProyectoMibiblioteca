@@ -51,11 +51,12 @@
     <TextField fx:id="inputBuscarLibro" promptText="Buscar por título..." HBox.hgrow="ALWAYS"/>
     <TextField fx:id="inputBuscarAutor" promptText="Buscar por nombre o apellido..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
     <TextField fx:id="inputBuscarGenero" promptText="Buscar género..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
+    <TextField fx:id="inputBuscarPais" promptText="Buscar país..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
   </HBox>
 
   <!-- CONTENIDO PRINCIPAL -->
   <HBox spacing="10" VBox.vgrow="ALWAYS">
-    <padding><Insets right="10" bottom="0" left="10"/></padding>
+    <padding><Insets right="10" bottom="10" left="10"/></padding>
 
     <!-- TABLAS PRINCIPALES -->
     <TableView fx:id="mostrarLibros" HBox.hgrow="ALWAYS">
@@ -84,8 +85,16 @@
       </columns>
     </TableView>
 
+    <TableView fx:id="mostrarPaises" HBox.hgrow="ALWAYS" visible="false" managed="false">
+      <columns>
+        <TableColumn fx:id="colIdPais" text="ID"/>
+        <TableColumn fx:id="colNombrePais" text="País"/>
+        <TableColumn fx:id="colCodigoISO" text="Código ISO"/>
+      </columns>
+    </TableView>
+
     <!-- PANEL LATERAL -->
-    <VBox fx:id="panelLateral" spacing="10" prefWidth="350" visible="false" managed="false">
+    <VBox fx:id="panelLateral" spacing="10" prefWidth="500" prefHeight="500" visible="false" managed="false">
       <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
         <columns>
@@ -104,6 +113,7 @@
     <Button fx:id="mostrarAllLibros" text="Ver todos los libros" onAction="#mostrarLibros"/>
     <Button fx:id="mostrarAllAutores" text="Ver todos los autores" onAction="#mostrarAutores"/>
     <Button fx:id="mostrarAllGeneros" text="Ver todos los géneros" onAction="#mostrarGeneros"/>
+    <Button fx:id="botonMostrarPaises" text="Ver todos los países" onAction="#mostrarPaises"/>
     <Button fx:id="botonEliminarElemento" text="Eliminar" onAction="#eliminarElemento"/>
   </HBox>
 

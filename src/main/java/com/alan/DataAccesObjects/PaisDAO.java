@@ -21,13 +21,10 @@ public class PaisDAO {
 
 //        ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
         try (Connection conn = conexionDB.getConnection()) {
-
 //            Usa PreparedStatement en vez de Statement...
             PreparedStatement consulta = conn.prepareStatement(consultaDevolverGeneros);
-
 //            El ResultSet SOLO SE GENERA CUANDO LA CONSULTA REALIZADA ES UN SELECT. TE DEVUELVE TODOS LOS VALORES QUE SE GUARDEN EN ESA TABLA PARA CADA FILA
             ResultSet rs = consulta.executeQuery(consultaDevolverGeneros);
-
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
                 Pais autor = new Pais(rs.getInt("id"),rs.getString("nombrePais"),rs.getString("codigo_ISO"));

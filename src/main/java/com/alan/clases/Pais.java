@@ -2,8 +2,8 @@ package com.alan.clases;
 
 public class Pais {
     private int id;
-    private String nombre;
-    private String codigoISO;
+    private String nombrePais;
+    private String codigo_ISO;
 
 //    CONSTRUCTORES
     public Pais(){
@@ -12,13 +12,13 @@ public class Pais {
 
     public Pais(int id, String nombre, String codigoISO) {
         this.id = id;
-        this.nombre = nombre;
-        this.codigoISO = codigoISO;
+        this.nombrePais = nombre;
+        this.codigo_ISO = codigoISO;
     }
 
     public Pais(String nombre, String codigoISO) {
-        this.nombre = nombre;
-        this.codigoISO = codigoISO;
+        this.nombrePais = nombre;
+        this.codigo_ISO = codigoISO;
     }
 
 //    GETTER Y SETTER
@@ -30,24 +30,24 @@ public class Pais {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombrePais() {
+        return nombrePais;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombrePais(String nombrePais) {
+        this.nombrePais = nombrePais;
     }
 
-    public String getCodigoISO() {
-        return codigoISO;
+    public String getCodigo_ISO() {
+        return codigo_ISO;
     }
 
-    public void setCodigoISO(String codigoISO) {
-        this.codigoISO = codigoISO;
+    public void setCodigo_ISO(String codigo_ISO) {
+        this.codigo_ISO = codigo_ISO;
     }
 
     @Override
     public String toString(){
-        return this.nombre + " " + this.codigoISO;
+        return this.nombrePais + " " + this.codigo_ISO;
     }
 }
