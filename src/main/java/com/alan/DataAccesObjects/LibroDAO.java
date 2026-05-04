@@ -88,17 +88,19 @@ public class LibroDAO {
         }
     }
 
-        public void ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion) {
+        public void ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion, String description, String opinion) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("UPDATE FROM libro SET title = ?, pages = ?, year_publicacion = ? WHERE id = ?"
+            PreparedStatement consulta = conn.prepareStatement("UPDATE FROM libro SET title = ?, pages = ?, year_publicacion = ?, description = ?, opinion = ? WHERE id = ?"
             );
 
             // ASIGNAS VALORES DE LA FILA QUE VAS A ACTUALIZAR
             consulta.setString(1,titulo);
             consulta.setInt(2,paginas);
             consulta.setInt(3,yearPublicacion);
-            consulta.setInt(4,idLibro);
+            consulta.setString(4,description);
+            consulta.setString(5,opinion);
+            consulta.setInt(6,idLibro);
 
             consulta.executeUpdate();
 
