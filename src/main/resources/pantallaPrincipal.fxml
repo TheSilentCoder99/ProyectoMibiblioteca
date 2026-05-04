@@ -115,6 +115,7 @@
     <Button fx:id="mostrarAllGeneros" text="Ver todos los géneros" onAction="#mostrarGeneros"/>
     <Button fx:id="botonMostrarPaises" text="Ver todos los países" onAction="#mostrarPaises"/>
     <Button fx:id="botonEliminarElemento" text="Eliminar" onAction="#eliminarElemento"/>
+    <Button fx:id="botonEditarElemento" text="Editar" onAction="#AbrirVentanaEditarElemento"/>
   </HBox>
 
 </VBox>

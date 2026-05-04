@@ -19,7 +19,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,10 @@ public class pantallaPrincipalController {
     @FXML
     private
     Button botonEliminarElemento;
+
+    @FXML
+    private
+    Button botonEditarElemento;
 
     @FXML
     private Button addAutor;
@@ -229,11 +232,11 @@ public class pantallaPrincipalController {
         mostrarGeneros.setItems(generosFiltrados);
 
         // OBSERVABLE DE PAISES
-      listaPaisesObservable.addAll(paisdao.getAllPaises());
-      paisesFiltrados = new FilteredList<>(listaPaisesObservable);
-      mostrarPaises.setItems(paisesFiltrados);
+        listaPaisesObservable.addAll(paisdao.getAllPaises());
+        paisesFiltrados = new FilteredList<>(listaPaisesObservable);
+        mostrarPaises.setItems(paisesFiltrados);
 
-      // LISTER PARA EL BUSCADO POR NOMBRE
+        // LISTER PARA EL BUSCADO POR NOMBRE
         inputBuscarPais.textProperty().addListener((observable, OldValue, newValue) -> {
             filtrarPaises(newValue);
         });
@@ -318,6 +321,8 @@ public class pantallaPrincipalController {
     @FXML
     public void mostrarLibros() {
         botonEliminarElemento.setText("Eliminar libro");
+        botonEditarElemento.setVisible(true);
+        botonEditarElemento.setText("Editar libro");
         mostrarGeneros.setVisible(false);
         mostrarGeneros.setManaged(false);
 
@@ -350,6 +355,8 @@ public class pantallaPrincipalController {
         panelLateral.setManaged(true);
 
         botonEliminarElemento.setText("Eliminar autor");
+        botonEditarElemento.setVisible(true);
+        botonEditarElemento.setText("Editar autor");
         mostrarLibros.setVisible(false);
         mostrarLibros.setManaged(false);
         mostrarGeneros.setVisible(false);
@@ -366,7 +373,6 @@ public class pantallaPrincipalController {
         inputBuscarAutor.setManaged(true);
 
 
-
         // ↓ ESTO ES LO QUE FALTABA
 
         mostrarLibroAutor.setVisible(true);
@@ -378,6 +384,7 @@ public class pantallaPrincipalController {
         panelLateral.setManaged(false);
 
         botonEliminarElemento.setText("Eliminar género");
+        botonEditarElemento.setVisible(false);
         mostrarLibros.setVisible(false);
         mostrarLibros.setManaged(false);
 
@@ -400,6 +407,38 @@ public class pantallaPrincipalController {
 
         inputBuscarGenero.setVisible(true);
         inputBuscarGenero.setManaged(true);
+    }
+
+    public void mostrarPaises () {
+        panelLateral.setVisible(false);
+        panelLateral.setManaged(false);
+
+        botonEliminarElemento.setText("Eliminar país");
+        botonEditarElemento.setVisible(false);
+        mostrarLibros.setVisible(false);
+        mostrarLibros.setManaged(false);
+
+        mostrarAutores.setVisible(false);
+        mostrarAutores.setManaged(false);
+
+        mostrarLibroAutor.setVisible(false);
+        mostrarLibroAutor.setManaged(false);
+
+        inputBuscarAutor.setVisible(false);
+        inputBuscarLibro.setVisible(false);
+        mostrarDescripcion.setVisible(false);
+        //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
+        mostrarGeneros.setVisible(false);
+        mostrarGeneros.setManaged(false);
+
+        inputBuscarGenero.setVisible(false);
+        inputBuscarGenero.setManaged(false);
+
+        inputBuscarPais.setVisible(true);
+        inputBuscarPais.setManaged(true);
+        mostrarPaises.setVisible(true);
+        mostrarPaises.setManaged(true);
+
     }
 
     public void cambiarVentanas(Event e) throws IOException {
@@ -462,7 +501,6 @@ public class pantallaPrincipalController {
                 alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL LIBRO", seleccionado.getTitulo(), "LIBRO ELIMINADO");
 
             }
-
         }
 
         //ELIMINAR AUTOR
@@ -481,57 +519,80 @@ public class pantallaPrincipalController {
         if (mostrarGeneros.isVisible()) {
             Genero seleccionado = mostrarGeneros.getSelectionModel().getSelectedItem();
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
-            alertaConfirmacion.setContentText("ELIMINAR GÉNERO" + seleccionado.getNombre() + "?");
+            alertaConfirmacion.setContentText("ELIMINAR GÉNERO " + seleccionado.getNombre() + " ?");
             alertaConfirmacion.showAndWait();
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 generodao.borrarGenero(seleccionado.getId());
                 listaGenerosObservable.remove(seleccionado);
-                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL GÉNERO LITERARIO", seleccionado.getNombre(), "ESTE GÉNERO SE ELIMINÓ");
+                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL GÉNERO LITERARIO ", seleccionado.getNombre(), " ESTE GÉNERO SE ELIMINÓ");
             }
         }
 
+        //ELIMINAR PAÍS
+        if (mostrarPaises.isVisible()) {
+            Pais seleccionado = mostrarPaises.getSelectionModel().getSelectedItem();
+
+            alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
+            alertaConfirmacion.setContentText("¿ELIMINAR PAÍS " + seleccionado.getNombrePais() + " ?");
+            alertaConfirmacion.showAndWait();
+            if (alertaConfirmacion.getResult() == ButtonType.OK) {
+                paisdao.borrarPais(seleccionado.getId());
+                listaPaisesObservable.remove(seleccionado);
+                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL PAÍS ", seleccionado.getNombrePais(), " PAÍS ELIMINADO");
+            }
+        }
     }
 
-    public void actualizarVentana() {
+    public void AbrirVentanaEditarElemento() throws IOException {
 
-        listaLibrosObservable.clear();
-        listaLibrosObservable.addAll(librodao.getAllLibros());
+//        ESTA VENTANA SOLAMENTE SE ENCARGA DE ABRIR UNA VENTANA DE EDICIÓN U OTRA SEGÚN EL ELEMENTO SE ESTÉ PULSANDO EN ESE MOMENTO, MÁS BIEN, SEGÚN LA LISTA QUE SE ESTÉ MOSTRANDO EN ESE MOMENTO. EL MÉThODO DE EDICIÓN EN SÍ SE HACE EN LOS CONTROLADORES DE CADA VENTANA. CREO QUE NO TIENE SENTIDO QUERER EDITAR UNA TABLA CATÁLOGO COMO LISTA O PAÍS... ES MÁS FÁCIL BORRAR Y VOLVER A AÑADIR LO QUE SEA QUE SE QUIERE MODIFICAR.
 
-        listaAutoresObservable.clear();
-        listaAutoresObservable.addAll(autordao.getAllAutores());
+        String rutaVentana = " ";
+        Stage primaryStage = new Stage();
 
-        listaGenerosObservable.clear();
-        listaGenerosObservable.addAll(generodao.getAllGeneros());
+        //EDITAR LIBRO
+        if(mostrarLibros.getSelectionModel().getSelectedItem() != null && mostrarLibros.isVisible()) {
+            rutaVentana = "/ventanaEditarLibro.fxml";
+        }
+        // EDITAR AUTOR
+        else if(mostrarAutores.getSelectionModel().getSelectedItem() != null && mostrarAutores.isVisible()){
+            rutaVentana = "/ventanaEditarAutor.fxml";
+
+        } else{
+//            PARA CUALQUIER OTRA SITUACIÓN
+            Alertas alerta = new Alertas();
+            alerta.mostrarAlertaInfo("FALTAN LIBRO O AUTOR","DEBES ELEGIR UN LIBRO O AUTOR A EDITAR", "ELIGE UN ELEMENTO");
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));
+        Parent root = loader.load();
+
+//        PARA PASARME EL ELEMENTO SELECCIONADO DESDE ESTE CONTROLADOR A LOS CONTROLADORES DE EDICIÓN, DECLARO UN TIPO OBJECT Y DESPUÉS, DECIDO QUÉ TIPO DE ELEMENTO ES CON INSTANCE OF.
+//        ¿CÓMO OBTENGO EL TIPO? CON LOADER.GETCONTROLLER. ESTO TOMA EL CONTROLADOR DE LA VENTANA QUE SE HA CARGADO
+        // INYECCIÓN: se decide el tipo en tiempo de ejecución con instanceof
+        Object controller = loader.getController();
+
+        if (controller instanceof ventanaEditarLibroController c) {
+            c.setLibro(mostrarLibros.getSelectionModel().getSelectedItem());
+        } else if (controller instanceof ventanaEditarAutorController c) {
+            c.setAutor(mostrarAutores.getSelectionModel().getSelectedItem());
+        }
+
+        Scene scene = new Scene(root, 1024, 700);
+        primaryStage.setScene(scene);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
     }
 
-    public void mostrarPaises(){
-        panelLateral.setVisible(false);
-        panelLateral.setManaged(false);
+        public void actualizarVentana () {
+            listaLibrosObservable.clear();
+            listaLibrosObservable.addAll(librodao.getAllLibros());
 
-        botonEliminarElemento.setText("Eliminar país");
-        mostrarLibros.setVisible(false);
-        mostrarLibros.setManaged(false);
+            listaAutoresObservable.clear();
+            listaAutoresObservable.addAll(autordao.getAllAutores());
 
-        mostrarAutores.setVisible(false);
-        mostrarAutores.setManaged(false);
-
-        mostrarLibroAutor.setVisible(false);
-        mostrarLibroAutor.setManaged(false);
-
-        inputBuscarAutor.setVisible(false);
-        inputBuscarLibro.setVisible(false);
-        mostrarDescripcion.setVisible(false);
-        //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
-        mostrarGeneros.setVisible(false);
-        mostrarGeneros.setManaged(false);
-
-        inputBuscarGenero.setVisible(false);
-        inputBuscarGenero.setManaged(false);
-
-        inputBuscarPais.setVisible(true);
-        inputBuscarPais.setManaged(true);
-        mostrarPaises.setVisible(true);
-        mostrarPaises.setManaged(true);
+            listaGenerosObservable.clear();
+            listaGenerosObservable.addAll(generodao.getAllGeneros());
+        }
 
     }
-}

@@ -37,6 +37,17 @@ public class PaisDAO {
         return listaPaises;
     }
 
+    public void borrarPais(int idPais){
+        // ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
+        try (Connection conn = conexionDB.getConnection()) {
+//            Usa PreparedStatement en vez de Statement...
+            PreparedStatement consulta = conn.prepareStatement("DELETE FROM pais WHERE id = ?");
+            consulta.setInt(1,idPais);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
