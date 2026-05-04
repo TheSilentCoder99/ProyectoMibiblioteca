@@ -57,7 +57,7 @@ public class ventanaEditarAutorController {
         List<TextField> listaValoresArellenar = new ArrayList<>(Arrays.asList(inputNombre,inputApellido1,inputApellido2,inputYearNacimiento,inputYearFallecimiento));
 
         for(TextField tf : listaValoresArellenar){
-            if(tf.getText().isEmpty()){
+            if(tf.getText().isEmpty() || tf.getText().length() < 3){
                 Alertas alerta = new Alertas();
                 alerta.mostrarAlertaError("CAMPOS VACÍOS","LOS CAMPOS A MODIFICAR NO PUEDEN ESTAR VACÍOS","RELLENAR CAMPOS");
             }

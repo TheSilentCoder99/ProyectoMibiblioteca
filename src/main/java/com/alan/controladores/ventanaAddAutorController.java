@@ -83,7 +83,6 @@ public class ventanaAddAutorController {
         try {
 //            CREO QUE AQUÍ HAY MUCHAS CONVERSIONES INNECESARIAS, REVISAR
 //            AHORA NO ESTOY SEGURO DE QUE LAS HAYA. REVISAR
-
 //            TOMAR
             String nombre = inputNombre.getText();
             String apellido1 = inputApellido1.getText();
@@ -115,8 +114,7 @@ public class ventanaAddAutorController {
             Alert resultadoIngresoLibro = tipoAlerta.alertaConfirmacion("INGRESAR AUTOR.", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + apellido1 + " ¿ESTAS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR.");
 
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
-                autordao.insertarAutor(nombre, apellido1, apellido2, cbPais.getTypeSelector(), NacimientoParseada, FallecimientoParseada);
-
+                autordao.insertarAutor(nombre, apellido1, apellido2, cbPais.getSelectionModel().getSelectedItem().toString(), NacimientoParseada, FallecimientoParseada);
             }
 
 //        LIMPIO LOS CAMPOS TRAS AÑADIR UN AUTOR

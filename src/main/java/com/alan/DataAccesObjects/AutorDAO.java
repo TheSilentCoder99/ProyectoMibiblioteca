@@ -93,7 +93,7 @@ public class AutorDAO {
     public void ActualizarAutor(int idAutor, String nombre, String apellido1, String apellido2, int nacimiento, int muerte) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("UPDATE FROM autor SET nombre = ?, apellido1 = ?, apellido2 = ?,  year_nacimiento = ?, year_fallecimiento = ? WHERE id = ?"
+            PreparedStatement consulta = conn.prepareStatement("UPDATE autor SET nombre = ?, apellido1 = ?, apellido2 = ?, year_nacimiento = ?, year_fallecimiento = ? WHERE id = ?"
             );
 
             // ASIGNAS VALORES DE LA FILA QUE VAS A ACTUALIZAR
@@ -103,7 +103,6 @@ public class AutorDAO {
             consulta.setInt(4,nacimiento);
             consulta.setInt(5, muerte);
             consulta.setInt(6, idAutor);
-
             consulta.executeUpdate();
 
         } catch (SQLException e) {

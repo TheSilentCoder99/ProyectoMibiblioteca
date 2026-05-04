@@ -582,6 +582,8 @@ public class pantallaPrincipalController {
         primaryStage.setScene(scene);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
+
+        primaryStage.setOnHiding(event -> actualizarVentana());
     }
 
         public void actualizarVentana () {
