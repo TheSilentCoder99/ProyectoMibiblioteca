@@ -29,7 +29,7 @@ public class Alertas {
         return alertaWarning;
     }
 
-    public Alert alertaConfirmacion(String titulo, String contenido, String cabecera) {
+    public Alert mostrarAlertaConfirmacion(String titulo, String contenido, String cabecera) {
         Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         alertaConfirmacion.setHeight(300);
         alertaConfirmacion.setWidth(300);

@@ -39,11 +39,11 @@
 
         <!-- Fila 4: Descripción -->
         <Label style="-fx-font-weight: bold;" text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextArea fx:id="inputDescripcion" prefHeight="100" promptText="Sinopsis o descripción del libro..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextArea fx:id="inputDescripcion" prefHeight="100" promptText="Sinopsis o descripción del libro..." GridPane.columnIndex="1" GridPane.rowIndex="3" wrapText="true"/>
 
         <!-- Fila 5: Opinión personal -->
         <Label style="-fx-font-weight: bold;" text="Opinión:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <TextArea fx:id="inputOpinion" prefHeight="126.0" prefWidth="516.0" promptText="Tu opinión sobre el libro..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <TextArea fx:id="inputOpinion" prefHeight="126.0" prefWidth="516.0" promptText="Tu opinión sobre el libro..." GridPane.columnIndex="1" GridPane.rowIndex="4" wrapText="true"/>
 
         <!-- Fila 8: Mensaje -->
         <Label fx:id="lblMensaje" GridPane.columnIndex="1" GridPane.rowIndex="7"/>

@@ -98,6 +98,6 @@ public class Autor {
 
     @Override
     public String toString() {
-        return nombre + " " + apellido1;
+        return this.nombre + " " + this.apellido1;
     }
 }

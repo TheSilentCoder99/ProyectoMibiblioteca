@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -409,7 +410,7 @@ public class pantallaPrincipalController {
         inputBuscarGenero.setManaged(true);
     }
 
-    public void mostrarPaises () {
+    public void mostrarPaises() {
         panelLateral.setVisible(false);
         panelLateral.setManaged(false);
 
@@ -551,17 +552,17 @@ public class pantallaPrincipalController {
         Stage primaryStage = new Stage();
 
         //EDITAR LIBRO
-        if(mostrarLibros.getSelectionModel().getSelectedItem() != null && mostrarLibros.isVisible()) {
+        if (mostrarLibros.getSelectionModel().getSelectedItem() != null && mostrarLibros.isVisible()) {
             rutaVentana = "/ventanaEditarLibro.fxml";
         }
         // EDITAR AUTOR
-        else if(mostrarAutores.getSelectionModel().getSelectedItem() != null && mostrarAutores.isVisible()){
+        else if (mostrarAutores.getSelectionModel().getSelectedItem() != null && mostrarAutores.isVisible()) {
             rutaVentana = "/ventanaEditarAutor.fxml";
 
-        } else{
+        } else {
 //            PARA CUALQUIER OTRA SITUACIÓN
             Alertas alerta = new Alertas();
-            alerta.mostrarAlertaInfo("FALTAN LIBRO O AUTOR","DEBES ELEGIR UN LIBRO O AUTOR A EDITAR", "ELIGE UN ELEMENTO");
+            alerta.mostrarAlertaInfo("FALTAN LIBRO O AUTOR", "DEBES ELEGIR UN LIBRO O AUTOR A EDITAR", "ELIGE UN ELEMENTO");
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));
@@ -586,15 +587,15 @@ public class pantallaPrincipalController {
         primaryStage.setOnHiding(event -> actualizarVentana());
     }
 
-        public void actualizarVentana () {
-            listaLibrosObservable.clear();
-            listaLibrosObservable.addAll(librodao.getAllLibros());
+    public void actualizarVentana() {
+        listaLibrosObservable.clear();
+        listaLibrosObservable.addAll(librodao.getAllLibros());
 
-            listaAutoresObservable.clear();
-            listaAutoresObservable.addAll(autordao.getAllAutores());
+        listaAutoresObservable.clear();
+        listaAutoresObservable.addAll(autordao.getAllAutores());
 
-            listaGenerosObservable.clear();
-            listaGenerosObservable.addAll(generodao.getAllGeneros());
-        }
-
+        listaGenerosObservable.clear();
+        listaGenerosObservable.addAll(generodao.getAllGeneros());
     }
+
+}

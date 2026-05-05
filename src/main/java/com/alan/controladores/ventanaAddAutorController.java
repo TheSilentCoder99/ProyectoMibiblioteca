@@ -20,6 +20,7 @@ public class ventanaAddAutorController {
     AutorDAO autordao = new AutorDAO();
     Alertas tipoAlerta = new Alertas();
     PaisDAO pais = new PaisDAO();
+
     ObservableList<Pais> seleccionPaisObservable = FXCollections.observableArrayList();
 
     @FXML
@@ -52,9 +53,24 @@ public class ventanaAddAutorController {
     public void initialize() {
         seleccionPaisObservable.addAll(pais.getAllPaises());
         cbPais.setItems(seleccionPaisObservable);
-//        IMPLEMENTAR BÚSQUEDA POR LETRA,
-//        ES DECIR, QUE AL PULSAR UNA LETRA
-//        SALGAN TODOS LOS AUTORES QUE EMPIECEN POR ESA LETRA
+
+//        Esto solo selecciona la primera coincidencia en la lista, pero no se mueve HACIA el elemento coincidente
+        cbPais.setOnKeyPressed(event -> {
+
+            String teclaPulsada = event.getText();
+
+            // IGNORAR TECLAS ESPECIALES QUE DEVUELVEN STRING VACÍO
+            if (teclaPulsada == null || teclaPulsada.isEmpty()) return;
+
+            // RECORRER LA LISTA Y BUSCAR EL PRIMER ELEMENTO QUE EMPIECE POR ESA LETRA
+            for (Pais pais : seleccionPaisObservable) {
+                if (pais.toString().toLowerCase().startsWith(teclaPulsada.toLowerCase())) {
+                    cbPais.getSelectionModel().select(pais);
+                    break; // PARAMOS AL ENCONTRAR EL PRIMERO
+                }
+            }
+        });
+
     }
 
 
@@ -111,7 +127,7 @@ public class ventanaAddAutorController {
                 FallecimientoParseada = Integer.parseInt(yearFallecimiento);
             }
 
-            Alert resultadoIngresoLibro = tipoAlerta.alertaConfirmacion("INGRESAR AUTOR.", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + apellido1 + " ¿ESTAS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR.");
+            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR AUTOR.", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + apellido1 + " ¿ESTAS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR.");
 
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
                 autordao.insertarAutor(nombre, apellido1, apellido2, cbPais.getSelectionModel().getSelectedItem().toString(), NacimientoParseada, FallecimientoParseada);

@@ -70,7 +70,6 @@ public class ventanaAddLibroController {
 
 //        DEFINO LA LISTVIEW QUE MUESTRA LOS AUTORES COMO DE SELECCIÓN MÚLTIPLE
         listaTablaAutor.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
     }
 
     public void recargarTabla(){
@@ -126,7 +125,7 @@ public class ventanaAddLibroController {
                 opinion = " ";
             }
 
-            Alert resultadoIngresoLibro = tipoAlerta.alertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo + " ¿estás seguro de continuar?", "INGRESAR NUEVO LIBRO");
+            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo + " ¿estás seguro de continuar?", "INGRESAR NUEVO LIBRO");
 
             int idLibro = 0;
 

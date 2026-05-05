@@ -13,7 +13,7 @@ public class PaisDAO {
     //    MÉTOoDO QUE ABRE LA CONEXION, EJECUTA LA QUERY Y ME TRAE TODOS LOS PAISES
     public List<Pais> getAllPaises() {
 //        LA CONSULTA A EJECUTAR
-        String consultaDevolverGeneros = "SELECT * FROM pais ORDER BY nombrePais";
+        String consultaDevolverPaises = "SELECT * FROM pais ORDER BY nombrePais";
 
 //        CREO EL ARRAYLIST, SE CREA UN ARRAY LIST NUEVO CADA VEZ QUE SE LLAMA AL MÉToODO PORQUE CADA CONSULTA ES INDEPENDIENTE.
 //        TIENE SENTIDO QUE CADA UNA DEVUELVA UN ARRAYLIST DIFERENTE
@@ -22,19 +22,45 @@ public class PaisDAO {
 //        ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
         try (Connection conn = conexionDB.getConnection()) {
 //            Usa PreparedStatement en vez de Statement...
-            PreparedStatement consulta = conn.prepareStatement(consultaDevolverGeneros);
+            PreparedStatement consulta = conn.prepareStatement(consultaDevolverPaises);
 //            El ResultSet SOLO SE GENERA CUANDO LA CONSULTA REALIZADA ES UN SELECT. TE DEVUELVE TODOS LOS VALORES QUE SE GUARDEN EN ESA TABLA PARA CADA FILA
-            ResultSet rs = consulta.executeQuery(consultaDevolverGeneros);
+            ResultSet rs = consulta.executeQuery(consultaDevolverPaises);
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Pais autor = new Pais(rs.getInt("id"),rs.getString("nombrePais"),rs.getString("codigo_ISO"));
-                listaPaises.add(autor);
+                Pais pais = new Pais(rs.getInt("id"),rs.getString("nombrePais"),rs.getString("codigo_ISO"));
+                listaPaises.add(pais);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return listaPaises;
+    }
+
+    public Pais buscarPais(int idPais) {
+        Pais paisBuscado = new Pais();
+//        LA CONSULTA A EJECUTAR
+        String consultaDevolverPais = "SELECT * FROM pais WHERE id = ?";
+
+//        ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
+        try (Connection conn = conexionDB.getConnection()) {
+//            Usa PreparedStatement en vez de Statement...
+            PreparedStatement consulta = conn.prepareStatement(consultaDevolverPais);
+            consulta.setInt(1,idPais);
+
+            ResultSet rs = consulta.executeQuery();
+
+            while (rs.next()) {
+                paisBuscado.setId(rs.getInt("id"));
+                paisBuscado.setNombrePais(rs.getString("nombrePais"));
+                paisBuscado.setCodigo_ISO(rs.getString("codigo_ISO"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return paisBuscado;
     }
 
     public void borrarPais(int idPais){

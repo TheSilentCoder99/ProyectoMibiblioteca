@@ -90,10 +90,10 @@ public class AutorDAO {
         }
     }
 
-    public void ActualizarAutor(int idAutor, String nombre, String apellido1, String apellido2, int nacimiento, int muerte) {
+    public void ActualizarAutor(int idAutor, String nombre, String apellido1, String apellido2, int nacimiento, String muerte, int idPais) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("UPDATE autor SET nombre = ?, apellido1 = ?, apellido2 = ?, year_nacimiento = ?, year_fallecimiento = ? WHERE id = ?"
+            PreparedStatement consulta = conn.prepareStatement("UPDATE autor SET nombre = ?, apellido1 = ?, apellido2 = ?, year_nacimiento = ?, year_fallecimiento = ?, pais_id = ? WHERE id = ?"
             );
 
             // ASIGNAS VALORES DE LA FILA QUE VAS A ACTUALIZAR
@@ -101,8 +101,17 @@ public class AutorDAO {
             consulta.setString(2,apellido1);
             consulta.setString(3,apellido2);
             consulta.setInt(4,nacimiento);
-            consulta.setInt(5, muerte);
-            consulta.setInt(6, idAutor);
+
+            // Si muerte está vacío, guardamos NULL en la BD PARA QUE DESPÚES, AL SELECCIONARLO, SE APLIQUE EL IF NULL DE LOS SELECT Y EN LA TABLA SE MUESTRE "VIVO"
+            if (muerte == null || muerte.isBlank() || muerte.matches("[a-zA-Z]+")) {
+                consulta.setNull(5, java.sql.Types.INTEGER);
+            } else {
+                consulta.setInt(5, Integer.parseInt(muerte));
+            }
+
+            consulta.setInt(6, idPais);
+
+            consulta.setInt(7, idAutor);
             consulta.executeUpdate();
 
         } catch (SQLException e) {

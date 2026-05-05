@@ -83,4 +83,16 @@ public class Libro {
         this.opinion = opinion;
     }
 
+    @Override
+    public String toString() {
+        return "Clase{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", yearPublicacion=" + yearPublicacion +
+                ", paginas=" + paginas +
+                ", descripcion='" + descripcion + '\'' +
+                ", opinion='" + opinion + '\'' +
+                '}';
+    }
+
 }
