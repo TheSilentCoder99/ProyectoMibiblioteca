@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +72,7 @@ public class ventanaEditarLibroController {
 
         if (confirmacionActualizacion.getResult() == ButtonType.OK) {
             librodao.ActualizarLibro(this.libroAEditar.getId(), titulo, Integer.parseInt(paginas), Integer.parseInt(yearPublicacion), descripcion, opinion);
-            alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA", "SE HA ACTUALIZADO EL AUTOR", null);
+            alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA", "SE HA ACTUALIZADO EL LIBRO", null);
 //            UNA VEZ ACEPTADA LA ACTUALIZACIÓN, CIERRO LA VENTANA PARA QUE EL USUARIO NO ESCRIBA UN VALOR SUELTO, PULSE ACTUALIZAR Y QUIZÁ NO SEPA QUE SIGUE ACTUALIZANDO AL OBJETO ANTERIORMENTE SELECCIONADO.
             Stage stage = (Stage) inputTitulo.getScene().getWindow();
             stage.close();

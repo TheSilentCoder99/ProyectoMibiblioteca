@@ -55,6 +55,7 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                    <debuglevel>lines,vars,source</debuglevel>
                 </configuration>
             </plugin>
 

@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.StackPane?>
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.alan.controladores.pantallaPrincipalController">
@@ -48,10 +49,14 @@
     <Button fx:id="addLibro" text="Añadir libro" onAction="#cambiarVentanas"/>
     <Button fx:id="addAutor" text="Añadir autor" onAction="#cambiarVentanas"/>
     <Button fx:id="addGenero" text="Añadir género" onAction="#cambiarVentanas"/>
-    <TextField fx:id="inputBuscarLibro" promptText="Buscar por título..." HBox.hgrow="ALWAYS"/>
-    <TextField fx:id="inputBuscarAutor" promptText="Buscar por nombre o apellido..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
-    <TextField fx:id="inputBuscarGenero" promptText="Buscar género..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
-    <TextField fx:id="inputBuscarPais" promptText="Buscar país..." HBox.hgrow="ALWAYS" visible="false" managed="false"/>
+
+    <!-- TODOS LOS BUSCADORES APILADOS EN EL MISMO ESPACIO -->
+    <StackPane HBox.hgrow="ALWAYS">
+      <TextField fx:id="inputBuscarAutor" promptText="Buscar por nombre o apellido..." visible="false" managed="false"/>
+      <TextField fx:id="inputBuscarGenero" promptText="Buscar género..." visible="false" managed="false"/>
+      <TextField fx:id="inputBuscarPais" promptText="Buscar país..." visible="false" managed="false"/>
+      <TextField fx:id="inputBuscarLibro" promptText="Buscar por título..."/>
+    </StackPane>
   </HBox>
 
   <!-- CONTENIDO PRINCIPAL -->
@@ -96,6 +101,7 @@
     <!-- PANEL LATERAL -->
     <VBox fx:id="panelLateral" spacing="10" prefWidth="500" prefHeight="500" visible="false" managed="false">
       <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
+      <Label fx:id="mostrarOpinion" text="Selecciona para ver la opinion..." wrapText="true"/>
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="colTituloLibroAutor" text="Título"/>

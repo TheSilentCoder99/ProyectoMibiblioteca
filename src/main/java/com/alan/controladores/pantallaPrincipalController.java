@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -79,6 +80,9 @@ public class pantallaPrincipalController {
 
     @FXML
     private Label mostrarDescripcion;
+
+    @FXML
+    private Label mostrarOpinion;
 
     @FXML
     private TableView<Libro> mostrarLibros;
@@ -158,6 +162,10 @@ public class pantallaPrincipalController {
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         colPublicacion.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
         colPaginas.setCellValueFactory(new PropertyValueFactory<>("paginas"));
+//        MEDIDAS DE LAS COLUMNAS DE LA TABLA LIBROS
+        colTitulo.setPrefWidth(400);
+        colPublicacion.setPrefWidth(100);
+        colPaginas.setPrefWidth(100);
 
 //        COLUMNAS DE LA TABLEVIEW AUTOR
         colNombreAutor.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -167,10 +175,21 @@ public class pantallaPrincipalController {
         colFallecimiento.setCellValueFactory(new PropertyValueFactory<>("yearFallecimiento"));
         colPaisAutor.setCellValueFactory(new PropertyValueFactory<>("pais_id"));
 
+//        MEDIDAS DE LAS COLUMNAS DE LA TABLA AUTOR
+        colNombreAutor.setPrefWidth(200);
+        colApellidoAutor.setPrefWidth(200);
+        colApellido2Autor.setPrefWidth(200);
+        colNacimiento.setPrefWidth(100);
+        colFallecimiento.setPrefWidth(120);
+        colPaisAutor.setPrefWidth(90);
 
         //        COLUMNAS DE LA TABLEVIEW GENERO
         colNombreGenero.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colIDGenero.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+//        MEDIDAS DE LAS COLUMNAS DE LA TABLA GENERO
+        colNombreGenero.setPrefWidth(200);
+        colIDGenero.setPrefWidth(90);
 
         //        COLUMNAS DE MOSTRAR LOS LIBROS DE CADA AUTOR
 
@@ -182,19 +201,31 @@ public class pantallaPrincipalController {
         colPaginaLibroAutor.setCellValueFactory(new PropertyValueFactory<>("paginas"));
         colPublicacionLibroAutor.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
 
+        //        MEDIDAS DE LAS COLUMNAS DE LA TABLA LIBROXAUTOR
         colTituloLibroAutor.setPrefWidth(350);
-        colPaginaLibroAutor.setPrefWidth(70);
-        colPublicacionLibroAutor.setPrefWidth(70);
+        colPaginaLibroAutor.setPrefWidth(90);
+        colPublicacionLibroAutor.setPrefWidth(80);
 
         // COLUMNAS DE LA TABLEVIEW PAIS
         colIdPais.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombrePais.setCellValueFactory(new PropertyValueFactory<>("nombrePais"));
         colCodigoISO.setCellValueFactory(new PropertyValueFactory<>("codigo_ISO"));
 
+        //        MEDIDAS DE LAS COLUMNAS DE LA TABLA PAIS
+        colIdPais.setPrefWidth(90);
+        colNombrePais.setPrefWidth(400);
+        colCodigoISO.setPrefWidth(120);
+
         //     LA OBSERVABLE SE RELLENA CON UN ARRAYLIST, DESPUÉS METES LA OBSERVABLE EN EL TABLEVIEW
         listaLibrosObservable.addAll(librodao.getAllLibros());
         librosFiltrados = new FilteredList<>(listaLibrosObservable);
         mostrarLibros.setItems(librosFiltrados);
+
+//        LÍNEA DE BUSCADORES A LA IZQUIERDA
+        inputBuscarLibro.setAlignment(Pos.CENTER_LEFT);
+        inputBuscarAutor.setAlignment(Pos.CENTER_LEFT);
+        inputBuscarPais.setAlignment(Pos.CENTER_LEFT);
+        inputBuscarGenero.setAlignment(Pos.CENTER_LEFT);
 
 
 //        LISTENER PARA EL BUSCADO POR TITULO
@@ -210,11 +241,14 @@ public class pantallaPrincipalController {
             // en el listener de autores
             panelLateral.setVisible(true);
             panelLateral.setManaged(true);
-            if (newValue.getDescripcion() == null) {
-                mostrarDescripcion.setText("Descripción no añadida.");
-            } else {
+
+            if (newValue.getDescripcion() == null || newValue.getDescripcion().isEmpty()) {
+                mostrarDescripcion.setText("información no añadida.".toUpperCase());
+            } else{
                 mostrarDescripcion.setText(newValue.getDescripcion());
+                mostrarOpinion.setText(newValue.getOpinion());
             }
+
         });
 
 //        OBSERVABLE DE AUTORES
@@ -242,12 +276,10 @@ public class pantallaPrincipalController {
             filtrarPaises(newValue);
         });
 
-
 //        LISTENER PARA BUSCAR EL GÉNERO
         inputBuscarGenero.textProperty().addListener((observable, oldValue, newValue) -> {
             filtrarGeneros(newValue);
         });
-
 
         //        DECLARO LA OBSERVABLE DE AUTORLIBRO
         ObservableList<AutorLibro> autorLibroObservable = FXCollections.observableArrayList();
@@ -285,14 +317,29 @@ public class pantallaPrincipalController {
         }
     }
 
+//    CONSIDERO QUE ESTA ES LA ÚNICA LISTA QUE TIENE SENTIDO EN LA CUAL IMPLEMENTAR TAMBIÉN LA BÚSQUEDA POR ID, YA QUE ALGUNAS OTRAS TABLAS MUESTRAN EL ID DEL PAÍS Y NO EL NOMBRE
     public void filtrarPaises(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
-            paisesFiltrados.setPredicate(l -> true);  // Muestra todos
+            paisesFiltrados.setPredicate(l -> true);
         } else {
             String busqueda = textoBusqueda.toLowerCase();
-            paisesFiltrados.setPredicate(l ->
-                    l.getNombrePais().toLowerCase().contains(busqueda)
-            );
+//            SETPREDICATE LO QUE HACE ES QUE EJECUTA EL CÓDIGO DE DENTRO PARA CADA ELEMENTO DE LA LISTA. APLICA UN FILTRO (EL CÓDIGO DE DENTRO) Y LOS ELEMENTOS QUE LO PASAN, SE MUESTRAN Y LOS QUE NO, PUES NO SE MUESTRAN.
+            paisesFiltrados.setPredicate(l -> {
+
+//                SI ES TRUE, EL PAÍS SE MUESTRA, SI ES FALSE, NO SE MUESTRA
+                boolean coincideNombre = l.getNombrePais().toLowerCase().contains(busqueda);
+                boolean coincideISO = l.getCodigo_ISO().toLowerCase().contains(busqueda);
+
+//                DAMOS POR HECHO QUE EL ID NO COINCIDE
+                boolean coincideId = false;
+                try {
+//                    SI RESULTA QUE EL ID BUSCADO COINCIDE CON ALGÚN PAÍS, ÉSTE SE MOSTRARÁ, SINO NO.
+                    coincideId = Integer.parseInt(textoBusqueda) == l.getId();
+                } catch (NumberFormatException e) {
+                    // No es un número, simplemente coincideId se queda en false
+                }
+                return coincideNombre || coincideId || coincideISO;
+            });
         }
     }
 
@@ -321,6 +368,9 @@ public class pantallaPrincipalController {
 
     @FXML
     public void mostrarLibros() {
+        panelLateral.setVisible(false);
+        panelLateral.setManaged(false);
+
         botonEliminarElemento.setText("Eliminar libro");
         botonEditarElemento.setVisible(true);
         botonEditarElemento.setText("Editar libro");
@@ -335,9 +385,12 @@ public class pantallaPrincipalController {
 
         inputBuscarAutor.setVisible(false);
         inputBuscarGenero.setVisible(false);
+        inputBuscarPais.setVisible(false);
 
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
+
+
         //        SOLO MUESTRO LOS LIBROS Y EL BUSCADOR DE LIBROS
         mostrarLibros.setVisible(true);
         mostrarLibros.setManaged(true);
@@ -345,9 +398,10 @@ public class pantallaPrincipalController {
         inputBuscarLibro.setVisible(true);
         inputBuscarLibro.setManaged(true);
         mostrarDescripcion.setVisible(true);
-
-        panelLateral.setVisible(false);
-        panelLateral.setManaged(false);
+        mostrarDescripcion.setManaged(true);
+//        NO TENÍA SENTIDO PEDIR LA OPINIÓN AL CREAR EL LIBRO PERO NO MOSTRARLA AL MOSTRAR TODOS LOS LIBROS
+        mostrarOpinion.setVisible(true);
+        mostrarOpinion.setManaged(true);
     }
 
 
@@ -364,7 +418,9 @@ public class pantallaPrincipalController {
         mostrarGeneros.setManaged(false);
         inputBuscarLibro.setVisible(false);
         inputBuscarGenero.setVisible(false);
+        inputBuscarPais.setVisible(false);
         mostrarDescripcion.setVisible(false);
+        mostrarDescripcion.setManaged(false);
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
 
@@ -397,6 +453,7 @@ public class pantallaPrincipalController {
 
         inputBuscarAutor.setVisible(false);
         inputBuscarLibro.setVisible(false);
+        inputBuscarPais.setVisible(false);
         mostrarDescripcion.setVisible(false);
 
         mostrarPaises.setVisible(false);
