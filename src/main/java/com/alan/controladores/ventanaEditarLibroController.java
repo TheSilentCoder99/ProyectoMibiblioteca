@@ -58,29 +58,54 @@ public class ventanaEditarLibroController {
         inputOpinion.setPromptText(libro.getOpinion());
     }
 
+
+//    MANEJO DE EXCEPCIONES DEL MÉTTODO AGREGADAS CON CLAUDE
     public void actualizarLibro() {
-
-        String titulo = inputTitulo.getText(), yearPublicacion = inputYearPublicacion.getText(), paginas = inputPaginas.getText(), descripcion = inputDescripcion.getText(), opinion = inputOpinion.getText();
-
-        if ((titulo.isEmpty() || titulo.equalsIgnoreCase(" ")) || (paginas.isEmpty() || paginas.equalsIgnoreCase(" "))) {
+        try {
+            String titulo = inputTitulo.getText();
+            String yearPublicacion = inputYearPublicacion.getText();
+            String paginas = inputPaginas.getText();
+            String descripcion = inputDescripcion.getText();
+            String opinion = inputOpinion.getText();
             Alertas alertas = new Alertas();
-            alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "LOS CAMPOS TITULO Y Nº DE PÁGINAS NO PUEDEN ESTAR VACÍOS.", "INGRESA VALORES VÁLIDOS");
+
+            // VALIDACIONES ANTES DE PARSEAR
+            if (titulo.isEmpty()) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "EL TÍTULO NO PUEDE ESTAR VACÍO.", "INGRESA UN TÍTULO VÁLIDO.");
+                return; // <-- FALTABA EL RETURN
+            }
+
+            if (paginas.isEmpty()) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL Nº DE PÁGINAS NO PUEDE ESTAR VACÍO.", "INGRESA UN VALOR VÁLIDO.");
+                return;
+            }
+
+            if (yearPublicacion.isEmpty()) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE PUBLICACIÓN NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO.");
+                return;
+            }
+
+            // PARSEO DESPUÉS DE VALIDAR
+            int paginasParseadas = Integer.parseInt(paginas);
+            int yearPublicacionParseado = Integer.parseInt(yearPublicacion);
+
+            Alert confirmacionActualizacion = alertas.mostrarAlertaConfirmacion("ACTUALIZAR LIBRO.", "¿CONTINUAR CON LA ACTUALIZACIÓN?", "ACEPTAR PARA CONTINUAR.");
+
+            if (confirmacionActualizacion.getResult() == ButtonType.OK) {
+                librodao.ActualizarLibro(this.libroAEditar.getId(), titulo, paginasParseadas, yearPublicacionParseado, descripcion, opinion);
+                alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA.", "SE HA ACTUALIZADO EL LIBRO.", null);
+                Stage stage = (Stage) inputTitulo.getScene().getWindow();
+                stage.close();
+            } else {
+                alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL LIBRO.", null);
+            }
+
+        } catch (NumberFormatException e) {
+            Alertas alertas = new Alertas();
+            alertas.mostrarAlertaError("ERROR DE FORMATO.", "LAS PÁGINAS Y EL AÑO DE PUBLICACIÓN DEBEN SER NÚMEROS.", "INGRESA VALORES VÁLIDOS.");
         }
-
-        Alertas alertas = new Alertas();
-        Alert confirmacionActualizacion = alertas.mostrarAlertaConfirmacion("ACTUALIZAR LIBRO", "¿CONTINUAR CON LA ACTUALIZACIÓN?.", "ACEPTAR PARA CONTINUAR.");
-
-        if (confirmacionActualizacion.getResult() == ButtonType.OK) {
-            librodao.ActualizarLibro(this.libroAEditar.getId(), titulo, Integer.parseInt(paginas), Integer.parseInt(yearPublicacion), descripcion, opinion);
-            alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA", "SE HA ACTUALIZADO EL LIBRO", null);
-//            UNA VEZ ACEPTADA LA ACTUALIZACIÓN, CIERRO LA VENTANA PARA QUE EL USUARIO NO ESCRIBA UN VALOR SUELTO, PULSE ACTUALIZAR Y QUIZÁ NO SEPA QUE SIGUE ACTUALIZANDO AL OBJETO ANTERIORMENTE SELECCIONADO.
-            Stage stage = (Stage) inputTitulo.getScene().getWindow();
-            stage.close();
-        } else {
-            alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA", "NO SE HA ACTUALIZADO EL LIBRO", null);
-        }
-
     }
+
 
     public void cerrarVentanaEditarLibro() {
         List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputOpinion, inputDescripcion, inputPaginas, inputTitulo, inputYearPublicacion));

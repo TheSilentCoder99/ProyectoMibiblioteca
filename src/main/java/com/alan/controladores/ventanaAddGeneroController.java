@@ -23,22 +23,37 @@ public class ventanaAddGeneroController {
     private TextField inputNombre;
 
 
+    //    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
     public void guardarGenero() {
+        try {
+            String nombreGenero = inputNombre.getText().trim(); // trim() ELIMINA ESPACIOS AL INICIO Y AL FINAL
 
-        String nombreGenero = inputNombre.getText();
+            if (nombreGenero.isEmpty()) {
+                tipoAlerta.mostrarAlertaWarning("CAMPO VACÍO", "DEBES INGRESAR UN NOMBRE PARA EL GÉNERO.", "RELLENAR CAMPO");
+                return;
+            }
+            if (nombreGenero.length() < 3) {
+                tipoAlerta.mostrarAlertaWarning("NOMBRE DEMASIADO CORTO", "EL NOMBRE DEL GÉNERO DEBE TENER AL MENOS 3 CARACTERES.", "RELLENAR CAMPO");
+                return;
+            }
+            if (!nombreGenero.matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+")) {
+                tipoAlerta.mostrarAlertaWarning("FORMATO INCORRECTO", "EL NOMBRE DEL GÉNERO SOLO PUEDE CONTENER LETRAS.", "REVISAR CAMPO");
+                return;
+            }
 
-        if (nombreGenero.length()<3 || !nombreGenero.matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+")) {
-            tipoAlerta.mostrarAlertaWarning("RELLENAR CAMPO","DEBES RELLENAR UN NOMBRE VÁLIDO PARA EL GÉNERO LITERARIO","GÉNERO LITERARIO INCORRECTO");
-            return;
-        }
+            Alert resultadoIngresoGenero = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO", "VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BBDD: " + nombreGenero + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO GÉNERO");
 
-            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO","VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BBDD: " + nombreGenero + " ¿ESTÁS SEGURO DE CONTINUAR?","INGRESAR NUEVO GÉNERO");
-
-            if(resultadoIngresoLibro.getResult() == ButtonType.OK){
+            if (resultadoIngresoGenero.getResult() == ButtonType.OK) {
                 generodao.insertarGenero(nombreGenero);
+                tipoAlerta.mostrarAlertaInfo("GÉNERO INSERTADO", "SE HA INSERTADO EL GÉNERO: " + nombreGenero, null); // FALTABA CONFIRMACIÓN DE ÉXITO
             }
 
             inputNombre.clear();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR", "NO SE HA PODIDO INSERTAR EL GÉNERO.", "REVISAR CONEXIÓN");
+        }
     }
 
     public void cerrarVentanaGenero() {

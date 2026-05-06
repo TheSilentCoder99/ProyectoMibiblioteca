@@ -95,59 +95,73 @@ public class ventanaAddAutorController {
 
     }
 
+    //    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
     public void guardarAutor() {
         try {
-//            CREO QUE AQUÍ HAY MUCHAS CONVERSIONES INNECESARIAS, REVISAR
-//            AHORA NO ESTOY SEGURO DE QUE LAS HAYA. REVISAR
-//            TOMAR
-            String nombre = inputNombre.getText();
-            String apellido1 = inputApellido1.getText();
-            String yearNacimiento = inputYearNacimiento.getText();
-            String yearFallecimiento = inputYearFallecimiento.getText();
-            String apellido2 = inputApellido2.getText();
+            String nombre = inputNombre.getText().trim();
+            String apellido1 = inputApellido1.getText().trim();
+            String apellido2 = inputApellido2.getText().trim();
+            String yearNacimiento = inputYearNacimiento.getText().trim();
+            String yearFallecimiento = inputYearFallecimiento.getText().trim();
 
-//            COMPROBAR
-            if (inputNombre.getText().length() < 2 || !inputNombre.getText().matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || !inputApellido1.getText().matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || inputApellido1.getText().length() < 2 || inputYearNacimiento.getText().isEmpty()) {
-
-                tipoAlerta.mostrarAlertaWarning("FALTA NOMBRE, PRIMER APELLIDO, O FECHA DE NACIMIENTO.", "DEBES INGRESAR EL NOMBRE, PRIMER APELLIDO Y LA FECHA DE NACIMIENTO PARA CONTINUAR CON EL GUARDADO DEL AUTOR.", "RELLENAR CAMPOS OBLIGATORIOS.");
+            // VALIDACIONES SEPARADAS
+            if (nombre.length() < 2 || !nombre.matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+")) {
+                tipoAlerta.mostrarAlertaWarning("NOMBRE INCORRECTO", "EL NOMBRE DEBE TENER AL MENOS 2 LETRAS Y SOLO PUEDE CONTENER LETRAS.", "REVISAR CAMPO NOMBRE");
+                return;
+            }
+            if (apellido1.length() < 2 || !apellido1.matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+")) {
+                tipoAlerta.mostrarAlertaWarning("APELLIDO INCORRECTO", "EL PRIMER APELLIDO DEBE TENER AL MENOS 2 LETRAS Y SOLO PUEDE CONTENER LETRAS.", "REVISAR CAMPO APELLIDO");
+                return;
+            }
+            if (yearNacimiento.isEmpty()) {
+                tipoAlerta.mostrarAlertaWarning("AÑO VACÍO", "DEBES INGRESAR EL AÑO DE NACIMIENTO.", "RELLENAR CAMPO AÑO");
+                return;
+            }
+            if (!yearNacimiento.matches("-?[0-9]+")) { // -? PERMITE AÑOS NEGATIVOS (a.C.)
+                tipoAlerta.mostrarAlertaWarning("FORMATO INCORRECTO", "EL AÑO DE NACIMIENTO SOLO PUEDE CONTENER NÚMEROS.", "REVISAR CAMPO AÑO");
+                return;
+            }
+            // PROBLEMA: FALTABA VALIDAR QUE SE SELECCIONÓ UN PAÍS
+            if (cbPais.getSelectionModel().getSelectedItem() == null) {
+                tipoAlerta.mostrarAlertaWarning("PAÍS NO SELECCIONADO", "DEBES SELECCIONAR UN PAÍS.", "SELECCIONAR PAÍS");
                 return;
             }
 
-//            PARSEAR
-            int NacimientoParseada = Integer.parseInt(yearNacimiento);
-            int FallecimientoParseada = 0;
+            int nacimientoParseado = Integer.parseInt(yearNacimiento);
+            int fallecimientoParseado = 0;
 
-            if (inputApellido2.getText().isEmpty()) {
-                inputApellido2.setText(" ");
-            }
-
-            if (inputYearFallecimiento.getText().isEmpty()) {
-                inputYearFallecimiento.setText(" ");
-            } else {
-                FallecimientoParseada = Integer.parseInt(yearFallecimiento);
-            }
-
-            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR AUTOR.", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + apellido1 + " ¿ESTAS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR.");
-
-            if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
-                autordao.insertarAutor(nombre, apellido1, apellido2, cbPais.getSelectionModel().getSelectedItem().toString(), NacimientoParseada, FallecimientoParseada);
-            }
-
-//        LIMPIO LOS CAMPOS TRAS AÑADIR UN AUTOR
-            List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputYearNacimiento, inputYearFallecimiento, inputApellido2, inputApellido1, inputNombre));
-
-            for (Node Elemento : ElementosVentana) {
-                if (Elemento instanceof TextField tf) {
-                    tf.clear();
+            if (!yearFallecimiento.isEmpty()) {
+                if (!yearFallecimiento.matches("-?[0-9]+")) {
+                    tipoAlerta.mostrarAlertaWarning("FORMATO INCORRECTO", "EL AÑO DE FALLECIMIENTO SOLO PUEDE CONTENER NÚMEROS.", "REVISAR CAMPO AÑO");
+                    return;
                 }
+                fallecimientoParseado = Integer.parseInt(yearFallecimiento);
             }
 
+            // PROBLEMA: ANTES SE MODIFICABA EL TEXTFIELD DIRECTAMENTE PARA PONER " "
+            // ES MEJOR MANEJAR EL VALOR VACÍO SIN TOCAR LA UI
+            String apellido2Final = apellido2.isEmpty() ? " " : apellido2;
+            String fallecimientoFinal = yearFallecimiento.isEmpty() ? " " : yearFallecimiento;
+
+            Pais paisSeleccionado = cbPais.getSelectionModel().getSelectedItem();
+
+            Alert resultadoIngresoAutor = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR AUTOR", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + " " + apellido1 + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR");
+
+            if (resultadoIngresoAutor.getResult() == ButtonType.OK) {
+                autordao.insertarAutor(nombre, apellido1, apellido2Final, paisSeleccionado.getNombrePais(), nacimientoParseado, fallecimientoParseado);
+                tipoAlerta.mostrarAlertaInfo("AUTOR INSERTADO", "SE HA INSERTADO EL AUTOR: " + nombre + " " + apellido1, null); // FALTABA CONFIRMACIÓN DE ÉXITO
+            }
+
+            // LIMPIAR CAMPOS
+            List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputYearNacimiento, inputYearFallecimiento, inputApellido2, inputApellido1, inputNombre));
+            for (Node elemento : elementosVentana) {
+                if (elemento instanceof TextField tf) tf.clear();
+            }
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR.", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO.", "REVISAR CAMPOS.");
+            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO.", "REVISAR CAMPOS");
         }
     }
-
 }
 

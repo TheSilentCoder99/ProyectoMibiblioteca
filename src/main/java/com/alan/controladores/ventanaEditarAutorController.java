@@ -13,14 +13,18 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.alan.DataAccesObjects.AutorDAO;
 
 
 public class ventanaEditarAutorController {
+
+    int fechaActual = LocalDate.now().getYear();
 
     @FXML
     private TextField inputNombre;
@@ -88,31 +92,54 @@ public class ventanaEditarAutorController {
         inputYearFallecimiento.setPromptText(String.valueOf(autor.getYearFallecimiento()));
     }
 
+    //    MANEJO DE EXCEPCIONES DEL MÉTTODO AGREGADAS CON CLAUDE
     public void actualizarAutor() {
-
-        String nombre = inputNombre.getText(), apellido1 = inputApellido1.getText(), apellido2 = inputApellido2.getText();
-        int nacimiento = Integer.parseInt(inputYearNacimiento.getText());
-        String fallecimiento = inputYearFallecimiento.getText();
-
-        Pais paisActual = cbPais.getSelectionModel().getSelectedItem();
-
-        if (inputYearNacimiento.getText().isEmpty() || inputYearNacimiento.getText().equalsIgnoreCase(" ")) {
+        try {
+            String nombre = inputNombre.getText();
+            String apellido1 = inputApellido1.getText();
+            String apellido2 = inputApellido2.getText();
+            String fallecimiento = inputYearFallecimiento.getText();
+            Pais paisActual = cbPais.getSelectionModel().getSelectedItem();
             Alertas alertas = new Alertas();
-            alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL CAMPO AÑO DE NACIMIENTO NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO");
-        }
 
-        Alertas alertas = new Alertas();
-        Alert confirmacionActualizacion = alertas.mostrarAlertaConfirmacion("ACTUALIZAR AUTOR", "¿CONTINUAR CON LA ACTUALIZACIÓN?.", "ACEPTAR PARA CONTINUAR.");
+            // VALIDACIONES ANTES DE PARSEAR
+            if (nombre.isEmpty() || apellido1.isEmpty() || nombre.length() < 2) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL NOMBRE Y APELLIDO NO PUEDEN ESTAR VACÍOS.", "INGRESA VALORES VÁLIDOS");
+                return; // <-- FALTABA EL RETURN, sin él el código seguía ejecutándose aunque hubiera error
+            }
 
-        if (confirmacionActualizacion.getResult() == ButtonType.OK) {
-            autordao.ActualizarAutor(this.autorAEditar.getId(), nombre, apellido1, apellido2, nacimiento, fallecimiento, paisActual.getId());
-            alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA", "SE HA ACTUALIZADO EL AUTOR", null);
-//            UNA VEZ ACEPTADA LA ACTUALIZACIÓN, CIERRO LA VENTANA PARA QUE EL USUARIO NO ESCRIBA UN VALOR SUELTO, PULSE ACTUALIZAR Y QUIZÁ NO SEPA QUE SIGUE ACTUALIZANDO AL OBJETO ANTERIORMENTE SELECCIONADO.
-            Stage stage = (Stage) inputNombre.getScene().getWindow();
-            stage.close();
+            if (inputYearNacimiento.getText().isEmpty()) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL CAMPO AÑO DE NACIMIENTO NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO");
+                return; // <-- MISMO PROBLEMA
+            }
 
-        } else {
-            alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA", "NO SE HA ACTUALIZADO EL AUTOR", null);
+            if (paisActual == null) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "DEBES SELECCIONAR UN PAÍS.", "SELECCIONA UN PAÍS");
+                return;
+            }
+
+            // PARSEO DESPUÉS DE VALIDAR, YA SABEMOS QUE NO ESTÁ VACÍO
+            int nacimiento = Integer.parseInt(inputYearNacimiento.getText());
+
+            if(nacimiento > fechaActual || Integer.parseInt(fallecimiento) > fechaActual){
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE NACIMIENTO NO PUEDE SER MAYOR AL AÑO ACTUAL", "INGRESA UN AÑO VÁLIDO");
+                return;
+            }
+
+            Alert confirmacionActualizacion = alertas.mostrarAlertaConfirmacion("ACTUALIZAR AUTOR.", "¿CONTINUAR CON LA ACTUALIZACIÓN?", "ACEPTAR PARA CONTINUAR.");
+
+            if (confirmacionActualizacion.getResult() == ButtonType.OK) {
+                autordao.ActualizarAutor(this.autorAEditar.getId(), nombre, apellido1, apellido2, nacimiento, fallecimiento, paisActual.getId());
+                alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA", "SE HA ACTUALIZADO EL AUTOR", null);
+                Stage stage = (Stage) inputNombre.getScene().getWindow();
+                stage.close();
+            } else {
+                alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL AUTOR.", null);
+            }
+
+        } catch (NumberFormatException e) {
+            Alertas alertas = new Alertas();
+            alertas.mostrarAlertaError("ERROR DE FORMATO.", "EL AÑO DE NACIMIENTO DEBE SER UN NÚMERO.", "INGRESA UN AÑO VÁLIDO.");
         }
     }
 

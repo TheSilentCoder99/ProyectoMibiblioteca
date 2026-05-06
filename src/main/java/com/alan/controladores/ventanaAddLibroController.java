@@ -98,64 +98,72 @@ public class ventanaAddLibroController {
         }
     }
 
-
+//    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
     public void guardarLibro() {
         try {
-//            TOMAR
             String titulo = inputTitulo.getText();
             String yearPublicacion = inputYearPublicacion.getText();
             String paginas = inputPaginas.getText();
 
-//            COMPROBAR
-            if (titulo.length() < 2 || paginas.isEmpty() || yearPublicacion.isEmpty()) {
-                tipoAlerta.mostrarAlertaWarning("FALTA TITULO, Nº DE PÁGINAS O FECHA DE PUBLICACIÓN", "DEBES INGRESAR EL TITULO, Nº DE PÁGINAS Y LA FECHA DE PUBLICACIÓN PARA CONTINUAR CON EL GUARDADO DEL LIBRO", "RELLENAR CAMPOS OBLIGATORIOS");
+            // VALIDACIONES SEPARADAS PARA DAR MENSAJES MÁS ESPECÍFICOS
+            if (titulo.length() < 2) {
+                tipoAlerta.mostrarAlertaWarning("TÍTULO INCORRECTO", "EL TÍTULO DEBE TENER AL MENOS 2 CARACTERES.", "RELLENAR CAMPO TÍTULO");
                 return;
             }
-//            PARSEAR
+            if (paginas.isEmpty()) {
+                tipoAlerta.mostrarAlertaWarning("PÁGINAS VACÍAS", "DEBES INGRESAR EL Nº DE PÁGINAS.", "RELLENAR CAMPO PÁGINAS");
+                return;
+            }
+            if (yearPublicacion.isEmpty()) {
+                tipoAlerta.mostrarAlertaWarning("AÑO VACÍO", "DEBES INGRESAR EL AÑO DE PUBLICACIÓN.", "RELLENAR CAMPO AÑO");
+                return;
+            }
+            // VALIDAR QUE PÁGINAS Y AÑO SON NÚMEROS ANTES DE PARSEAR
+            if (!paginas.matches("[0-9]+")) {
+                tipoAlerta.mostrarAlertaWarning("FORMATO INCORRECTO", "EL Nº DE PÁGINAS SOLO PUEDE CONTENER NÚMEROS.", "REVISAR CAMPO PÁGINAS");
+                return;
+            }
+            if (!yearPublicacion.matches("-?[0-9]+")) { // -? PERMITE AÑOS NEGATIVOS (a.C.)
+                tipoAlerta.mostrarAlertaWarning("FORMATO INCORRECTO", "EL AÑO DE PUBLICACIÓN SOLO PUEDE CONTENER NÚMEROS.", "REVISAR CAMPO AÑO");
+                return;
+            }
+
             int yearPublicacionParseado = Integer.parseInt(yearPublicacion);
-            int paginasParseada = Integer.parseInt(paginas);
+            int paginasParseadas = Integer.parseInt(paginas);
 
-            String descripcion = inputDescripcion.getText();
-            String opinion = inputOpinion.getText();
+            String descripcion = inputDescripcion.getText().isEmpty() ? " " : inputDescripcion.getText();
+            String opinion = inputOpinion.getText().isEmpty() ? " " : inputOpinion.getText();
 
-            if (descripcion.isEmpty()) {
-                descripcion = " ";
-            }
-            if (opinion.isEmpty()) {
-                opinion = " ";
-            }
-
-            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo + " ¿estás seguro de continuar?", "INGRESAR NUEVO LIBRO");
-
-            int idLibro = 0;
+            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO LIBRO");
 
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
-//                EL MÉTHOD INSERTAR LIBRO ME DEVUELVE EL ID DEL LIBRO RECIÉN INSERTADO PARA PODER TRABAJAR CON ÉL MÁS ABAJO. POR ESO LO ALMACENO EN UNA VARIBALE
-                idLibro = librodao.insertarLibro(titulo, yearPublicacionParseado, paginasParseada, descripcion, opinion);
-            }
+                int idLibro = librodao.insertarLibro(titulo, yearPublicacionParseado, paginasParseadas, descripcion, opinion);
 
-//        AQUÍ ACTUALIZO LA TABLA LIBRO AUTOR AL REALIZAR EL GUARDADO DEL LIBRO
-            ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
-            for (int i = 0; i < seleccionados.size(); i++) {
-                actualizarAutorLibro.add(seleccionados.get(i).getId());
-            }
-            autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
+                // PROBLEMA: SI EL USUARIO CANCELA LA CONFIRMACIÓN, idLibro ES 0
+                // Y SE INTENTAN INSERTAR AUTORES CON id=0, LO QUE FALLA EN LA BD
+                // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
+                if (idLibro != -1) {
+                    ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
+                    for (int i = 0; i < seleccionados.size(); i++) {
+                        actualizarAutorLibro.add(seleccionados.get(i).getId());
+                    }
+                    autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
+                } else {
+                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
+                    return;
+                }
 
-//        LIMPIO LOS CAMPOS TRAS AÑADIR UN LIBRO
-            List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion, inputDescripcion, inputOpinion));
-
-            for (Node Elemento : ElementosVentana) {
-                if (Elemento instanceof TextField tf) {
-                    tf.clear();
-//
-                } else if (Elemento instanceof TextArea ta) {
-                    ta.clear();
+                // LIMPIAR CAMPOS TRAS AÑADIR UN LIBRO
+                List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
+                for (Node elemento : elementosVentana) {
+                    if (elemento instanceof TextField tf) tf.clear();
+                    else if (elemento instanceof TextArea ta) ta.clear();
                 }
             }
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO. DEBES RELLENAR CADA CAMPO CON EL FORMATO CORRECTO", "REVISAR CAMPOS");
+            tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO.", "REVISAR CAMPOS");
         }
     }
 
