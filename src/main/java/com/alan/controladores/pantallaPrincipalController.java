@@ -18,16 +18,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
 public class pantallaPrincipalController {
 
-
+    public MenuItem anteriorAsiglo21;
+    public MenuItem siglo21ID;
+    public MenuItem librosPorAutor;
+    public MenuItem numLibrosPorGenero;
     LibroDAO librodao = new LibroDAO();
     AutorDAO autordao = new AutorDAO();
     GeneroDAO generodao = new GeneroDAO();
@@ -655,4 +661,105 @@ public class pantallaPrincipalController {
         listaGenerosObservable.addAll(generodao.getAllGeneros());
     }
 
+    public void cerrarVentanaPrincipal(){
+        Alertas alertas = new Alertas();
+
+        Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("SALIR","¿ESTÁS SEGURO DE QUE QUIERES SALIR?",null);
+
+        if(confirmacionCerrarVentana.getResult() == ButtonType.OK){
+            Platform.exit();
+        }
+    }
+
+//    ABRIR EL MANUAL DE USUARIO CREADO CON CLAUDE Y MOSTRARLO EN UNA VENTANA MODAL
+    public void redirigirManualUsuario() throws IOException {
+        Stage stage = new Stage();
+        WebView webView = new WebView();
+        webView.getEngine().loadContent(
+                new String(
+                        getClass().getResourceAsStream("/manual_usuario_biblioteca.html").readAllBytes(),
+                        StandardCharsets.UTF_8
+                ),
+                "text/html");
+
+        Scene scene = new Scene(webView, 1000, 800);
+        stage.setTitle("Manual de usuario");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
+    }
+
+//        MÉTODOS QUE CREAN Y RELLENAN LAS TABLAS. CONSIDERO QUE NO SON PROPIAS DEL INITIALIZE, SINO DEL PROPIO MÉThODO QUE LAS LLAMA.
+    public void numLibrosPorGenero() throws IOException {
+
+
+
+
+
+        abrirVistaResumen("numLibrosPorGenero","Nº DE LIBROS POR GÉNERO");
+    }
+
+    public void numlibrosPorAutor() throws IOException {
+
+
+
+
+        abrirVistaResumen("librosPorAutor","Nº DE LIBROS POR AUTOR");
+    }
+
+    public void librosSXXI() throws IOException {
+
+
+
+        abrirVistaResumen("siglo21","LIBROS DEL SIGLO XXI");
+    }
+
+
+    public void librosAnterioresSXXI() throws IOException {
+
+
+
+
+
+        abrirVistaResumen("anteriorAsiglo21","LIBROS ANTERIORES AL SIGLO XXI");
+    }
+
+
+//    MÉTHODO QUE ABRE UNA VENTANA U OTRA DEPENDIENDO DE LA VISTA QUE LA HAYA LLAMADO.
+    public void abrirVistaResumen(String vista,String titulo) throws IOException {
+
+        String rutaVentana = "";
+        Stage primaryStage = new Stage();
+
+        switch (vista) {
+
+            case "numLibrosPorGenero":
+                rutaVentana = "/ventanaCantidadLibrosPorGenero.fxml";
+                primaryStage.setTitle(titulo);
+
+                break;
+            case "librosPorAutor":
+                rutaVentana = "/ventanaAutoresMasLeidos.fxml";
+                primaryStage.setTitle(titulo);
+
+                break;
+            case "siglo21":
+                rutaVentana = "/ventanaLibrosPosteriores.fxml";
+                primaryStage.setTitle(titulo);
+                break;
+
+            case "anteriorAsiglo21":
+                rutaVentana = "/ventanaLibrosAnteriores.fxml";
+                primaryStage.setTitle(titulo);
+                break;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root, 1024, 768);
+        primaryStage.setScene(scene);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+    }
 }

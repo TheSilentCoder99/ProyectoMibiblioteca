@@ -23,21 +23,20 @@
     <menus>
       <Menu text="File">
         <items>
-          <MenuItem text="New"/>
-          <MenuItem text="Open…"/>
-          <SeparatorMenuItem/>
-          <MenuItem text="Quit"/>
+          <MenuItem text="Quit" onAction="#cerrarVentanaPrincipal"/>
         </items>
       </Menu>
-      <Menu text="Edit">
+      <Menu text="Vistas resumen">
         <items>
-          <MenuItem text="Undo"/>
-          <MenuItem text="Redo"/>
+          <MenuItem text="nº de libros por género" fx:id="numLibrosPorGenero" onAction="#numLibrosPorGenero" />
+          <MenuItem text="Autores más leídos" fx:id="librosPorAutor" onAction="#numlibrosPorAutor"/>
+          <MenuItem text="Libros del S.XXI" fx:id="siglo21ID" onAction="#librosSXXI"/>
+          <MenuItem text="Libros anteriores al S.XXI" fx:id="anteriorAsiglo21"  onAction="#librosAnterioresSXXI"/>
         </items>
       </Menu>
       <Menu text="Help">
         <items>
-          <MenuItem text="About"/>
+          <MenuItem text="Manual" onAction="#redirigirManualUsuario"/>
         </items>
       </Menu>
     </menus>

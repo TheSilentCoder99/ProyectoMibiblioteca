@@ -10,6 +10,7 @@ module com.alan {
     opens com.alan.clases to javafx.base;
     requires javafx.base;
     requires atlantafx.base;
+    requires javafx.web;
 }
 
 //Explicación línea por línea:
