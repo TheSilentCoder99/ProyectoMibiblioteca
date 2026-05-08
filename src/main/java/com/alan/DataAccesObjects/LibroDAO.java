@@ -62,7 +62,7 @@ public class LibroDAO {
             ResultSet rs = consulta.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1); // devuelve
-            } else{
+            } else {
                 return -1;
             }
 
@@ -72,14 +72,14 @@ public class LibroDAO {
         }
     }
 
-        public void borrarLibro(int idLibro) {
+    public void borrarLibro(int idLibro) {
 
         try (Connection conn = conexionDB.getConnection()) {
             PreparedStatement consulta = conn.prepareStatement("DELETE FROM libro WHERE id = ?"
             );
 
 //            ASIGNAS VALORES DE LA FILA QUE VAS A BORRAR
-            consulta.setInt(1,idLibro);
+            consulta.setInt(1, idLibro);
 
             consulta.executeUpdate();
 
@@ -88,24 +88,76 @@ public class LibroDAO {
         }
     }
 
-        public void ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion, String description, String opinion) {
+    public void ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion, String description, String opinion) {
 
         try (Connection conn = conexionDB.getConnection()) {
             PreparedStatement consulta = conn.prepareStatement("UPDATE libro SET title = ?, pages = ?, year_publicacion = ?, description = ?, opinion = ? WHERE id = ?"
             );
 
             // ASIGNAS VALORES DE LA FILA QUE VAS A ACTUALIZAR
-            consulta.setString(1,titulo);
-            consulta.setInt(2,paginas);
-            consulta.setInt(3,yearPublicacion);
-            consulta.setString(4,description);
-            consulta.setString(5,opinion);
-            consulta.setInt(6,idLibro);
+            consulta.setString(1, titulo);
+            consulta.setInt(2, paginas);
+            consulta.setInt(3, yearPublicacion);
+            consulta.setString(4, description);
+            consulta.setString(5, opinion);
+            consulta.setInt(6, idLibro);
 
             consulta.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Libro> librosAnterioresSXII() {
+        List<Libro> listaLibrosAnterioresSXII = new ArrayList<>();
+        try (Connection conn = conexionDB.getConnection()) {
+            PreparedStatement consulta = conn.prepareStatement("SELECT * FROM libros_anteriores_SigloXXI"
+            );
+
+            ResultSet rs = consulta.executeQuery();
+
+            while (rs.next()) {
+                Libro libroVista = new Libro();
+
+                libroVista.setTitulo(rs.getString("title"));
+                libroVista.setYearPublicacion(rs.getInt("year_publicacion"));
+                libroVista.setPaginas(rs.getInt("pages"));
+                libroVista.setDescripcion(rs.getString("description"));
+
+                listaLibrosAnterioresSXII.add(libroVista);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaLibrosAnterioresSXII;
+    }
+
+
+    public List<Libro> librosPosterioresSXII() {
+        List<Libro> listaLibrosPosterioresSXII = new ArrayList<>();
+        try (Connection conn = conexionDB.getConnection()) {
+            PreparedStatement consulta = conn.prepareStatement("SELECT * FROM libros_posteriores_SigloXXI"
+            );
+
+            ResultSet rs = consulta.executeQuery();
+
+            while (rs.next()) {
+                Libro libroVista = new Libro();
+
+                libroVista.setTitulo(rs.getString("title"));
+                libroVista.setYearPublicacion(rs.getInt("year_publicacion"));
+                libroVista.setPaginas(rs.getInt("pages"));
+                libroVista.setDescripcion(rs.getString("description"));
+
+                listaLibrosPosterioresSXII.add(libroVista);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaLibrosPosterioresSXII;
     }
 }

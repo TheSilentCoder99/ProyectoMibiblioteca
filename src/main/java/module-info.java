@@ -8,6 +8,7 @@ module com.alan {
     exports com.alan.controladores;
     opens com.alan.controladores to javafx.fxml;
     opens com.alan.clases to javafx.base;
+    opens com.alan.clases.clasesCompuestas to javafx.base;
     requires javafx.base;
     requires atlantafx.base;
     requires javafx.web;

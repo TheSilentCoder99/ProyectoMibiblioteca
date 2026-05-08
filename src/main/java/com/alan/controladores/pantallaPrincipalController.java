@@ -25,7 +25,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
 public class pantallaPrincipalController {
@@ -689,45 +688,26 @@ public class pantallaPrincipalController {
         stage.show();
     }
 
-//        MÉTODOS QUE CREAN Y RELLENAN LAS TABLAS. CONSIDERO QUE NO SON PROPIAS DEL INITIALIZE, SINO DEL PROPIO MÉThODO QUE LAS LLAMA.
+//        MÉTODOS QUE SE ACTIVAN AL PULSAR UN MENÚ ITEM U OTRO. REALMENTE SOLO EXISTEN PARA EVITAR REPETIR EL CÓDIGO DE APERTURA DE LA VENTANA. CADA UNO DE ELLOS LLAMA AL MÉTHODO QUE ABRE UNA U OTRA VENTANA.
     public void numLibrosPorGenero() throws IOException {
-
-
-
-
-
         abrirVistaResumen("numLibrosPorGenero","Nº DE LIBROS POR GÉNERO");
     }
 
     public void numlibrosPorAutor() throws IOException {
-
-
-
-
         abrirVistaResumen("librosPorAutor","Nº DE LIBROS POR AUTOR");
     }
 
     public void librosSXXI() throws IOException {
-
-
-
         abrirVistaResumen("siglo21","LIBROS DEL SIGLO XXI");
     }
 
 
     public void librosAnterioresSXXI() throws IOException {
-
-
-
-
-
         abrirVistaResumen("anteriorAsiglo21","LIBROS ANTERIORES AL SIGLO XXI");
     }
 
-
-//    MÉTHODO QUE ABRE UNA VENTANA U OTRA DEPENDIENDO DE LA VISTA QUE LA HAYA LLAMADO.
+    //    MÉTHODO QUE ABRE UNA VENTANA U OTRA DEPENDIENDO DE LA VISTA QUE LA HAYA LLAMADO.
     public void abrirVistaResumen(String vista,String titulo) throws IOException {
-
         String rutaVentana = "";
         Stage primaryStage = new Stage();
 
@@ -762,4 +742,5 @@ public class pantallaPrincipalController {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
     }
+
 }
