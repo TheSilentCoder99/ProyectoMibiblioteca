@@ -60,7 +60,6 @@ public class ventanaAddLibroController {
     ObservableList<Autor> autoresObservable = FXCollections.observableArrayList();
     AutorDAO autordao = new AutorDAO();
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
-    Autor seleccionado;
     List<Integer> actualizarAutorLibro = new ArrayList<>();
 
     public void initialize() {
@@ -144,7 +143,8 @@ public class ventanaAddLibroController {
                 // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
                 if (idLibro != -1) {
                     ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
-                    for (int i = 0; i < seleccionados.size(); i++) {
+//                    PUEDE SER PORQUE I SIEMPRE ES < QUE SELECCIONADOS???
+                    for (int i = 0; i <= seleccionados.size(); i++) {
                         actualizarAutorLibro.add(seleccionados.get(i).getId());
                     }
                     autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
