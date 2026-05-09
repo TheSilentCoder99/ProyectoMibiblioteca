@@ -97,6 +97,7 @@ public class ventanaAddAutorController {
 
     //    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
     public void guardarAutor() {
+        Pais paisSeleccionado;
         try {
             String nombre = inputNombre.getText().trim();
             String apellido1 = inputApellido1.getText().trim();
@@ -125,6 +126,8 @@ public class ventanaAddAutorController {
             if (cbPais.getSelectionModel().getSelectedItem() == null) {
                 tipoAlerta.mostrarAlertaWarning("PAÍS NO SELECCIONADO", "DEBES SELECCIONAR UN PAÍS.", "SELECCIONAR PAÍS");
                 return;
+            }else{
+                paisSeleccionado = cbPais.getSelectionModel().getSelectedItem();
             }
 
             int nacimientoParseado = Integer.parseInt(yearNacimiento);
@@ -138,12 +141,10 @@ public class ventanaAddAutorController {
                 fallecimientoParseado = Integer.parseInt(yearFallecimiento);
             }
 
-            // PROBLEMA: ANTES SE MODIFICABA EL TEXTFIELD DIRECTAMENTE PARA PONER " "
+            // PROBLEMA: ANTES SE MODIFICABA EL TEXTFIELD DIRECTAMENTE PARA PONER un espacio vacio
             // ES MEJOR MANEJAR EL VALOR VACÍO SIN TOCAR LA UI
             String apellido2Final = apellido2.isEmpty() ? " " : apellido2;
             String fallecimientoFinal = yearFallecimiento.isEmpty() ? " " : yearFallecimiento;
-
-            Pais paisSeleccionado = cbPais.getSelectionModel().getSelectedItem();
 
             Alert resultadoIngresoAutor = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR AUTOR", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + " " + apellido1 + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR");
 

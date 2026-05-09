@@ -6,7 +6,6 @@
 -- ============================================
 -- 1. CREAR Y SELECCIONAR BASE DE DATOS
 -- ============================================
-
 CREATE DATABASE IF NOT EXISTS misLibros_db;
 USE misLibros_db;
 
@@ -33,8 +32,8 @@ CREATE TABLE IF NOT EXISTS autor (
     nombre VARCHAR(250) NOT NULL,
     apellido1 VARCHAR(250),
     apellido2 VARCHAR(250),
-    year_nacimiento INT UNSIGNED,
-    year_fallecimiento INT UNSIGNED,
+    year_nacimiento INT,
+    year_fallecimiento INT,
     pais_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (pais_id) REFERENCES pais(id)
 );
@@ -43,8 +42,8 @@ CREATE TABLE IF NOT EXISTS autor (
 CREATE TABLE IF NOT EXISTS libro (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(250) NOT NULL,
-    year_publicacion INT,
-    pages INT UNSIGNED,
+    year_publicacion INT NOT NULL,
+    pages INT UNSIGNED NOT NULL,
     description TEXT,
     opinion TEXT
 );
@@ -75,12 +74,6 @@ CREATE TABLE IF NOT EXISTS genero_libro (
 -- 4. CREAR ÍNDICES (MEJORAN RENDIMIENTO)
 -- ============================================
 
-CREATE INDEX IF NOT EXISTS idx_autor_nombre ON autor(nombre);
-CREATE INDEX IF NOT EXISTS idx_autor_apellido1 ON autor(apellido1);
-CREATE INDEX IF NOT EXISTS idx_libro_title ON libro(title);
-CREATE INDEX IF NOT EXISTS idx_libro_year ON libro(year_publicacion);
-CREATE INDEX IF NOT EXISTS idx_genero_nombre ON genero(nombre);
-CREATE INDEX IF NOT EXISTS idx_pais_nombre ON pais(nombre);
 
 -- ============================================
 -- 5. INSERTAR PAÍSES
@@ -122,8 +115,13 @@ INSERT INTO pais (nombre, codigo_ISO) VALUES
 ('Turquía', 'TUR'),
 ('Egipto', 'EGY'),
 ('Israel', 'ISR'),
-('Sudáfrica', 'ZAF');
-
+('Sudáfrica', 'ZAF'),
+-- Países faltantes:
+('Uruguay', 'URY'),
+('Cuba', 'CUB'),
+('Líbano', 'LBN'),
+('Venezuela', 'VEN'),
+('Letonia', 'LVA');
 -- ============================================
 -- 6. INSERTAR GÉNEROS
 -- ============================================
@@ -182,7 +180,7 @@ INSERT INTO genero (nombre) VALUES
 INSERT INTO autor (nombre, apellido1, apellido2, year_nacimiento, year_fallecimiento, pais_id) VALUES
 ('Mary', 'Shelley', NULL, 1797, 1851, (SELECT id FROM pais WHERE nombre = 'Reino Unido')),
 ('Charles', 'Dickens', NULL, 1812, 1870, (SELECT id FROM pais WHERE nombre = 'Reino Unido')),
-('Anónimo', NULL, NULL, NULL, NULL, (SELECT id FROM pais WHERE nombre = 'España')),
+('Anónimo', NULL, NULL, 0, NULL, (SELECT id FROM pais WHERE nombre = 'España')),
 ('Stephen', 'Hawking', NULL, 1942, 2018, (SELECT id FROM pais WHERE nombre = 'Reino Unido')),
 ('Robert', 'Fisher', NULL, 1922, 2008, (SELECT id FROM pais WHERE nombre = 'Estados Unidos')),
 ('Edmondo', 'De', 'Amicis', 1846, 1908, (SELECT id FROM pais WHERE nombre = 'Italia')),
@@ -475,106 +473,6 @@ INSERT INTO genero_libro (libro_id, genere_id) VALUES
 (121, 38), (122, 31), (123, 4), (124, 39), (125, 32), (126, 32), (127, 8), (128, 18), (129, 36), (130, 8),
 (131, 18), (132, 8), (133, 8), (134, 36), (135, 16), (136, 4), (137, 5), (138, 36), (139, 7), (140, 3),
 (141, 31), (142, 42), (143, 5), (144, 18);
-
--- ============================================
--- 10. CREAR VISTAS ÚTILES
--- ============================================
-
--- Vista: Todos los géneros
-CREATE OR REPLACE VIEW todos_los_generos AS
-SELECT * FROM genero ORDER BY nombre;
-
--- Vista: Todos los autores
-CREATE OR REPLACE VIEW todos_los_autores AS
-SELECT 
-    CONCAT_WS(' ', autor.nombre, autor.apellido1, autor.apellido2) AS nombre,
-    IFNULL(autor.year_nacimiento, '-') AS nacimiento,
-    IFNULL(autor.year_fallecimiento, '-') AS fallecimiento,
-    pais.nombre AS pais
-FROM autor
-INNER JOIN pais ON pais.id = autor.pais_id
-ORDER BY nombre;
-
--- Vista: Todos los libros (con autores concatenados)
-CREATE OR REPLACE VIEW todos_los_libros AS
-SELECT 
-    libro.id,
-    libro.title AS titulo,
-    libro.year_publicacion AS publicacion,
-    libro.pages AS n_paginas,
-    libro.description AS descripcion,
-    libro.opinion AS opinion,
-    GROUP_CONCAT(DISTINCT CONCAT_WS(' ', autor.nombre, autor.apellido1, autor.apellido2) 
-                  ORDER BY autor.apellido1 SEPARATOR ', ') AS autores
-FROM libro 
-LEFT JOIN autor_libro ON autor_libro.libro_id = libro.id
-LEFT JOIN autor ON autor_libro.autor_id = autor.id
-GROUP BY libro.id
-ORDER BY libro.title;
-
--- Vista: Catálogo completo (con autores y géneros)
-CREATE OR REPLACE VIEW catalogo_completo AS
-SELECT 
-    libro.id,
-    libro.title AS titulo,
-    libro.year_publicacion AS año_publicacion,
-    libro.pages AS páginas,
-    libro.description AS descripción,
-    libro.opinion AS opinión,
-    GROUP_CONCAT(DISTINCT CONCAT_WS(' ', autor.nombre, autor.apellido1, autor.apellido2) 
-                  ORDER BY autor.apellido1 SEPARATOR ', ') AS autores,
-    GROUP_CONCAT(DISTINCT genero.nombre ORDER BY genero.nombre SEPARATOR ', ') AS géneros
-FROM libro
-LEFT JOIN autor_libro ON autor_libro.libro_id = libro.id
-LEFT JOIN autor ON autor_libro.autor_id = autor.id
-LEFT JOIN genero_libro ON genero_libro.libro_id = libro.id
-LEFT JOIN genero ON genero_libro.genere_id = genero.id
-GROUP BY libro.id
-ORDER BY libro.title;
-
--- Vista: Libros del Siglo XXI
-CREATE OR REPLACE VIEW libros_SigloXXI AS
-SELECT 
-    title AS titulo,
-    year_publicacion AS publicacion,
-    pages AS n_paginas,
-    description AS descripcion,
-    opinion
-FROM libro 
-WHERE year_publicacion >= 2000
-ORDER BY year_publicacion DESC;
-
--- Vista: Autores más leídos
-CREATE OR REPLACE VIEW autores_mas_leidos AS
-SELECT 
-    autor.nombre,
-    autor.apellido1,
-    CASE 
-        WHEN autor.apellido2 IS NULL OR autor.apellido2 = '' THEN '-'
-        ELSE autor.apellido2
-    END AS apellido2,
-    COUNT(autor_libro.autor_id) AS num_libros
-FROM autor_libro
-INNER JOIN autor ON autor_libro.autor_id = autor.id
-GROUP BY autor.id
-ORDER BY num_libros DESC;
-
--- ============================================
--- 11. VERIFICACIÓN FINAL
--- ============================================
-
--- Mostrar conteo de registros
-SELECT '=== VERIFICACIÓN DE DATOS ===' AS mensaje;
-SELECT 'pais' AS tabla, COUNT(*) AS registros FROM pais
-UNION ALL SELECT 'genero', COUNT(*) FROM genero
-UNION ALL SELECT 'autor', COUNT(*) FROM autor
-UNION ALL SELECT 'libro', COUNT(*) FROM libro
-UNION ALL SELECT 'autor_libro', COUNT(*) FROM autor_libro
-UNION ALL SELECT 'genero_libro', COUNT(*) FROM genero_libro;
-
--- Mostrar algunos ejemplos
-SELECT '=== EJEMPLOS DE CATÁLOGO ===' AS mensaje;
-SELECT * FROM catalogo_completo LIMIT 10;
 
 -- ============================================
 -- FIN DEL SCRIPT

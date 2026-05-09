@@ -56,7 +56,7 @@ public class AutorDAO {
     public void insertarAutor(String nombre,String apellido1,String apellido2, String paisNombre, int yearNacimiento, int yearMuerte) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("INSERT INTO autor (nombre,apellido1,apellido2, pais_id ,year_nacimiento,year_fallecimiento) VALUES (?,?,?,(SELECT id FROM pais WHERE nombre = (?)),?,?)"
+            PreparedStatement consulta = conn.prepareStatement("INSERT INTO autor (nombre,apellido1,apellido2, pais_id ,year_nacimiento,year_fallecimiento) VALUES (?,?,?,(SELECT id FROM pais WHERE nombrePais = (?)),?,?)"
             );
 
 //            ASIGNAS VALORES A LA FILA QUE VAS A INSERTAR

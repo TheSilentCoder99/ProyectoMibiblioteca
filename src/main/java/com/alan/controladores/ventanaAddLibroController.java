@@ -143,15 +143,15 @@ public class ventanaAddLibroController {
                 // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
                 if (idLibro != -1) {
                     ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
-//                    PUEDE SER PORQUE I SIEMPRE ES < QUE SELECCIONADOS???
-                    for (int i = 0; i <= seleccionados.size(); i++) {
+
+                    for (int i = 0; i < seleccionados.size(); i++) {
                         actualizarAutorLibro.add(seleccionados.get(i).getId());
                     }
-                    autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
                 } else {
                     tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
                     return;
                 }
+                autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
 
                 // LIMPIAR CAMPOS TRAS AÑADIR UN LIBRO
                 List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
