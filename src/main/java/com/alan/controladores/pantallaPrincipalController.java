@@ -249,6 +249,7 @@ public class pantallaPrincipalController {
 
             if (newValue.getDescripcion() == null || newValue.getDescripcion().isEmpty()) {
                 mostrarDescripcion.setText("información no añadida.".toUpperCase());
+                mostrarOpinion.setText("opinión no añadida".toUpperCase());
             } else{
                 mostrarDescripcion.setText(newValue.getDescripcion());
                 mostrarOpinion.setText(newValue.getOpinion());
