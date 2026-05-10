@@ -9,7 +9,7 @@ public class Autor {
     private String apellido1;
     private String apellido2;
     private int pais_id;
-    private int yearNacimiento;
+    private String yearNacimiento;
     private String yearFallecimiento;
 
     Autor(){
@@ -18,7 +18,7 @@ public class Autor {
 
     // Constructor para NUEVOS autores (sin ID porque se generan en la BD al hacer insert into)
     public Autor(String nombre, String apellido1, String apellido2,
-                 int pais_id, int yearNacimiento, String yearFallecimiento) {
+                 int pais_id, String yearNacimiento, String yearFallecimiento) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -28,7 +28,7 @@ public class Autor {
     }
 
 //    CONSTRUCTOR PARA AUTORES EXISTENTES (con ID, viene de la BD). Se asignan a los objetos a la hora de cargar los datos desde la BD
-    public Autor(int id, String nombre, String apellido1, String apellido2, int pais_id, int yearNacimiento, String yearFallecimiento){
+    public Autor(int id, String nombre, String apellido1, String apellido2, int pais_id, String yearNacimiento, String yearFallecimiento){
         this.id = id;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -72,11 +72,11 @@ public class Autor {
         this.pais_id = pais_id;
     }
 
-    public int getYearNacimiento() {
+    public String getYearNacimiento() {
         return yearNacimiento;
     }
 
-    public void setYearNacimiento(int yearNacimiento) {
+    public void setYearNacimiento(String yearNacimiento) {
         this.yearNacimiento = yearNacimiento;
     }
 

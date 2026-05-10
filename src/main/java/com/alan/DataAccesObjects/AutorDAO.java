@@ -19,8 +19,8 @@ public class AutorDAO {
                 "\tapellido1,\n" +
                 "\tapellido2,\n" +
                 "\tpais_id,\n" +
-                "\tyear_nacimiento,\n" +
-                "\tIFNULL(year_fallecimiento,'Vivo') AS fallecido\n" +
+                "\tIFNULL(year_nacimiento,'Desconocido') AS estado,\n" +
+                "\tIFNULL(year_fallecimiento,'Desconocido') AS fallecido\n" +
                 "FROM\n" +
                 "\tautor\n" +
                 "ORDER BY\n" +
@@ -42,7 +42,7 @@ public class AutorDAO {
 
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Autor autor = new Autor(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido1"), rs.getString("apellido2"),rs.getInt("pais_id"),rs.getInt("year_nacimiento"),rs.getString("fallecido") );
+                Autor autor = new Autor(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido1"), rs.getString("apellido2"),rs.getInt("pais_id"),rs.getString("estado"),rs.getString("fallecido") );
 
                 listaAutores.add(autor);
             }

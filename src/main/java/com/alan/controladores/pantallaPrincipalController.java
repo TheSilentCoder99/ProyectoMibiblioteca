@@ -241,20 +241,17 @@ public class pantallaPrincipalController {
             filtrarLibros(newValue);
         });
 
-//        LISTENER PARA LA DESCRIPCIÓN
+// Listener descripción libro
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            // en el listener de autores
+            if (newValue == null) return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN
             panelLateral.setVisible(true);
             panelLateral.setManaged(true);
-
-            if (newValue.getDescripcion() == null || newValue.getDescripcion().isEmpty()) {
-                mostrarDescripcion.setText("información no añadida.".toUpperCase());
-                mostrarOpinion.setText("opinión no añadida".toUpperCase());
-            } else{
+            if (newValue.getDescripcion() == null) {
+                mostrarDescripcion.setText("Información no añadida.".toUpperCase());
+            } else {
                 mostrarDescripcion.setText(newValue.getDescripcion());
                 mostrarOpinion.setText(newValue.getOpinion());
             }
-
         });
 
 //        OBSERVABLE DE AUTORES
@@ -292,7 +289,9 @@ public class pantallaPrincipalController {
         resultadoConsulta = new ArrayList<>();
 
 //        LISTENER PARA TRAER LOS LIBROS DEL AUTOR QUE HAYA SIDO SELECCIONADO EN ESE MOMENTO
+// Listener libros por autor
         mostrarAutores.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN.
             autorLibroObservable.clear();
             resultadoConsulta = autorlibrodao.getLibrosPorAutor(newValue.getId());
             autorLibroObservable.addAll(resultadoConsulta);
@@ -349,17 +348,18 @@ public class pantallaPrincipalController {
         }
     }
 
-    public void filtrarAutores(String textoBusqueda) {
+    void filtrarAutores(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
-            autoresFiltrados.setPredicate(a -> true);  // Muestra todos
+            autoresFiltrados.setPredicate(a -> true);
         } else {
             String busqueda = textoBusqueda.toLowerCase();
             autoresFiltrados.setPredicate(a ->
                     a.getNombre().toLowerCase().contains(busqueda) ||
-                            a.getApellido1().toLowerCase().contains(busqueda)
+                            (a.getApellido1() != null && a.getApellido1().toLowerCase().contains(busqueda))
             );
         }
     }
+
 
     public void filtrarGeneros(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {

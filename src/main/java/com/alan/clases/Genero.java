@@ -38,9 +38,6 @@ public class Genero {
 
     @Override
     public String toString() {
-        return "Genero{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                '}';
+        return this.nombre;
     }
 }

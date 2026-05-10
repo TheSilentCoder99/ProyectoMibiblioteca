@@ -160,4 +160,36 @@ public class LibroDAO {
         }
         return listaLibrosPosterioresSXII;
     }
+
+    public List<Libro> librosPorGenero(String nombreGenero){
+        List<Libro> listaLibrosPorGenero = new ArrayList<>();
+
+        try (Connection conn = conexionDB.getConnection()) {
+            PreparedStatement consulta = conn.prepareStatement("SELECT libro.id, libro.title, libro.year_publicacion, libro.pages\n" +
+                    "FROM libro\n" +
+                    "INNER JOIN genero_libro ON libro.id = genero_libro.libro_id\n" +
+                    "INNER JOIN genero  ON genero_libro.genere_id = genero.id\n" +
+                    "WHERE genero.nombre = ?\n" +
+                    "ORDER BY libro.title;"
+            );
+
+            consulta.setString(1,nombreGenero);
+            ResultSet rs = consulta.executeQuery();
+
+            while (rs.next()) {
+                Libro libroEnGenero = new Libro();
+
+                libroEnGenero.setTitulo(rs.getString("title"));
+                libroEnGenero.setYearPublicacion(rs.getInt("year_publicacion"));
+                libroEnGenero.setPaginas(rs.getInt("pages"));
+
+                listaLibrosPorGenero.add(libroEnGenero);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaLibrosPorGenero;
+
+    }
 }

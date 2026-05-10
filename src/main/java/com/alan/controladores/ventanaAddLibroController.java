@@ -7,9 +7,11 @@ import java.util.List;
 
 import com.alan.DataAccesObjects.AutorDAO;
 import com.alan.DataAccesObjects.AutorLibroDAO;
+import com.alan.DataAccesObjects.GeneroDAO;
 import com.alan.clases.Alertas;
 import com.alan.DataAccesObjects.LibroDAO;
 import com.alan.clases.Autor;
+import com.alan.clases.Genero;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,6 +27,9 @@ public class ventanaAddLibroController {
 
     LibroDAO librodao = new LibroDAO();
     Alertas tipoAlerta = new Alertas();
+
+    @FXML
+    private Button insertarGenero;
 
     @FXML
     private Button btnCancelar;
@@ -56,45 +61,35 @@ public class ventanaAddLibroController {
     @FXML
     private ListView<Autor> listaTablaAutor;
 
+    @FXML
+    private ListView<Genero> listaTablaGenero;
+
 
     ObservableList<Autor> autoresObservable = FXCollections.observableArrayList();
     AutorDAO autordao = new AutorDAO();
+
+    ObservableList<Genero> generosObservable = FXCollections.observableArrayList();
+    GeneroDAO generodao = new GeneroDAO();
+
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
     List<Integer> actualizarAutorLibro = new ArrayList<>();
+    List<Integer> actualizarGeneroLibro = new ArrayList<>();
 
     public void initialize() {
         autoresObservable.addAll(autordao.getAllAutores());
         listaTablaAutor.setItems(autoresObservable);
-//        IMPLEMENTAR BÚSQUEDA POR LETRA, ES DECIR, QUE AL PULSAR UNA LETRA SALGAN TODOS LOS AUTORES QUE EMPIECEN POR ESA LETRA
 
-//        DEFINO LA LISTVIEW QUE MUESTRA LOS AUTORES COMO DE SELECCIÓN MÚLTIPLE
+        generosObservable.addAll(generodao.getAllGeneros());
+        listaTablaGenero.setItems(generosObservable);
+
+//        DEFINO LA LISTVIEW QUE MUESTRA LOS AUTORES y GÉNEROS COMO DE SELECCIÓN MÚLTIPLE
         listaTablaAutor.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listaTablaGenero.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void recargarTabla(){
         autoresObservable.clear();
         autoresObservable.addAll(autordao.getAllAutores());
-    }
-
-    public void cerrarVentanaLibro() {
-        List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion, inputDescripcion, inputOpinion));
-
-        if (inputPaginas.getText().isEmpty() && inputYearPublicacion.getText().isEmpty() &&
-                inputTitulo.getText().isEmpty()) {
-//            OBTENER VENTANA EN LA QUE ESTAS
-            Stage stage = (Stage) inputTitulo.getScene().getWindow();
-            stage.close();
-
-        } else {
-            for (Node Elemento : ElementosVentana) {
-                if (Elemento instanceof TextField tf) {
-                    tf.clear();
-//                    AÑADIR QUE SE BORRE TAMBIÉN EL CONTENIDO DEL TEXTAREA
-                } else if (Elemento instanceof TextArea ta) {
-                    ta.clear();
-                }
-            }
-        }
     }
 
 //    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
@@ -143,15 +138,23 @@ public class ventanaAddLibroController {
                 // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
                 if (idLibro != -1) {
                     ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
+                    ObservableList<Genero> seleccionadosGeneros = listaTablaGenero.getSelectionModel().getSelectedItems();
+
 
                     for (int i = 0; i < seleccionados.size(); i++) {
                         actualizarAutorLibro.add(seleccionados.get(i).getId());
                     }
+
+                    for (int i = 0;i<seleccionadosGeneros.size();i++){
+                        actualizarGeneroLibro.add(seleccionadosGeneros.get(i).getId());
+                    }
+
                 } else {
                     tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
                     return;
                 }
                 autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
+                generodao.actualizarTablaGeneroLibro(idLibro,actualizarGeneroLibro);
 
                 // LIMPIAR CAMPOS TRAS AÑADIR UN LIBRO
                 List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
@@ -174,9 +177,8 @@ public class ventanaAddLibroController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaAddAutor.fxml"));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 400, 300);
+        Scene scene = new Scene(root, 600, 550);
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
 
@@ -184,5 +186,42 @@ public class ventanaAddLibroController {
             recargarTabla();
     });
 }
+
+    public void abrirInsertarGenero() throws IOException {
+        Stage primaryStage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaAddGenero.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root, 600, 300);
+        primaryStage.setScene(scene);
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+
+        primaryStage.setOnHiding(event -> {
+            recargarTabla();
+        });
+    }
+
+    public void cerrarVentanaLibro() {
+        List<Node> ElementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion, inputDescripcion, inputOpinion));
+
+        if (inputPaginas.getText().isEmpty() && inputYearPublicacion.getText().isEmpty() &&
+                inputTitulo.getText().isEmpty()) {
+//            OBTENER VENTANA EN LA QUE ESTAS
+            Stage stage = (Stage) inputTitulo.getScene().getWindow();
+            stage.close();
+
+        } else {
+            for (Node Elemento : ElementosVentana) {
+                if (Elemento instanceof TextField tf) {
+                    tf.clear();
+//                    AÑADIR QUE SE BORRE TAMBIÉN EL CONTENIDO DEL TEXTAREA
+                } else if (Elemento instanceof TextArea ta) {
+                    ta.clear();
+                }
+            }
+        }
+    }
 }
 

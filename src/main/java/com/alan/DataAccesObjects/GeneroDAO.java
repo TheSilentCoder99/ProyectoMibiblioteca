@@ -72,6 +72,26 @@ public class GeneroDAO {
         }
     }
 
+    //    PARA EL MÉTHODO QUE ACTUALIZA (O CREA) EL GÉNERO DEL LIBRO, DEBES TOMAR EL ID DEL LIBRO QUE ESTÁS CREANDO JUNTO CON EL ID DE LOS GÉNEROS SELECCIONADOS DE LA TABLA Y HACER EL INSERT EN BASE A ESOS PARÁMETROS. MUY SIMILAR A CÓMO SE HACE CON LOS AUTORES
+    public void actualizarTablaGeneroLibro(int idLibro, List<Integer> idGenero) {
+        for(int i = 0; i<idGenero.size();i++){
+
+            try (Connection conn = conexionDB.getConnection()) {
+                PreparedStatement consulta = conn.prepareStatement(
+                        "INSERT INTO genero_libro VALUES (?, ?);"
+                );
+                consulta.setInt(1,idLibro);
+                consulta.setInt(2,idGenero.get(i));
+                consulta.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+    }
+
 
 
 
