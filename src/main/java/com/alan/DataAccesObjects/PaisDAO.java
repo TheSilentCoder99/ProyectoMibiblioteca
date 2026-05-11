@@ -52,7 +52,7 @@ public class PaisDAO {
 
             while (rs.next()) {
                 paisBuscado.setId(rs.getInt("id"));
-                paisBuscado.setNombrePais(rs.getString("nombrePais"));
+                paisBuscado.setNombrePais(rs.getString("nombre"));
                 paisBuscado.setCodigo_ISO(rs.getString("codigo_ISO"));
             }
 

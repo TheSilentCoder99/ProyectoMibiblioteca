@@ -12,6 +12,7 @@ module com.alan {
     requires javafx.base;
     requires atlantafx.base;
     requires javafx.web;
+    requires com.github.librepdf.openpdf;
 }
 
 //Explicación línea por línea:

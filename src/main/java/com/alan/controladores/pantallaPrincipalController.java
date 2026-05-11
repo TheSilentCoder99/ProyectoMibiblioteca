@@ -4,6 +4,9 @@ package com.alan.controladores;
 import atlantafx.base.theme.Dracula;
 import com.alan.DataAccesObjects.*;
 import com.alan.clases.*;
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -17,11 +20,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -88,6 +94,10 @@ public class pantallaPrincipalController {
 
     @FXML
     private Label mostrarOpinion;
+
+    private final Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+    @FXML
+    private ImageView contenedorLibroGenerico;
 
     @FXML
     private TableView<Libro> mostrarLibros;
@@ -156,6 +166,7 @@ public class pantallaPrincipalController {
     ObservableList<Genero> listaGenerosObservable = FXCollections.observableArrayList();
     ObservableList<Libro> listaLibrosObservable = FXCollections.observableArrayList();
     ObservableList<Autor> listaAutoresObservable = FXCollections.observableArrayList();
+    ObservableList<AutorLibro> autorLibroObservable = FXCollections.observableArrayList();
 
 
     @FXML
@@ -241,9 +252,16 @@ public class pantallaPrincipalController {
             filtrarLibros(newValue);
         });
 
+        //        Medidas de la IMAGEVIEW
+//        LO IDEAL SERÍA QUE CADA LIBRO TUVIERA EN LA BD UN CAMPO FOTO Y MEDIANTE ESTE LISTENER SE TRAJERA A LA VISTA TRAS PULSAR EN CADA UNO DE ELLOS
+        contenedorLibroGenerico.setImage(fotoGenerica);
+        contenedorLibroGenerico.setFitHeight(500);
+        contenedorLibroGenerico.setFitWidth(500);
+
 // Listener descripción libro
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue == null) return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN
+            if (newValue == null)
+                return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN
             panelLateral.setVisible(true);
             panelLateral.setManaged(true);
             if (newValue.getDescripcion() == null) {
@@ -251,6 +269,7 @@ public class pantallaPrincipalController {
             } else {
                 mostrarDescripcion.setText(newValue.getDescripcion());
                 mostrarOpinion.setText(newValue.getOpinion());
+                contenedorLibroGenerico.setVisible(true);
             }
         });
 
@@ -285,13 +304,13 @@ public class pantallaPrincipalController {
         });
 
         //        DECLARO LA OBSERVABLE DE AUTORLIBRO
-        ObservableList<AutorLibro> autorLibroObservable = FXCollections.observableArrayList();
         resultadoConsulta = new ArrayList<>();
 
 //        LISTENER PARA TRAER LOS LIBROS DEL AUTOR QUE HAYA SIDO SELECCIONADO EN ESE MOMENTO
 // Listener libros por autor
         mostrarAutores.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN.
+            if (newValue == null)
+                return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN.
             autorLibroObservable.clear();
             resultadoConsulta = autorlibrodao.getLibrosPorAutor(newValue.getId());
             autorLibroObservable.addAll(resultadoConsulta);
@@ -322,7 +341,7 @@ public class pantallaPrincipalController {
         }
     }
 
-//    CONSIDERO QUE ESTA ES LA ÚNICA LISTA QUE TIENE SENTIDO EN LA CUAL IMPLEMENTAR TAMBIÉN LA BÚSQUEDA POR ID, YA QUE ALGUNAS OTRAS TABLAS MUESTRAN EL ID DEL PAÍS Y NO EL NOMBRE
+    //    CONSIDERO QUE ESTA ES LA ÚNICA LISTA QUE TIENE SENTIDO EN LA CUAL IMPLEMENTAR TAMBIÉN LA BÚSQUEDA POR ID, YA QUE ALGUNAS OTRAS TABLAS MUESTRAN EL ID DEL PAÍS Y NO EL NOMBRE
     public void filtrarPaises(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             paisesFiltrados.setPredicate(l -> true);
@@ -403,11 +422,7 @@ public class pantallaPrincipalController {
 
         inputBuscarLibro.setVisible(true);
         inputBuscarLibro.setManaged(true);
-        mostrarDescripcion.setVisible(true);
-        mostrarDescripcion.setManaged(true);
-//        NO TENÍA SENTIDO PEDIR LA OPINIÓN AL CREAR EL LIBRO PERO NO MOSTRARLA AL MOSTRAR TODOS LOS LIBROS
-        mostrarOpinion.setVisible(true);
-        mostrarOpinion.setManaged(true);
+
     }
 
 
@@ -661,17 +676,17 @@ public class pantallaPrincipalController {
         listaGenerosObservable.addAll(generodao.getAllGeneros());
     }
 
-    public void cerrarVentanaPrincipal(){
+    public void cerrarVentanaPrincipal() {
         Alertas alertas = new Alertas();
 
-        Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("SALIR","¿ESTÁS SEGURO DE QUE QUIERES SALIR?",null);
+        Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("SALIR", "¿ESTÁS SEGURO DE QUE QUIERES SALIR?", null);
 
-        if(confirmacionCerrarVentana.getResult() == ButtonType.OK){
+        if (confirmacionCerrarVentana.getResult() == ButtonType.OK) {
             Platform.exit();
         }
     }
 
-//    ABRIR EL MANUAL DE USUARIO CREADO CON CLAUDE Y MOSTRARLO EN UNA VENTANA MODAL
+    //    ABRIR EL MANUAL DE USUARIO CREADO CON CLAUDE Y MOSTRARLO EN UNA VENTANA MODAL
     public void redirigirManualUsuario() throws IOException {
         Stage stage = new Stage();
         WebView webView = new WebView();
@@ -689,31 +704,30 @@ public class pantallaPrincipalController {
         stage.show();
     }
 
-//        MÉTODOS QUE SE ACTIVAN AL PULSAR UN MENÚ ITEM U OTRO. REALMENTE SOLO EXISTEN PARA EVITAR REPETIR EL CÓDIGO DE APERTURA DE LA VENTANA. CADA UNO DE ELLOS LLAMA AL MÉTHODO QUE ABRE UNA U OTRA VENTANA.
+    //        MÉTODOS QUE SE ACTIVAN AL PULSAR UN MENÚ ITEM U OTRO. REALMENTE SOLO EXISTEN PARA EVITAR REPETIR EL CÓDIGO DE APERTURA DE LA VENTANA. CADA UNO DE ELLOS LLAMA AL MÉTHODO QUE ABRE UNA U OTRA VENTANA.
     public void numLibrosPorGenero() throws IOException {
-        abrirVistaResumen("numLibrosPorGenero","Nº DE LIBROS POR GÉNERO");
+        abrirVistaResumen("numLibrosPorGenero", "Nº DE LIBROS POR GÉNERO");
     }
 
     public void numlibrosPorAutor() throws IOException {
-        abrirVistaResumen("librosPorAutor","Nº DE LIBROS POR AUTOR");
+        abrirVistaResumen("librosPorAutor", "Nº DE LIBROS POR AUTOR");
     }
 
     public void librosSXXI() throws IOException {
-        abrirVistaResumen("siglo21","LIBROS DEL SIGLO XXI");
+        abrirVistaResumen("siglo21", "LIBROS DEL SIGLO XXI");
     }
 
 
     public void librosAnterioresSXXI() throws IOException {
-        abrirVistaResumen("anteriorAsiglo21","LIBROS ANTERIORES AL SIGLO XXI");
+        abrirVistaResumen("anteriorAsiglo21", "LIBROS ANTERIORES AL SIGLO XXI");
     }
 
     //    MÉTHODO QUE ABRE UNA VENTANA U OTRA DEPENDIENDO DE LA VISTA QUE LA HAYA LLAMADO.
-    public void abrirVistaResumen(String vista,String titulo) throws IOException {
+    public void abrirVistaResumen(String vista, String titulo) throws IOException {
         String rutaVentana = "";
         Stage primaryStage = new Stage();
 
         switch (vista) {
-
             case "numLibrosPorGenero":
                 rutaVentana = "/ventanaCantidadLibrosPorGenero.fxml";
                 primaryStage.setTitle(titulo);
@@ -742,6 +756,134 @@ public class pantallaPrincipalController {
         primaryStage.setScene(scene);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
+    }
+
+
+    public void exportarLibrosPDF(Event e) {
+
+        MenuItem itemPulsado = (MenuItem) e.getSource();
+
+        String idItem = itemPulsado.getId();
+
+        Alertas alertas = new Alertas();
+        Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("EXPORTAR A PDF", "¿EXPORTAR A PDF?", null);
+
+        if (confirmacionCerrarVentana.getResult() == ButtonType.OK) {
+            try (Document document = new Document()) {
+
+                PdfPTable tabla = null;
+
+                switch (idItem) {
+                    case "pdfLibros":
+                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS"));
+                        document.open();
+
+                        tabla = new PdfPTable(3); // 3 columnas
+                        // Cabeceras
+                        tabla.addCell("Titulo".toUpperCase());
+                        tabla.addCell("AÑO publicación".toUpperCase());
+                        tabla.addCell("páginas".toUpperCase());
+                        // Datos
+                        for (Libro libro : listaLibrosObservable) {
+                            tabla.addCell(libro.getTitulo());
+                            tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                            tabla.addCell(String.valueOf(libro.getPaginas()));
+                        }
+
+                        break;
+
+                    case "pdfAutores":
+
+                        PdfWriter.getInstance(document, new FileOutputStream("AUTORES"));
+                        document.open();
+                        tabla = new PdfPTable(6); // 5 columnas
+
+                        tabla.addCell("Nombre".toUpperCase());
+                        tabla.addCell("Apellido 1".toUpperCase());
+                        tabla.addCell("Apellido 2".toUpperCase());
+                        tabla.addCell("Año nacimiento".toUpperCase());
+                        tabla.addCell("Año fallecimiento".toUpperCase());
+                        tabla.addCell("Pais".toUpperCase());
+                        // Datos
+                        for (Autor autor : listaAutoresObservable) {
+                            tabla.addCell(autor.getNombre());
+                            tabla.addCell(autor.getApellido1());
+                            tabla.addCell(autor.getApellido2());
+                            tabla.addCell(autor.getYearNacimiento());
+                            tabla.addCell(autor.getYearFallecimiento());
+                            tabla.addCell(String.valueOf(paisdao.buscarPais(autor.getPais_id())));
+                        }
+
+                        break;
+
+                    case "pdfLibrosPorAutor":
+
+                        if(mostrarAutores.getSelectionModel().getSelectedItem() == null){
+                            alertas.mostrarAlertaError("ELIGE UN AUTOR", "PRIMERO DEBES SELECCIONAR UN AUTOR PARA EXPORTAR SUS LIBROS","FALLO AL EXPORTAR");
+                            return;
+                        }
+
+                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS DE AUTOR"));
+                        document.open();
+                        tabla = new PdfPTable(3); // 5 columnas
+
+                        tabla.addCell("TÍTULO");
+                        tabla.addCell("PÁGINAS");
+                        tabla.addCell("AÑO PUBLICACIÓN");
+                        // Datos
+                        for (AutorLibro libroAutor : autorLibroObservable) {
+                            tabla.addCell(libroAutor.getTitle());
+                            tabla.addCell(String.valueOf(libroAutor.getPaginas()));
+                            tabla.addCell(String.valueOf(libroAutor.getYearPublicacion()));
+                        }
+                        break;
+
+                    case "pdfLibrosXXI":
+
+                        List<Libro> librosSXXI = new ArrayList<>(librodao.librosPosterioresSXII());
+
+                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS DEL S.XXI"));
+                        document.open();
+                        tabla = new PdfPTable(3); // 3 columnas
+
+                        tabla.addCell("Titulo".toUpperCase());
+                        tabla.addCell("Paginas".toUpperCase());
+                        tabla.addCell("Publicación".toUpperCase());
+                        // Datos
+                        for (Libro libro : librosSXXI) {
+                            tabla.addCell(libro.getTitulo());
+                            tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                            tabla.addCell(String.valueOf(libro.getPaginas()));
+                        }
+                        break;
+//
+                    case "pdfLibrosAnterioresXXI":
+//
+                    List<Libro> librosAnterioresSXXI = new ArrayList<>(librodao.librosAnterioresSXII());
+
+                    PdfWriter.getInstance(document, new FileOutputStream("LIBROS ANTERIORES AL S.XXI"));
+                    document.open();
+                    tabla = new PdfPTable(3); // 3 columnas
+
+                    tabla.addCell("Titulo".toUpperCase());
+                    tabla.addCell("Paginas".toUpperCase());
+                    tabla.addCell("Publicación".toUpperCase());
+                    // Datos
+                    for (Libro libro : librosAnterioresSXXI) {
+                        tabla.addCell(libro.getTitulo());
+                        tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                        tabla.addCell(String.valueOf(libro.getPaginas()));
+                    }
+                    break;
+                }
+
+                document.add(tabla);
+
+            } catch (Exception x) {
+                x.printStackTrace();
+            }
+        }
+
     }
 
 }

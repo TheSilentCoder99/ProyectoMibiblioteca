@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.alan.controladores.pantallaPrincipalController">
@@ -23,7 +24,12 @@
       <Menu text="File">
         <items>
           <MenuItem text="Quit" onAction="#cerrarVentanaPrincipal"/>
-          <MenuItem text="Exportar PDF..."/>
+          <MenuItem text="EXPORTAR LIBROS"  fx:id="pdfLibros" onAction="#exportarLibrosPDF"/>
+          <MenuItem text="EXPORTAR AUTORES" fx:id="pdfAutores" onAction="#exportarLibrosPDF"/>
+          <MenuItem text="EXPORTAR LIBROS DE ESTE AUTOR" fx:id="pdfLibrosPorAutor" onAction="#exportarLibrosPDF"/>
+          <MenuItem text="EXPORTAR LIBROS S.XXI" fx:id="pdfLibrosXXI" onAction="#exportarLibrosPDF"/>
+          <MenuItem text="EXPORTAR LIBROS ANTERIORES AL S.XXI" fx:id="pdfLibrosAnterioresXXI" onAction="#exportarLibrosPDF"/>
+
         </items>
       </Menu>
       <Menu text="Vistas resumen">
@@ -101,6 +107,8 @@
     <VBox fx:id="panelLateral" spacing="10" prefWidth="500" prefHeight="500" visible="false" managed="false">
       <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
       <Label fx:id="mostrarOpinion" text="Selecciona para ver la opinion..." wrapText="true"/>
+      <ImageView fx:id="contenedorLibroGenerico"/>
+
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="colTituloLibroAutor" text="Título"/>
