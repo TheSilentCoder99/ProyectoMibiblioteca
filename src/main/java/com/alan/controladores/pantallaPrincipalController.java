@@ -253,10 +253,11 @@ public class pantallaPrincipalController {
         });
 
         //        Medidas de la IMAGEVIEW
-//        LO IDEAL SERÍA QUE CADA LIBRO TUVIERA EN LA BD UN CAMPO FOTO Y MEDIANTE ESTE LISTENER SE TRAJERA A LA VISTA TRAS PULSAR EN CADA UNO DE ELLOS
+//        LO IDEAL ERA QUE CADA LIBRO TUVIERA EN LA BD UN CAMPO FOTO Y MEDIANTE EL LISTENER DE MÁS ABAJO SE TRAJERA A LA VISTA LA PORTADA DE CADA LIBRO TRAS PULSAR EN CADA UNO DE ELLOS. POCA COMPLEJIDAD TÉCNICA PERO UN TRABAJO DEMASIADO REPETITIVO. LAS IA NO ENCUENTRAN BIEN LAS DIRECCIONES OPENLIBRARY CON LAS CUAL SE PODRÍA HACER MÁS O MENOS DE MANERA AUTOMÁTICA.
         contenedorLibroGenerico.setImage(fotoGenerica);
-        contenedorLibroGenerico.setFitHeight(500);
+        contenedorLibroGenerico.setFitHeight(350);
         contenedorLibroGenerico.setFitWidth(500);
+
 
 // Listener descripción libro
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
@@ -264,11 +265,16 @@ public class pantallaPrincipalController {
                 return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN
             panelLateral.setVisible(true);
             panelLateral.setManaged(true);
-            if (newValue.getDescripcion() == null) {
-                mostrarDescripcion.setText("Información no añadida.".toUpperCase());
+            if (newValue.getDescripcion() == null && newValue.getOpinion() == null) {
+                mostrarDescripcion.setText("DEscripción no añadida.".toUpperCase());
+                mostrarOpinion.setText("opinión no añadida.".toUpperCase());
             } else {
                 mostrarDescripcion.setText(newValue.getDescripcion());
+                mostrarDescripcion.setVisible(true);
+
                 mostrarOpinion.setText(newValue.getOpinion());
+                mostrarOpinion.setVisible(true);
+
                 contenedorLibroGenerico.setVisible(true);
             }
         });
@@ -449,7 +455,8 @@ public class pantallaPrincipalController {
         mostrarAutores.setManaged(true);
         inputBuscarAutor.setVisible(true);
         inputBuscarAutor.setManaged(true);
-
+        contenedorLibroGenerico.setVisible(false);
+        contenedorLibroGenerico.setManaged(false);
 
         // ↓ ESTO ES LO QUE FALTABA
 

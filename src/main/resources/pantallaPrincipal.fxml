@@ -107,7 +107,10 @@
     <VBox fx:id="panelLateral" spacing="10" prefWidth="500" prefHeight="500" visible="false" managed="false">
       <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
       <Label fx:id="mostrarOpinion" text="Selecciona para ver la opinion..." wrapText="true"/>
-      <ImageView fx:id="contenedorLibroGenerico"/>
+
+      <StackPane alignment="CENTER" VBox.vgrow="NEVER">
+        <ImageView fx:id="contenedorLibroGenerico"/>
+      </StackPane>
 
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
         <columns>
