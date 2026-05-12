@@ -46,6 +46,9 @@ public class pantallaPrincipalController {
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
 
     @FXML
+    ProgressIndicator cargador;
+
+    @FXML
     private
     Button botonEliminarElemento;
 
@@ -95,7 +98,6 @@ public class pantallaPrincipalController {
     @FXML
     private Label mostrarOpinion;
 
-    private final Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
     @FXML
     private ImageView contenedorLibroGenerico;
 
@@ -254,7 +256,7 @@ public class pantallaPrincipalController {
 
         //        Medidas de la IMAGEVIEW
 //        LO IDEAL ERA QUE CADA LIBRO TUVIERA EN LA BD UN CAMPO FOTO Y MEDIANTE EL LISTENER DE MÁS ABAJO SE TRAJERA A LA VISTA LA PORTADA DE CADA LIBRO TRAS PULSAR EN CADA UNO DE ELLOS. POCA COMPLEJIDAD TÉCNICA PERO UN TRABAJO DEMASIADO REPETITIVO. LAS IA NO ENCUENTRAN BIEN LAS DIRECCIONES OPENLIBRARY CON LAS CUAL SE PODRÍA HACER MÁS O MENOS DE MANERA AUTOMÁTICA.
-        contenedorLibroGenerico.setImage(fotoGenerica);
+
         contenedorLibroGenerico.setFitHeight(350);
         contenedorLibroGenerico.setFitWidth(500);
 
@@ -274,8 +276,28 @@ public class pantallaPrincipalController {
 
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
+//                Y SI NO TIENE COVER_ID? MOSTRAR GENÉRICA?
 
-                contenedorLibroGenerico.setVisible(true);
+                if(newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()){
+                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+                    contenedorLibroGenerico.setImage(fotoGenerica);
+                    return;
+                }
+
+                Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"),true);
+
+
+                fotoEsteLibro.progressProperty().addListener((obse, oldProgress, newProgress) -> {
+
+                    Platform.runLater(() -> {  // <-- ESTO es lo que faltaba
+                        if (newProgress.doubleValue() >= 1.0) {
+                            cargador.setVisible(false);
+                            contenedorLibroGenerico.setImage(fotoEsteLibro);
+                            contenedorLibroGenerico.setVisible(true);
+                        }
+                    });
+                });
+
             }
         });
 

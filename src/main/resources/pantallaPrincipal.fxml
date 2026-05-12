@@ -14,6 +14,7 @@
 
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ProgressIndicator?>
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.alan.controladores.pantallaPrincipalController">
@@ -110,6 +111,10 @@
 
       <StackPane alignment="CENTER" VBox.vgrow="NEVER">
         <ImageView fx:id="contenedorLibroGenerico"/>
+      </StackPane>
+
+      <StackPane alignment="CENTER" VBox.vgrow="NEVER">
+        <ProgressIndicator fx:id="cargador"/>
       </StackPane>
 
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">

@@ -33,7 +33,7 @@ public class LibroDAO {
 
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Libro libro = new Libro(rs.getInt("id"), rs.getString("title"), rs.getInt("year_publicacion"), rs.getInt("pages"), rs.getString("description"), rs.getString("opinion"));
+                Libro libro = new Libro(rs.getInt("id"), rs.getString("title"), rs.getInt("year_publicacion"), rs.getInt("pages"), rs.getString("description"), rs.getString("opinion"), rs.getInt("cover_id"));
 
                 listaLibros.add(libro);
             }

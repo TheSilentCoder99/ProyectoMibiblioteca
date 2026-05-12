@@ -11,27 +11,30 @@ public class Libro {
     private int paginas;
     private String descripcion;
     private String opinion;
+    private int coverID;
 
 //    CONSTRUCTORES
     public Libro(){
 
     }
 
-    public Libro(int id, String titulo, int yearPublicacion, int paginas, String descripcion, String opinion){
+    public Libro(int id, String titulo, int yearPublicacion, int paginas, String descripcion, String opinion, int coverID){
         this.id = id;
         this.titulo = titulo;
         this.yearPublicacion = yearPublicacion;
         this.paginas = paginas;
         this.descripcion = descripcion;
         this.opinion = opinion;
+        this.coverID = coverID;
     }
 
-    public Libro(String titulo, int yearPublicacion, int paginas, String descripcion, String opinion){
+    public Libro(String titulo, int yearPublicacion, int paginas, String descripcion, String opinion, int coverID){
         this.titulo = titulo;
         this.yearPublicacion = yearPublicacion;
         this.paginas = paginas;
         this.descripcion = descripcion;
         this.opinion = opinion;
+        this.coverID = coverID;
     }
 
 //    GETTER Y SETTER
@@ -81,6 +84,14 @@ public class Libro {
 
     public void setOpinion(String opinion) {
         this.opinion = opinion;
+    }
+
+    public int getCoverID() {
+        return coverID;
+    }
+
+    public void setCoverID(int coverID) {
+        this.coverID = coverID;
     }
 
     @Override
