@@ -1,5 +1,6 @@
 package com.alan.clases.clasesCompuestas;
 
+//Clase creada para poder devolver el resultado de la consulta que devuelve el número total de libros por género
 public class cantidadLibrosPorGenero {
 
     private String genero;

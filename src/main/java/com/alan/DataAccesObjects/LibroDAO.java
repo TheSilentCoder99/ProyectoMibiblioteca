@@ -2,8 +2,6 @@ package com.alan.DataAccesObjects;
 
 import com.alan.clases.conexionDB;
 import com.alan.clases.Libro;
-import com.alan.controladores.pantallaPrincipalController;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +73,7 @@ public class LibroDAO {
     public void borrarLibro(int idLibro) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("DELETE FROM libro WHERE id = ?"
-            );
+            PreparedStatement consulta = conn.prepareStatement("DELETE FROM libro WHERE id = ?");
 
 //            ASIGNAS VALORES DE LA FILA QUE VAS A BORRAR
             consulta.setInt(1, idLibro);
@@ -91,8 +88,7 @@ public class LibroDAO {
     public void ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion, String description, String opinion) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("UPDATE libro SET title = ?, pages = ?, year_publicacion = ?, description = ?, opinion = ? WHERE id = ?"
-            );
+            PreparedStatement consulta = conn.prepareStatement("UPDATE libro SET title = ?, pages = ?, year_publicacion = ?, description = ?, opinion = ? WHERE id = ?");
 
             // ASIGNAS VALORES DE LA FILA QUE VAS A ACTUALIZAR
             consulta.setString(1, titulo);
@@ -112,8 +108,7 @@ public class LibroDAO {
     public List<Libro> librosAnterioresSXII() {
         List<Libro> listaLibrosAnterioresSXII = new ArrayList<>();
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("SELECT * FROM libros_anteriores_SigloXXI"
-            );
+            PreparedStatement consulta = conn.prepareStatement("SELECT * FROM libros_anteriores_SigloXXI");
 
             ResultSet rs = consulta.executeQuery();
 
@@ -139,8 +134,7 @@ public class LibroDAO {
     public List<Libro> librosPosterioresSXII() {
         List<Libro> listaLibrosPosterioresSXII = new ArrayList<>();
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("SELECT * FROM libros_posteriores_SigloXXI"
-            );
+            PreparedStatement consulta = conn.prepareStatement("SELECT * FROM libros_posteriores_SigloXXI");
 
             ResultSet rs = consulta.executeQuery();
 
@@ -161,19 +155,13 @@ public class LibroDAO {
         return listaLibrosPosterioresSXII;
     }
 
-    public List<Libro> librosPorGenero(String nombreGenero){
+    public List<Libro> librosPorGenero(String nombreGenero) {
         List<Libro> listaLibrosPorGenero = new ArrayList<>();
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("SELECT libro.id, libro.title, libro.year_publicacion, libro.pages\n" +
-                    "FROM libro\n" +
-                    "INNER JOIN genero_libro ON libro.id = genero_libro.libro_id\n" +
-                    "INNER JOIN genero  ON genero_libro.genere_id = genero.id\n" +
-                    "WHERE genero.nombre = ?\n" +
-                    "ORDER BY libro.title;"
-            );
+            PreparedStatement consulta = conn.prepareStatement("SELECT libro.id, libro.title, libro.year_publicacion, libro.pages\n" + "FROM libro\n" + "INNER JOIN genero_libro ON libro.id = genero_libro.libro_id\n" + "INNER JOIN genero  ON genero_libro.genere_id = genero.id\n" + "WHERE genero.nombre = ?\n" + "ORDER BY libro.title;");
 
-            consulta.setString(1,nombreGenero);
+            consulta.setString(1, nombreGenero);
             ResultSet rs = consulta.executeQuery();
 
             while (rs.next()) {

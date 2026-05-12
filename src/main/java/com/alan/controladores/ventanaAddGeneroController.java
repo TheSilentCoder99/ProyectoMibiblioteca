@@ -23,7 +23,7 @@ public class ventanaAddGeneroController {
     private TextField inputNombre;
 
 
-    //    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
+    //    MANEJO DE EXCEPCIONES
     public void guardarGenero() {
         try {
             String nombreGenero = inputNombre.getText().trim(); // trim() ELIMINA ESPACIOS AL INICIO Y AL FINAL
@@ -41,11 +41,11 @@ public class ventanaAddGeneroController {
                 return;
             }
 
-            Alert resultadoIngresoGenero = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO", "VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BBDD: " + nombreGenero + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO GÉNERO");
+            Alert resultadoIngresoGenero = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO", "VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BBDD: " + nombreGenero.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO GÉNERO");
 
             if (resultadoIngresoGenero.getResult() == ButtonType.OK) {
                 generodao.insertarGenero(nombreGenero);
-                tipoAlerta.mostrarAlertaInfo("GÉNERO INSERTADO", "SE HA INSERTADO EL GÉNERO: " + nombreGenero, null); // FALTABA CONFIRMACIÓN DE ÉXITO
+                tipoAlerta.mostrarAlertaInfo("GÉNERO INSERTADO", "SE HA INSERTADO EL GÉNERO: " + nombreGenero.toUpperCase(), null); // FALTABA CONFIRMACIÓN DE ÉXITO
             }
 
             inputNombre.clear();
@@ -58,7 +58,6 @@ public class ventanaAddGeneroController {
 
     public void cerrarVentanaGenero() {
         if (inputNombre.getText().isEmpty()) {
-//            OBTENER VENTANA EN LA QUE ESTAS Y CERRARLA
             Stage stage = (Stage) inputNombre.getScene().getWindow();
             stage.close();
         } else {

@@ -1,7 +1,7 @@
 package com.alan.DataAccesObjects;
+
 import com.alan.clases.Pais;
 import com.alan.clases.conexionDB;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class PaisDAO {
 
 //        CREO EL ARRAYLIST, SE CREA UN ARRAY LIST NUEVO CADA VEZ QUE SE LLAMA AL MÉToODO PORQUE CADA CONSULTA ES INDEPENDIENTE.
 //        TIENE SENTIDO QUE CADA UNA DEVUELVA UN ARRAYLIST DIFERENTE
-        List <Pais> listaPaises = new ArrayList<>();
+        List<Pais> listaPaises = new ArrayList<>();
 
 //        ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
         try (Connection conn = conexionDB.getConnection()) {
@@ -27,7 +27,7 @@ public class PaisDAO {
             ResultSet rs = consulta.executeQuery(consultaDevolverPaises);
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Pais pais = new Pais(rs.getInt("id"),rs.getString("nombre"),rs.getString("codigo_ISO"));
+                Pais pais = new Pais(rs.getInt("id"), rs.getString("nombre"), rs.getString("codigo_ISO"));
                 listaPaises.add(pais);
             }
 
@@ -46,7 +46,7 @@ public class PaisDAO {
         try (Connection conn = conexionDB.getConnection()) {
 //            Usa PreparedStatement en vez de Statement...
             PreparedStatement consulta = conn.prepareStatement(consultaDevolverPais);
-            consulta.setInt(1,idPais);
+            consulta.setInt(1, idPais);
 
             ResultSet rs = consulta.executeQuery();
 
@@ -63,18 +63,17 @@ public class PaisDAO {
         return paisBuscado;
     }
 
-    public void borrarPais(int idPais){
+    public void borrarPais(int idPais) {
         // ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
         try (Connection conn = conexionDB.getConnection()) {
 //            Usa PreparedStatement en vez de Statement...
             PreparedStatement consulta = conn.prepareStatement("DELETE FROM pais WHERE id = ?");
-            consulta.setInt(1,idPais);
+            consulta.setInt(1, idPais);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
 
 }

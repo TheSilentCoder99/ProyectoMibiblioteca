@@ -1,8 +1,5 @@
 package com.alan.clases;
 
-/**
- * CLASE AUTOR creada a partir de la tabla autor de la BD misLibros_db*/
-
 public class Autor {
     private int id;
     private String nombre;
@@ -12,7 +9,7 @@ public class Autor {
     private String yearNacimiento;
     private String yearFallecimiento;
 
-    Autor(){
+    Autor() {
 
     }
 
@@ -27,8 +24,8 @@ public class Autor {
         this.yearFallecimiento = yearFallecimiento;
     }
 
-//    CONSTRUCTOR PARA AUTORES EXISTENTES (con ID, viene de la BD). Se asignan a los objetos a la hora de cargar los datos desde la BD
-    public Autor(int id, String nombre, String apellido1, String apellido2, int pais_id, String yearNacimiento, String yearFallecimiento){
+    //    CONSTRUCTOR PARA AUTORES EXISTENTES (con ID, viene de la BD). Se asignan a los objetos a la hora de cargar los datos desde la BD
+    public Autor(int id, String nombre, String apellido1, String apellido2, int pais_id, String yearNacimiento, String yearFallecimiento) {
         this.id = id;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -39,7 +36,8 @@ public class Autor {
     }
 
     /**
-     * GETTERS Y SETTERS*/
+     * GETTERS Y SETTERS
+     */
     public String getNombre() {
         return nombre;
     }

@@ -35,7 +35,7 @@ public class ventanaAddLibroController {
     private Button btnCancelar;
 
     @FXML
-    private ComboBox comboBoxAutores;
+    private ComboBox<Autor> comboBoxAutores;
 
     @FXML
     private Button btnGuardar;
@@ -72,8 +72,8 @@ public class ventanaAddLibroController {
     GeneroDAO generodao = new GeneroDAO();
 
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
-    List<Integer> actualizarAutorLibro = new ArrayList<>();
-    List<Integer> actualizarGeneroLibro = new ArrayList<>();
+    List<Integer> listaAutoresParaLibro = new ArrayList<>();
+    List<Integer> listaGenerosParaLibro = new ArrayList<>();
 
     public void initialize() {
         autoresObservable.addAll(autordao.getAllAutores());
@@ -82,17 +82,17 @@ public class ventanaAddLibroController {
         generosObservable.addAll(generodao.getAllGeneros());
         listaTablaGenero.setItems(generosObservable);
 
-//        DEFINO LA LISTVIEW QUE MUESTRA LOS AUTORES y GÉNEROS COMO DE SELECCIÓN MÚLTIPLE
+//        DEFINO LA LISTVIEW QUE MUESTRA LOS AUTORES y LA DE GÉNEROS COMO DE SELECCIÓN MÚLTIPLE PARA QUE UN MISMO LIBRO PUEDA PERTENECER A VARIOS GÉNEROS
         listaTablaAutor.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         listaTablaGenero.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    public void recargarTabla(){
+    public void recargarTabla() {
         autoresObservable.clear();
         autoresObservable.addAll(autordao.getAllAutores());
     }
 
-//    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
+    //    MANEJO DE EXCEPCIONES
     public void guardarLibro() {
         try {
             String titulo = inputTitulo.getText();
@@ -128,7 +128,7 @@ public class ventanaAddLibroController {
             String descripcion = inputDescripcion.getText().isEmpty() ? " " : inputDescripcion.getText();
             String opinion = inputOpinion.getText().isEmpty() ? " " : inputOpinion.getText();
 
-            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO LIBRO");
+            Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO LIBRO");
 
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
                 int idLibro = librodao.insertarLibro(titulo, yearPublicacionParseado, paginasParseadas, descripcion, opinion);
@@ -137,24 +137,24 @@ public class ventanaAddLibroController {
                 // Y SE INTENTAN INSERTAR AUTORES CON id=0, LO QUE FALLA EN LA BD
                 // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
                 if (idLibro != -1) {
-                    ObservableList<Autor> seleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
-                    ObservableList<Genero> seleccionadosGeneros = listaTablaGenero.getSelectionModel().getSelectedItems();
+                    ObservableList<Autor> autoresSeleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
 
+                    ObservableList<Genero> generosSeleccionados = listaTablaGenero.getSelectionModel().getSelectedItems();
 
-                    for (int i = 0; i < seleccionados.size(); i++) {
-                        actualizarAutorLibro.add(seleccionados.get(i).getId());
+                    for (int i = 0; i < autoresSeleccionados.size(); i++) {
+                        listaAutoresParaLibro.add(autoresSeleccionados.get(i).getId());
                     }
 
-                    for (int i = 0;i<seleccionadosGeneros.size();i++){
-                        actualizarGeneroLibro.add(seleccionadosGeneros.get(i).getId());
+                    for (int i = 0; i < generosSeleccionados.size(); i++) {
+                        listaGenerosParaLibro.add(generosSeleccionados.get(i).getId());
                     }
 
                 } else {
                     tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
                     return;
                 }
-                autorlibrodao.actualizarTablaLibroAutor(idLibro, actualizarAutorLibro);
-                generodao.actualizarTablaGeneroLibro(idLibro,actualizarGeneroLibro);
+                autorlibrodao.actualizarTablaLibroAutor(idLibro, listaAutoresParaLibro);
+                generodao.actualizarTablaGeneroLibro(idLibro, listaGenerosParaLibro);
 
                 // LIMPIAR CAMPOS TRAS AÑADIR UN LIBRO
                 List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
@@ -171,7 +171,6 @@ public class ventanaAddLibroController {
     }
 
     public void abrirInsertarAutor() throws IOException {
-
         Stage primaryStage = new Stage();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaAddAutor.fxml"));
@@ -184,8 +183,8 @@ public class ventanaAddLibroController {
 
         primaryStage.setOnHiding(event -> {
             recargarTabla();
-    });
-}
+        });
+    }
 
     public void abrirInsertarGenero() throws IOException {
         Stage primaryStage = new Stage();
@@ -208,7 +207,6 @@ public class ventanaAddLibroController {
 
         if (inputPaginas.getText().isEmpty() && inputYearPublicacion.getText().isEmpty() &&
                 inputTitulo.getText().isEmpty()) {
-//            OBTENER VENTANA EN LA QUE ESTAS
             Stage stage = (Stage) inputTitulo.getScene().getWindow();
             stage.close();
 
@@ -216,7 +214,6 @@ public class ventanaAddLibroController {
             for (Node Elemento : ElementosVentana) {
                 if (Elemento instanceof TextField tf) {
                     tf.clear();
-//                    AÑADIR QUE SE BORRE TAMBIÉN EL CONTENIDO DEL TEXTAREA
                 } else if (Elemento instanceof TextArea ta) {
                     ta.clear();
                 }

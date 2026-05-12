@@ -1,7 +1,7 @@
 package com.alan.DataAccesObjects;
+
 import com.alan.clases.Autor;
 import com.alan.clases.conexionDB;
-import com.alan.controladores.pantallaPrincipalController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class AutorDAO {
 
 //        CREO EL ARRAYLIST, SE CREA UN ARRAY LIST NUEVO CADA VEZ QUE SE LLAMA AL MÉToODO PORQUE CADA CONSULTA ES INDEPENDIENTE.
 //        TIENE SENTIDO QUE CADA UNA DEVUELVA UN ARRAYLIST DIFERENTE
-        List <Autor> listaAutores = new ArrayList<>();
+        List<Autor> listaAutores = new ArrayList<>();
 
 //        ABRO LA CONEXIÓN CON LA BD Y LE ENVÍO LA CONSULTA
         try (Connection conn = conexionDB.getConnection()) {
@@ -42,7 +42,7 @@ public class AutorDAO {
 
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Autor autor = new Autor(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido1"), rs.getString("apellido2"),rs.getInt("pais_id"),rs.getString("estado"),rs.getString("fallecido") );
+                Autor autor = new Autor(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("pais_id"), rs.getString("estado"), rs.getString("fallecido"));
 
                 listaAutores.add(autor);
             }
@@ -53,7 +53,7 @@ public class AutorDAO {
         return listaAutores;
     }
 
-    public void insertarAutor(String nombre,String apellido1,String apellido2, String paisNombre, int yearNacimiento, int yearMuerte) {
+    public void insertarAutor(String nombre, String apellido1, String apellido2, String paisNombre, int yearNacimiento, int yearMuerte) {
 
         try (Connection conn = conexionDB.getConnection()) {
             PreparedStatement consulta = conn.prepareStatement("INSERT INTO autor (nombre,apellido1,apellido2, pais_id ,year_nacimiento,year_fallecimiento) VALUES (?,?,?,(SELECT id FROM pais WHERE nombre = (?)),?,?)"
@@ -67,7 +67,8 @@ public class AutorDAO {
             consulta.setInt(5, yearNacimiento);
             consulta.setInt(6, yearMuerte);
 
-            consulta.executeUpdate();;
+            consulta.executeUpdate();
+            ;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,7 +82,7 @@ public class AutorDAO {
             );
 
 //            ASIGNAS VALORES DE LA FILA QUE VAS A BORRAR
-            consulta.setInt(1,idAutor);
+            consulta.setInt(1, idAutor);
 
             consulta.executeUpdate();
 
@@ -97,10 +98,10 @@ public class AutorDAO {
             );
 
             // ASIGNAS VALORES DE LA FILA QUE VAS A ACTUALIZAR
-            consulta.setString(1,nombre);
-            consulta.setString(2,apellido1);
-            consulta.setString(3,apellido2);
-            consulta.setInt(4,nacimiento);
+            consulta.setString(1, nombre);
+            consulta.setString(2, apellido1);
+            consulta.setString(3, apellido2);
+            consulta.setInt(4, nacimiento);
 
             // Si muerte está vacío, guardamos NULL en la BD PARA QUE DESPÚES, AL SELECCIONARLO, SE APLIQUE EL IF NULL DE LOS SELECT Y EN LA TABLA SE MUESTRE "VIVO"
             if (muerte == null || muerte.isBlank() || muerte.matches("[a-zA-Z]+")) {
@@ -118,8 +119,6 @@ public class AutorDAO {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

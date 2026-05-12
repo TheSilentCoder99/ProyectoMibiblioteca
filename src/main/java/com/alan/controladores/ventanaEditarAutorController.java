@@ -1,6 +1,5 @@
 package com.alan.controladores;
 
-import com.alan.DataAccesObjects.LibroDAO;
 import com.alan.DataAccesObjects.PaisDAO;
 import com.alan.clases.Alertas;
 import com.alan.clases.Autor;
@@ -10,13 +9,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.alan.DataAccesObjects.AutorDAO;
@@ -44,15 +41,14 @@ public class ventanaEditarAutorController {
     @FXML
     private TextField inputYearFallecimiento;
 
-    private AutorDAO autordao = new AutorDAO();
+    private final AutorDAO autordao = new AutorDAO();
 
-    private PaisDAO paisdao = new PaisDAO();
+    private final PaisDAO paisdao = new PaisDAO();
 
     private Autor autorAEditar;
 
     ObservableList<Pais> seleccionPaisObservable = FXCollections.observableArrayList();
 
-    //    CON ESTE SETTER, AL AUTOR DE ESTA CLASE SE LE PASAN LAS CARACTERÍSTICAS DEL AUTOR SELECCIONADO MEDIANTE EL LISTENER. EL AUTOR DE ESTA CLASE ES UN SIMPLE RECEPTOR VACÍO DEL AUTOR QUE IMPORTA, QUE ES EL QUE VIENE DEL CONTROLADOR DE LA PANTALLA PRINCIPAL
     public void initialize() {
         seleccionPaisObservable.addAll(paisdao.getAllPaises());
         cbPais.setItems(seleccionPaisObservable);
@@ -72,19 +68,22 @@ public class ventanaEditarAutorController {
         });
     }
 
+    //    CON ESTE SETTER, AL AUTOR DE ESTA CLASE SE LE PASAN LAS CARACTERÍSTICAS DEL AUTOR SELECCIONADO MEDIANTE LOS LISTENER DEL MÉTDO AbrirVentanaEditarElemento(). AUTOR DE ESTA CLASE ES UN SIMPLE RECEPTOR VACÍO DEL AUTOR IMPORTANTE, QUE ES EL QUE VIENE DEL CONTROLADOR DE LA PANTALLA PRINCIPAL
     public void setAutor(Autor autor) {
         this.autorAEditar = autor;
         // Rellena los campos con los datos del autor recibido
         inputNombre.setText(autor.getNombre());
         inputApellido1.setText(autor.getApellido1());
         inputApellido2.setText((autor.getApellido2()));
-//        OBTENGO EL PAIS DEL AUTOR A TRAVÉS DEL MÉThODO BUSCAR PAÍS DEL DAO
+
+//        OBTENGO EL PAIS DEL AUTOR A TRAVÉS DEL MÉTDO BUSCAR PAÍS DEL DAO
         Pais paisAutor = paisdao.buscarPais(autor.getPais_id());
+
         cbPais.setValue(paisAutor);
         inputYearNacimiento.setText(String.valueOf(autor.getYearNacimiento()));
         inputYearFallecimiento.setText(String.valueOf(autor.getYearFallecimiento()));
 
-//        DEFINIENDO PROMPTTEXTS POR SI EL USUARIO BORRA LOS VALORES Y NO RECUERDA QUÉ TENÍA POR DEFECTO EL AUTOR SELECCIONADO
+//        DEFINIENDO PROMPT TEXTS POR SI EL USUARIO BORRA LOS DATOS Y NO RECUERDA QUÉ VALORES TENÍA EL AUTOR SELECCIONADO
         inputNombre.setPromptText(autor.getNombre());
         inputApellido1.setPromptText(autor.getApellido1());
         inputApellido2.setPromptText((autor.getApellido2()));
@@ -92,7 +91,7 @@ public class ventanaEditarAutorController {
         inputYearFallecimiento.setPromptText(String.valueOf(autor.getYearFallecimiento()));
     }
 
-    //    MANEJO DE EXCEPCIONES DEL MÉTTODO AGREGADAS CON CLAUDE
+    //    MANEJO DE EXCEPCIONES DEL MÉTTODO
     public void actualizarAutor() {
         try {
             String nombre = inputNombre.getText();
@@ -121,8 +120,8 @@ public class ventanaEditarAutorController {
             // PARSEO DESPUÉS DE VALIDAR, YA SABEMOS QUE NO ESTÁ VACÍO
             int nacimiento = Integer.parseInt(inputYearNacimiento.getText());
 
-            if(nacimiento > fechaActual || Integer.parseInt(fallecimiento) > fechaActual){
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE NACIMIENTO NO PUEDE SER MAYOR AL AÑO ACTUAL", "INGRESA UN AÑO VÁLIDO");
+            if (nacimiento > fechaActual || Integer.parseInt(fallecimiento) > fechaActual) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE NACIMIENTO O FALLECIMIENTO NO PUEDEN SER MAYOR AL AÑO ACTUAL", "INGRESA UN AÑO VÁLIDO");
                 return;
             }
 
@@ -139,7 +138,7 @@ public class ventanaEditarAutorController {
 
         } catch (NumberFormatException e) {
             Alertas alertas = new Alertas();
-            alertas.mostrarAlertaError("ERROR DE FORMATO.", "EL AÑO DE NACIMIENTO DEBE SER UN NÚMERO.", "INGRESA UN AÑO VÁLIDO.");
+            alertas.mostrarAlertaError("ERROR DE FORMATO.", "EL AÑO DE NACIMIENTO Y FALLECIMIENTO DEBEN SER UN NÚMERO.", "INGRESA UN AÑO VÁLIDO.");
         }
     }
 
@@ -149,7 +148,6 @@ public class ventanaEditarAutorController {
 
         if (inputNombre.getText().isEmpty() && inputApellido1.getText().isEmpty() &&
                 inputYearNacimiento.getText().isEmpty()) {
-//            OBTENER VENTANA EN LA QUE ESTAS
             Stage stage = (Stage) inputNombre.getScene().getWindow();
             stage.close();
         } else {

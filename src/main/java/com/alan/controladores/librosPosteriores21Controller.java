@@ -24,10 +24,11 @@ public class librosPosteriores21Controller {
     private TableColumn<Libro, Integer> colPaginas;
     @FXML
     private TableColumn<Libro, Integer> colPublicacion;
+
     @FXML
     private TextArea descripcionLibro;
 
-    public void initialize(){
+    public void initialize() {
 
         observableLibros.addAll(librodao.librosPosterioresSXII());
         listaLibros.setItems(observableLibros);
@@ -56,7 +57,7 @@ public class librosPosteriores21Controller {
     }
 
 
-    public void cerrarVentana(){
+    public void cerrarVentana() {
 
         Stage stage = (Stage) listaLibros.getScene().getWindow();
         stage.close();

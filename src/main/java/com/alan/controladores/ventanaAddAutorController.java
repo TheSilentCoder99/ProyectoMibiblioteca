@@ -54,15 +54,15 @@ public class ventanaAddAutorController {
         seleccionPaisObservable.addAll(pais.getAllPaises());
         cbPais.setItems(seleccionPaisObservable);
 
-//        Esto solo selecciona la primera coincidencia en la lista, pero no se mueve HACIA el elemento coincidente
+//
         cbPais.setOnKeyPressed(event -> {
-
             String teclaPulsada = event.getText();
 
             // IGNORAR TECLAS ESPECIALES QUE DEVUELVEN STRING VACÍO
             if (teclaPulsada == null || teclaPulsada.isEmpty()) return;
 
-            // RECORRER LA LISTA Y BUSCAR EL PRIMER ELEMENTO QUE EMPIECE POR ESA LETRA
+//            AL PULSAR UNA TECLA, SE COMPRUEBA SU COINCIDENCIA CON LA PRIMERA LETRA DE TODOS LOS PAÍSES.
+            // SE RECORRE LA LISTA DE PAÍSES Y SE BUSCA EL PRIMER ELEMENTO QUE EMPIECE POR ESA LETRA.
             for (Pais pais : seleccionPaisObservable) {
                 if (pais.toString().toLowerCase().startsWith(teclaPulsada.toLowerCase())) {
                     cbPais.getSelectionModel().select(pais);
@@ -70,7 +70,6 @@ public class ventanaAddAutorController {
                 }
             }
         });
-
     }
 
 
@@ -79,14 +78,12 @@ public class ventanaAddAutorController {
 
         if (inputNombre.getText().isEmpty() && inputApellido1.getText().isEmpty() &&
                 inputYearNacimiento.getText().isEmpty()) {
-//            OBTENER VENTANA EN LA QUE ESTAS
             Stage stage = (Stage) inputNombre.getScene().getWindow();
             stage.close();
         } else {
             for (Node Elemento : ElementosVentana) {
                 if (Elemento instanceof TextField tf) {
                     tf.clear();
-//
                 } else if (Elemento instanceof TextArea ta) {
                     ta.clear();
                 }
@@ -95,7 +92,8 @@ public class ventanaAddAutorController {
 
     }
 
-    //    MANEJO DE EXCEPCIONES MEJORADO CON CLAUDE
+
+    //    MANEJO DE EXCEPCIONES
     public void guardarAutor() {
         Pais paisSeleccionado;
         try {
@@ -126,7 +124,7 @@ public class ventanaAddAutorController {
             if (cbPais.getSelectionModel().getSelectedItem() == null) {
                 tipoAlerta.mostrarAlertaWarning("PAÍS NO SELECCIONADO", "DEBES SELECCIONAR UN PAÍS.", "SELECCIONAR PAÍS");
                 return;
-            }else{
+            } else {
                 paisSeleccionado = cbPais.getSelectionModel().getSelectedItem();
             }
 
@@ -141,8 +139,6 @@ public class ventanaAddAutorController {
                 fallecimientoParseado = Integer.parseInt(yearFallecimiento);
             }
 
-            // PROBLEMA: ANTES SE MODIFICABA EL TEXTFIELD DIRECTAMENTE PARA PONER un espacio vacio
-            // ES MEJOR MANEJAR EL VALOR VACÍO SIN TOCAR LA UI
             String apellido2Final = apellido2.isEmpty() ? " " : apellido2;
             String fallecimientoFinal = yearFallecimiento.isEmpty() ? " " : yearFallecimiento;
 

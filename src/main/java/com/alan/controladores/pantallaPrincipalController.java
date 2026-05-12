@@ -35,15 +35,23 @@ import java.util.List;
 
 public class pantallaPrincipalController {
 
-    public MenuItem anteriorAsiglo21;
-    public MenuItem siglo21ID;
-    public MenuItem librosPorAutor;
-    public MenuItem numLibrosPorGenero;
+    @FXML
+    private Button mostrarAllLibros;
+    @FXML
+    private Button mostrarAllAutores;
+    @FXML
+    private Button mostrarAllGeneros;
+    @FXML
+    private Button botonMostrarPaises;
+
     LibroDAO librodao = new LibroDAO();
     AutorDAO autordao = new AutorDAO();
     GeneroDAO generodao = new GeneroDAO();
     PaisDAO paisdao = new PaisDAO();
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
+
+    @FXML
+    private ImageView contenedorLibroGenerico;
 
     @FXML
     ProgressIndicator cargador;
@@ -55,18 +63,6 @@ public class pantallaPrincipalController {
     @FXML
     private
     Button botonEditarElemento;
-
-    @FXML
-    private Button addAutor;
-
-    @FXML
-    private Button addGenero;
-
-    @FXML
-    private Button addLibro;
-
-    @FXML
-    private Button botonMostrarPaises;
 
     @FXML
     private TextField inputBuscarLibro;
@@ -81,15 +77,6 @@ public class pantallaPrincipalController {
     private TextField inputBuscarPais;
 
     @FXML
-    private Button mostrarAllAutores;
-
-    @FXML
-    private Button mostrarAllGeneros;
-
-    @FXML
-    private Button mostrarAllLibros;
-
-    @FXML
     private VBox panelLateral;
 
     @FXML
@@ -97,9 +84,6 @@ public class pantallaPrincipalController {
 
     @FXML
     private Label mostrarOpinion;
-
-    @FXML
-    private ImageView contenedorLibroGenerico;
 
     @FXML
     private TableView<Libro> mostrarLibros;
@@ -162,7 +146,8 @@ public class pantallaPrincipalController {
     FilteredList<Genero> generosFiltrados;
     FilteredList<Pais> paisesFiltrados;
 
-    List<AutorLibro> resultadoConsulta;
+    List<AutorLibro> resultadoConsulta = new ArrayList<>();
+    //        DECLARO LA OBSERVABLE DE AUTORLIBRO
 
     ObservableList<Pais> listaPaisesObservable = FXCollections.observableArrayList();
     ObservableList<Genero> listaGenerosObservable = FXCollections.observableArrayList();
@@ -173,7 +158,7 @@ public class pantallaPrincipalController {
 
     @FXML
     public void initialize() {
-        // APLICO UN TEMA DE COLOR U OTRO A LA APP USANDO ATLANTAFX
+        // APLICO UN TEMA DE COLOR U OTRO LA LIBRERÍA USANDO ATLANTAFX
         Application.setUserAgentStylesheet(new Dracula().getUserAgentStylesheet());
 
         //        COLUMNAS DE LA TABLAVIEW LIBROS
@@ -204,17 +189,11 @@ public class pantallaPrincipalController {
         //        COLUMNAS DE LA TABLEVIEW GENERO
         colNombreGenero.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colIDGenero.setCellValueFactory(new PropertyValueFactory<>("id"));
-
 //        MEDIDAS DE LAS COLUMNAS DE LA TABLA GENERO
         colNombreGenero.setPrefWidth(200);
         colIDGenero.setPrefWidth(90);
 
         //        COLUMNAS DE MOSTRAR LOS LIBROS DE CADA AUTOR
-
-        // setCellValueFactory le dice a la columna qué datos mostrar (de dónde sacarlos).
-        //
-        //setCellFactory le dice a la columna cómo mostrar esos datos (qué estilo, qué hacer con ellos).
-
         colTituloLibroAutor.setCellValueFactory(new PropertyValueFactory<>("title"));
         colPaginaLibroAutor.setCellValueFactory(new PropertyValueFactory<>("paginas"));
         colPublicacionLibroAutor.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
@@ -246,7 +225,7 @@ public class pantallaPrincipalController {
         inputBuscarGenero.setAlignment(Pos.CENTER_LEFT);
 
 
-//        LISTENER PARA EL BUSCADO POR TITULO
+//        LISTENER PARA EL BUSCADO POR TÍTULO
         inputBuscarLibro.textProperty().addListener((observable, oldValue, newValue) -> {
             // en el listener de libros
             panelLateral.setVisible(true);
@@ -255,16 +234,13 @@ public class pantallaPrincipalController {
         });
 
         //        Medidas de la IMAGEVIEW
-//        LO IDEAL ERA QUE CADA LIBRO TUVIERA EN LA BD UN CAMPO FOTO Y MEDIANTE EL LISTENER DE MÁS ABAJO SE TRAJERA A LA VISTA LA PORTADA DE CADA LIBRO TRAS PULSAR EN CADA UNO DE ELLOS. POCA COMPLEJIDAD TÉCNICA PERO UN TRABAJO DEMASIADO REPETITIVO. LAS IA NO ENCUENTRAN BIEN LAS DIRECCIONES OPENLIBRARY CON LAS CUAL SE PODRÍA HACER MÁS O MENOS DE MANERA AUTOMÁTICA.
-
         contenedorLibroGenerico.setFitHeight(350);
         contenedorLibroGenerico.setFitWidth(500);
 
-
-// Listener descripción libro
+// LISTENER PARA LA DESCRIPCIÓN Y FOTO DE CADA LIBRO
         mostrarLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue == null)
-                return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN
+                return;  //  EVITA NULL POINTER EXCEPTION
             panelLateral.setVisible(true);
             panelLateral.setManaged(true);
             if (newValue.getDescripcion() == null && newValue.getOpinion() == null) {
@@ -273,23 +249,20 @@ public class pantallaPrincipalController {
             } else {
                 mostrarDescripcion.setText(newValue.getDescripcion());
                 mostrarDescripcion.setVisible(true);
-
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
-//                Y SI NO TIENE COVER_ID? MOSTRAR GENÉRICA?
 
-                if(newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()){
+                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
                     Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
                     contenedorLibroGenerico.setImage(fotoGenerica);
                     return;
                 }
 
-                Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"),true);
-
+                Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"), true);
 
                 fotoEsteLibro.progressProperty().addListener((obse, oldProgress, newProgress) -> {
 
-                    Platform.runLater(() -> {  // <-- ESTO es lo que faltaba
+                    Platform.runLater(() -> {
                         if (newProgress.doubleValue() >= 1.0) {
                             cargador.setVisible(false);
                             contenedorLibroGenerico.setImage(fotoEsteLibro);
@@ -300,6 +273,7 @@ public class pantallaPrincipalController {
 
             }
         });
+
 
 //        OBSERVABLE DE AUTORES
         listaAutoresObservable.addAll(autordao.getAllAutores());
@@ -331,14 +305,11 @@ public class pantallaPrincipalController {
             filtrarGeneros(newValue);
         });
 
-        //        DECLARO LA OBSERVABLE DE AUTORLIBRO
-        resultadoConsulta = new ArrayList<>();
-
 //        LISTENER PARA TRAER LOS LIBROS DEL AUTOR QUE HAYA SIDO SELECCIONADO EN ESE MOMENTO
-// Listener libros por autor
         mostrarAutores.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null)
-                return;  // ← añadir esto PARA PROTEGER EL BUSCADOR DE CUANDO NO SE HAYA SELECCIONADO NINGÚN ELEMENTO AÚN.
+            if (newValue == null) {
+                return;
+            }
             autorLibroObservable.clear();
             resultadoConsulta = autorlibrodao.getLibrosPorAutor(newValue.getId());
             autorLibroObservable.addAll(resultadoConsulta);
@@ -355,8 +326,26 @@ public class pantallaPrincipalController {
 
     }
 
-    //    MÉTODOS
-//    MÉTOoDO PARA DEFINIR EL PREDICADO DE FILTRADO
+    //    MOSTRAR MANUAL DE USUARIO EN UNA VENTANA MODAL
+    public void redirigirManualUsuario() throws IOException {
+        Stage stage = new Stage();
+
+        WebView webView = new WebView();
+        webView.getEngine().loadContent(
+                new String(
+                        getClass().getResourceAsStream("/manual_usuario_biblioteca.html").readAllBytes(),
+                        StandardCharsets.UTF_8
+                ),
+                "text/html");
+
+        Scene scene = new Scene(webView, 1000, 800);
+        stage.setTitle("Manual de usuario");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
+    }
+
+    //    MÉTODOS PARA DEFINIR EL PREDICADO DE FILTRADO EN CADA FILTERED LIST
     @FXML
     void filtrarLibros(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
@@ -369,13 +358,12 @@ public class pantallaPrincipalController {
         }
     }
 
-    //    CONSIDERO QUE ESTA ES LA ÚNICA LISTA QUE TIENE SENTIDO EN LA CUAL IMPLEMENTAR TAMBIÉN LA BÚSQUEDA POR ID, YA QUE ALGUNAS OTRAS TABLAS MUESTRAN EL ID DEL PAÍS Y NO EL NOMBRE
+    //    IMPLEMENTACIÓN DE LA BÚSQUEDA POR ID EN PAÍS
     public void filtrarPaises(String textoBusqueda) {
         if (textoBusqueda == null || textoBusqueda.isEmpty()) {
             paisesFiltrados.setPredicate(l -> true);
         } else {
             String busqueda = textoBusqueda.toLowerCase();
-//            SETPREDICATE LO QUE HACE ES QUE EJECUTA EL CÓDIGO DE DENTRO PARA CADA ELEMENTO DE LA LISTA. APLICA UN FILTRO (EL CÓDIGO DE DENTRO) Y LOS ELEMENTOS QUE LO PASAN, SE MUESTRAN Y LOS QUE NO, PUES NO SE MUESTRAN.
             paisesFiltrados.setPredicate(l -> {
 
 //                SI ES TRUE, EL PAÍS SE MUESTRA, SI ES FALSE, NO SE MUESTRA
@@ -419,6 +407,7 @@ public class pantallaPrincipalController {
         }
     }
 
+    //    CONFIGURACIÓN DE CADA TABLA AL MOSTRAR UNA U OTRA
     @FXML
     public void mostrarLibros() {
         panelLateral.setVisible(false);
@@ -443,14 +432,12 @@ public class pantallaPrincipalController {
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
 
-
         //        SOLO MUESTRO LOS LIBROS Y EL BUSCADOR DE LIBROS
         mostrarLibros.setVisible(true);
         mostrarLibros.setManaged(true);
 
         inputBuscarLibro.setVisible(true);
         inputBuscarLibro.setManaged(true);
-
     }
 
 
@@ -473,17 +460,16 @@ public class pantallaPrincipalController {
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
 
+        contenedorLibroGenerico.setVisible(false);
+        contenedorLibroGenerico.setManaged(false);
+
+//        SOLO MUESTRO LOS AUTORES Y SU BUSCADOR Y LOS LIBROS DE CADA AUTOR
         mostrarAutores.setVisible(true);
         mostrarAutores.setManaged(true);
         inputBuscarAutor.setVisible(true);
         inputBuscarAutor.setManaged(true);
-        contenedorLibroGenerico.setVisible(false);
-        contenedorLibroGenerico.setManaged(false);
-
-        // ↓ ESTO ES LO QUE FALTABA
-
         mostrarLibroAutor.setVisible(true);
-        mostrarLibroAutor.setManaged(true);  // ← esto también faltaba
+        mostrarLibroAutor.setManaged(true);
     }
 
     public void mostrarGeneros() {
@@ -512,7 +498,6 @@ public class pantallaPrincipalController {
         //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
         mostrarGeneros.setVisible(true);
         mostrarGeneros.setManaged(true);
-
         inputBuscarGenero.setVisible(true);
         inputBuscarGenero.setManaged(true);
     }
@@ -535,18 +520,18 @@ public class pantallaPrincipalController {
         inputBuscarAutor.setVisible(false);
         inputBuscarLibro.setVisible(false);
         mostrarDescripcion.setVisible(false);
-        //        SOLO MUESTRO LOS GENEROS Y EL BUSCADOR DE GENEROS
+
         mostrarGeneros.setVisible(false);
         mostrarGeneros.setManaged(false);
 
         inputBuscarGenero.setVisible(false);
         inputBuscarGenero.setManaged(false);
 
+        //        SOLO MUESTRO LOS PAÍSES Y EL BUSCADOR DE PAÍSES
         inputBuscarPais.setVisible(true);
         inputBuscarPais.setManaged(true);
         mostrarPaises.setVisible(true);
         mostrarPaises.setManaged(true);
-
     }
 
     public void cambiarVentanas(Event e) throws IOException {
@@ -586,13 +571,11 @@ public class pantallaPrincipalController {
         primaryStage.show();
         // AL CERRARSE CUALQUIERA DE LAS VENTANAS, ESTA LÍNEA SE DISPARA Y LO QUE HACE ES EJECUTAR LO QUE SEA QUE LO PONGAMOS DENTRO.
         primaryStage.setOnHiding(event -> {
-            //System.out.println("¡HOLA! LA VENTANA SE CERRÓ Y ESTO SE ESCRIBIÓ");
             actualizarVentana();
         });
     }
 
     public void eliminarElemento() {
-
         Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         Alertas alertainfo = new Alertas();
 
@@ -601,12 +584,14 @@ public class pantallaPrincipalController {
             Libro seleccionado = mostrarLibros.getSelectionModel().getSelectedItem();
 
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
-            alertaConfirmacion.setContentText("¿ELIMINAR LIBRO " + seleccionado.getTitulo() + "?");
+            alertaConfirmacion.setContentText("¿ELIMINAR LIBRO " + seleccionado.getTitulo().toUpperCase() + "?");
             alertaConfirmacion.showAndWait();
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 librodao.borrarLibro(seleccionado.getId());
+
+//                .remove CONSIGUE QUE LA TABLA SE ACTUALICE AL MOMENTO ELIMINANDO DE SUS REGISTROS EL OBJETO RECIÉN ELIMINADO DE LA BD
                 listaLibrosObservable.remove(seleccionado);
-                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL LIBRO", seleccionado.getTitulo(), "LIBRO ELIMINADO");
+                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL LIBRO ", seleccionado.getTitulo().toUpperCase(), "LIBRO ELIMINADO");
 
             }
         }
@@ -615,24 +600,24 @@ public class pantallaPrincipalController {
         if (mostrarAutores.isVisible()) {
             Autor seleccionado = mostrarAutores.getSelectionModel().getSelectedItem();
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
-            alertaConfirmacion.setContentText("ELIMINAR AUTOR " + seleccionado.getNombre() + " " + seleccionado.getApellido1());
+            alertaConfirmacion.setContentText("ELIMINAR AUTOR " + seleccionado.getNombre().toUpperCase() + " " + seleccionado.getApellido1().toUpperCase());
             alertaConfirmacion.showAndWait();
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 autordao.borrarAutor(seleccionado.getId());
                 listaAutoresObservable.remove(seleccionado);
-                alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO", seleccionado.getNombre() + " " + seleccionado.getApellido1(), "EL AUTOR SE HA ELIMINADO");
+                alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO", seleccionado.getNombre().toUpperCase() + "  " + seleccionado.getApellido1().toUpperCase(), "EL AUTOR SE HA ELIMINADO");
             }
         }
         //ELIMINAR GÉNERO
         if (mostrarGeneros.isVisible()) {
             Genero seleccionado = mostrarGeneros.getSelectionModel().getSelectedItem();
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
-            alertaConfirmacion.setContentText("ELIMINAR GÉNERO " + seleccionado.getNombre() + " ?");
+            alertaConfirmacion.setContentText("ELIMINAR GÉNERO " + seleccionado.getNombre().toUpperCase() + " ?");
             alertaConfirmacion.showAndWait();
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 generodao.borrarGenero(seleccionado.getId());
                 listaGenerosObservable.remove(seleccionado);
-                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL GÉNERO LITERARIO ", seleccionado.getNombre(), " ESTE GÉNERO SE ELIMINÓ");
+                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL GÉNERO LITERARIO ", seleccionado.getNombre().toUpperCase(), " ESTE GÉNERO SE ELIMINÓ");
             }
         }
 
@@ -641,20 +626,28 @@ public class pantallaPrincipalController {
             Pais seleccionado = mostrarPaises.getSelectionModel().getSelectedItem();
 
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
-            alertaConfirmacion.setContentText("¿ELIMINAR PAÍS " + seleccionado.getNombrePais() + " ?");
+            alertaConfirmacion.setContentText("¿ELIMINAR PAÍS " + seleccionado.getNombrePais().toUpperCase() + " ?");
             alertaConfirmacion.showAndWait();
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 paisdao.borrarPais(seleccionado.getId());
                 listaPaisesObservable.remove(seleccionado);
-                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL PAÍS ", seleccionado.getNombrePais(), " PAÍS ELIMINADO");
+                alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL PAÍS ", seleccionado.getNombrePais().toUpperCase(), " PAÍS ELIMINADO");
             }
         }
     }
 
+    public void actualizarVentana() {
+        listaLibrosObservable.clear();
+        listaLibrosObservable.addAll(librodao.getAllLibros());
+
+        listaAutoresObservable.clear();
+        listaAutoresObservable.addAll(autordao.getAllAutores());
+
+        listaGenerosObservable.clear();
+        listaGenerosObservable.addAll(generodao.getAllGeneros());
+    }
+
     public void AbrirVentanaEditarElemento() throws IOException {
-
-//        ESTA VENTANA SOLAMENTE SE ENCARGA DE ABRIR UNA VENTANA DE EDICIÓN U OTRA SEGÚN EL ELEMENTO SE ESTÉ PULSANDO EN ESE MOMENTO, MÁS BIEN, SEGÚN LA LISTA QUE SE ESTÉ MOSTRANDO EN ESE MOMENTO. EL MÉThODO DE EDICIÓN EN SÍ SE HACE EN LOS CONTROLADORES DE CADA VENTANA. CREO QUE NO TIENE SENTIDO QUERER EDITAR UNA TABLA CATÁLOGO COMO LISTA O PAÍS... ES MÁS FÁCIL BORRAR Y VOLVER A AÑADIR LO QUE SEA QUE SE QUIERE MODIFICAR.
-
         String rutaVentana = " ";
         Stage primaryStage = new Stage();
 
@@ -694,46 +687,7 @@ public class pantallaPrincipalController {
         primaryStage.setOnHiding(event -> actualizarVentana());
     }
 
-    public void actualizarVentana() {
-        listaLibrosObservable.clear();
-        listaLibrosObservable.addAll(librodao.getAllLibros());
-
-        listaAutoresObservable.clear();
-        listaAutoresObservable.addAll(autordao.getAllAutores());
-
-        listaGenerosObservable.clear();
-        listaGenerosObservable.addAll(generodao.getAllGeneros());
-    }
-
-    public void cerrarVentanaPrincipal() {
-        Alertas alertas = new Alertas();
-
-        Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("SALIR", "¿ESTÁS SEGURO DE QUE QUIERES SALIR?", null);
-
-        if (confirmacionCerrarVentana.getResult() == ButtonType.OK) {
-            Platform.exit();
-        }
-    }
-
-    //    ABRIR EL MANUAL DE USUARIO CREADO CON CLAUDE Y MOSTRARLO EN UNA VENTANA MODAL
-    public void redirigirManualUsuario() throws IOException {
-        Stage stage = new Stage();
-        WebView webView = new WebView();
-        webView.getEngine().loadContent(
-                new String(
-                        getClass().getResourceAsStream("/manual_usuario_biblioteca.html").readAllBytes(),
-                        StandardCharsets.UTF_8
-                ),
-                "text/html");
-
-        Scene scene = new Scene(webView, 1000, 800);
-        stage.setTitle("Manual de usuario");
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
-    }
-
-    //        MÉTODOS QUE SE ACTIVAN AL PULSAR UN MENÚ ITEM U OTRO. REALMENTE SOLO EXISTEN PARA EVITAR REPETIR EL CÓDIGO DE APERTURA DE LA VENTANA. CADA UNO DE ELLOS LLAMA AL MÉTHODO QUE ABRE UNA U OTRA VENTANA.
+    //    LLAMANDO UNA VISTA RESUMEN U OTRA
     public void numLibrosPorGenero() throws IOException {
         abrirVistaResumen("numLibrosPorGenero", "Nº DE LIBROS POR GÉNERO");
     }
@@ -751,7 +705,7 @@ public class pantallaPrincipalController {
         abrirVistaResumen("anteriorAsiglo21", "LIBROS ANTERIORES AL SIGLO XXI");
     }
 
-    //    MÉTHODO QUE ABRE UNA VENTANA U OTRA DEPENDIENDO DE LA VISTA QUE LA HAYA LLAMADO.
+    //    MÉTODOS QUE ABREN UNA VENTANA U OTRA DEPENDIENDO DE LA VISTA QUE LAS HAYA LLAMADO.
     public void abrirVistaResumen(String vista, String titulo) throws IOException {
         String rutaVentana = "";
         Stage primaryStage = new Stage();
@@ -788,6 +742,7 @@ public class pantallaPrincipalController {
     }
 
 
+    //    DEPENDIENDO DEL MENU ITEM PULSADO, SE EXPORTA UN PDF U OTRO
     public void exportarLibrosPDF(Event e) {
 
         MenuItem itemPulsado = (MenuItem) e.getSource();
@@ -799,7 +754,6 @@ public class pantallaPrincipalController {
 
         if (confirmacionCerrarVentana.getResult() == ButtonType.OK) {
             try (Document document = new Document()) {
-
                 PdfPTable tabla = null;
 
                 switch (idItem) {
@@ -822,9 +776,9 @@ public class pantallaPrincipalController {
                         break;
 
                     case "pdfAutores":
-
                         PdfWriter.getInstance(document, new FileOutputStream("AUTORES"));
                         document.open();
+
                         tabla = new PdfPTable(6); // 5 columnas
 
                         tabla.addCell("Nombre".toUpperCase());
@@ -846,9 +800,8 @@ public class pantallaPrincipalController {
                         break;
 
                     case "pdfLibrosPorAutor":
-
-                        if(mostrarAutores.getSelectionModel().getSelectedItem() == null){
-                            alertas.mostrarAlertaError("ELIGE UN AUTOR", "PRIMERO DEBES SELECCIONAR UN AUTOR PARA EXPORTAR SUS LIBROS","FALLO AL EXPORTAR");
+                        if (mostrarAutores.getSelectionModel().getSelectedItem() == null) {
+                            alertas.mostrarAlertaError("ELIGE UN AUTOR", "PRIMERO DEBES SELECCIONAR UN AUTOR PARA EXPORTAR SUS LIBROS", "FALLO AL EXPORTAR");
                             return;
                         }
 
@@ -868,7 +821,6 @@ public class pantallaPrincipalController {
                         break;
 
                     case "pdfLibrosXXI":
-
                         List<Libro> librosSXXI = new ArrayList<>(librodao.librosPosterioresSXII());
 
                         PdfWriter.getInstance(document, new FileOutputStream("LIBROS DEL S.XXI"));
@@ -885,34 +837,41 @@ public class pantallaPrincipalController {
                             tabla.addCell(String.valueOf(libro.getPaginas()));
                         }
                         break;
-//
+
                     case "pdfLibrosAnterioresXXI":
-//
-                    List<Libro> librosAnterioresSXXI = new ArrayList<>(librodao.librosAnterioresSXII());
+                        List<Libro> librosAnterioresSXXI = new ArrayList<>(librodao.librosAnterioresSXII());
 
-                    PdfWriter.getInstance(document, new FileOutputStream("LIBROS ANTERIORES AL S.XXI"));
-                    document.open();
-                    tabla = new PdfPTable(3); // 3 columnas
+                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS ANTERIORES AL S.XXI"));
+                        document.open();
+                        tabla = new PdfPTable(3); // 3 columnas
 
-                    tabla.addCell("Titulo".toUpperCase());
-                    tabla.addCell("Paginas".toUpperCase());
-                    tabla.addCell("Publicación".toUpperCase());
-                    // Datos
-                    for (Libro libro : librosAnterioresSXXI) {
-                        tabla.addCell(libro.getTitulo());
-                        tabla.addCell(String.valueOf(libro.getYearPublicacion()));
-                        tabla.addCell(String.valueOf(libro.getPaginas()));
-                    }
-                    break;
+                        tabla.addCell("Titulo".toUpperCase());
+                        tabla.addCell("Paginas".toUpperCase());
+                        tabla.addCell("Publicación".toUpperCase());
+                        // Datos
+                        for (Libro libro : librosAnterioresSXXI) {
+                            tabla.addCell(libro.getTitulo());
+                            tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                            tabla.addCell(String.valueOf(libro.getPaginas()));
+                        }
+                        break;
                 }
-
                 document.add(tabla);
 
             } catch (Exception x) {
                 x.printStackTrace();
             }
         }
+    }
 
+    public void cerrarVentanaPrincipal() {
+        Alertas alertas = new Alertas();
+
+        Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("SALIR", "¿ESTÁS SEGURO DE QUE QUIERES SALIR?", null);
+
+        if (confirmacionCerrarVentana.getResult() == ButtonType.OK) {
+            Platform.exit();
+        }
     }
 
 }

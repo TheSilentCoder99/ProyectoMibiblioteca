@@ -1,5 +1,6 @@
 package com.alan;
 
+import com.alan.clases.Alertas;
 import com.alan.clases.conexionDB;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
+        System.out.println("Iniciando el programa...");
         launch(args);
+        System.out.println("Programa cerrado.");
     }
 }

@@ -1,13 +1,11 @@
 package com.alan.clases;
-/**
- * CLASE GÉNERO creada a partir de la tabla género de la BD misLibros_db*/
 
 public class Genero {
     private int id;
     private String nombre;
 
-//    CONSTRUCTORES
-    public Genero(){
+    //    CONSTRUCTORES
+    public Genero() {
 
     }
 
@@ -20,10 +18,11 @@ public class Genero {
         this.nombre = nombre;
     }
 
-//    GETTER Y SETTER
+    //    GETTER Y SETTER
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }

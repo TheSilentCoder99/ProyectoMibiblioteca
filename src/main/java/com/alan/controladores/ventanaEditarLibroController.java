@@ -39,6 +39,7 @@ public class ventanaEditarLibroController {
 
     private Libro libroAEditar;
 
+    //    MISMA UTILIDAD QUE SETAUTOR EN EDITAR AUTOR CONTROLLER
     public void setLibro(Libro libro) {
 
         this.libroAEditar = libro;
@@ -50,7 +51,7 @@ public class ventanaEditarLibroController {
         inputDescripcion.setText((libro.getDescripcion()));
         inputOpinion.setText(libro.getOpinion());
 
-//        EN CASO DE QUE EL USUARIO PULSE CANCELAR Y BORRE TODOS LOS DATOS DEL OBJETO, PODRÁ SEGUIR VIENDO QUÉ HABÍA ANTES GRACIAS AL PROMPT TEXT
+//        EN CASO DE QUE EL USUARIO PULSE INVOLUNTARIAMENTE CANCELAR Y BORRE TODOS LOS DATOS DEL OBJETO, PODRÁ SEGUIR VIENDO QUÉ HABÍA ANTES GRACIAS AL PROMPT TEXT
         inputTitulo.setPromptText(libro.getTitulo());
         inputYearPublicacion.setPromptText(String.valueOf(libro.getYearPublicacion()));
         inputPaginas.setPromptText(String.valueOf(libro.getPaginas()));
@@ -59,7 +60,7 @@ public class ventanaEditarLibroController {
     }
 
 
-//    MANEJO DE EXCEPCIONES DEL MÉTTODO AGREGADAS CON CLAUDE
+    //    MANEJO DE EXCEPCIONES
     public void actualizarLibro() {
         try {
             String titulo = inputTitulo.getText();
@@ -112,7 +113,6 @@ public class ventanaEditarLibroController {
 
         if (inputTitulo.getText().isEmpty() && inputYearPublicacion.getText().isEmpty() &&
                 inputPaginas.getText().isEmpty() && inputDescripcion.getText().isEmpty() && inputOpinion.getText().isEmpty()) {
-//            OBTENER VENTANA EN LA QUE ESTAS
             Stage stage = (Stage) inputTitulo.getScene().getWindow();
             stage.close();
         } else {

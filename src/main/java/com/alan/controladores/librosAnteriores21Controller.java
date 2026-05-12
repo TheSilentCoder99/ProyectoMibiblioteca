@@ -27,7 +27,7 @@ public class librosAnteriores21Controller {
     @FXML
     private TextArea descripcionLibro;
 
-    public void initialize(){
+    public void initialize() {
 
         observableLibros.addAll(librodao.librosAnterioresSXII());
         listaLibros.setItems(observableLibros);
@@ -43,11 +43,12 @@ public class librosAnteriores21Controller {
         descripcionLibro.setPrefWidth(580);
         descripcionLibro.setPrefHeight(300);
 
+//        TRAE LA DESCRIPCIÓN DEL LIBRO SELECCIONADO
         listaLibros.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue == null) return; // evita NullPointerException al deseleccionar
 
             if (newValue.getDescripcion() == null || newValue.getDescripcion().isBlank()) {
-                descripcionLibro.setText("Descripción no añadida.");
+                descripcionLibro.setText("Descripción no añadida.".toUpperCase());
             } else {
                 descripcionLibro.setText(newValue.getDescripcion());
             }
@@ -55,7 +56,7 @@ public class librosAnteriores21Controller {
 
     }
 
-    public void cerrarVentana(){
+    public void cerrarVentana() {
         Stage stage = (Stage) listaLibros.getScene().getWindow();
         stage.close();
     }

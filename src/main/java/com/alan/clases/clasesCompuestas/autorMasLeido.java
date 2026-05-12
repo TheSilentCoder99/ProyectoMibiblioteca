@@ -1,25 +1,26 @@
 package com.alan.clases.clasesCompuestas;
 
+//Clase creada para poder devolver el resultado de la consulta que devuelve el número total de libros por autor
 public class autorMasLeido {
 
     private int id;
-    private String nombre,apellido1,apellido2;
+    private String nombre, apellido1, apellido2;
     private int libros;
 
-    public autorMasLeido(){
+    public autorMasLeido() {
 
     }
 
-    public autorMasLeido(String nombre, String apellido1, String apellido2, int libros){
+    public autorMasLeido(String nombre, String apellido1, String apellido2, int libros) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
         this.libros = libros;
     }
 
-    public autorMasLeido(int id, String nombre, String apellido1, String apellido2, int libros){
-       super();
-       this.id = id;
+    public autorMasLeido(int id, String nombre, String apellido1, String apellido2, int libros) {
+        super();
+        this.id = id;
     }
 
     public int getId() {

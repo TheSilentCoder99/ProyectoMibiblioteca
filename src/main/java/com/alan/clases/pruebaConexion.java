@@ -16,17 +16,17 @@ public class pruebaConexion {
 //            GeneroDAO generodao = new GeneroDAO();
             PaisDAO paisdao = new PaisDAO();
 
-            List <Pais> listaPaises = paisdao.getAllPaises();
+            List<Pais> listaPaises = paisdao.getAllPaises();
 
 
             for (Pais p : listaPaises) {
                 System.out.println(p.getNombrePais() + " | " + p.getCodigo_ISO());
             }
 
-            } catch(SQLException e){
-                System.out.println("❌ Error: " + e.getMessage());
-            }
-
-
+        } catch (SQLException e) {
+            System.out.println("❌ Error: " + e.getMessage());
         }
+
+
     }
+}

@@ -109,11 +109,11 @@
       <Label fx:id="mostrarDescripcion" text="Selecciona para ver la sinopsis..." wrapText="true"/>
       <Label fx:id="mostrarOpinion" text="Selecciona para ver la opinion..." wrapText="true"/>
 
-      <StackPane alignment="CENTER" VBox.vgrow="NEVER">
+      <StackPane VBox.vgrow="NEVER">
         <ImageView fx:id="contenedorLibroGenerico"/>
       </StackPane>
 
-      <StackPane alignment="CENTER" VBox.vgrow="NEVER">
+      <StackPane VBox.vgrow="NEVER">
         <ProgressIndicator fx:id="cargador"/>
       </StackPane>
 

@@ -5,8 +5,8 @@ public class Pais {
     private String nombrePais;
     private String codigo_ISO;
 
-//    CONSTRUCTORES
-    public Pais(){
+    //    CONSTRUCTORES
+    public Pais() {
 
     }
 
@@ -21,7 +21,7 @@ public class Pais {
         this.codigo_ISO = codigoISO;
     }
 
-//    GETTER Y SETTER
+    //    GETTER Y SETTER
     public int getId() {
         return id;
     }
@@ -47,7 +47,7 @@ public class Pais {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.nombrePais + " " + this.codigo_ISO;
     }
 }

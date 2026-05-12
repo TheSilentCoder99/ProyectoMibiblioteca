@@ -13,7 +13,7 @@ import java.util.List;
 public class autoresMasLeidosDAO {
 
 
-    public List<autorMasLeido> getAutoresMasLeidos(){
+    public List<autorMasLeido> getAutoresMasLeidos() {
 
         List<autorMasLeido> listaAutoresMasLeidos = new ArrayList<>();
 

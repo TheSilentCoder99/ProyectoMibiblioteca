@@ -14,16 +14,14 @@ import javafx.stage.Stage;
 
 public class autoresMasLeidosController {
 
-    autoresMasLeidosDAO autoresmasleidodao = new autoresMasLeidosDAO();
+    autoresMasLeidosDAO autoresMasLeidosdao = new autoresMasLeidosDAO();
 
     AutorLibroDAO autorlibrodao = new AutorLibroDAO();
 
-    ObservableList<autorMasLeido> observableLibros = FXCollections.observableArrayList();
     @FXML
     TableView<autorMasLeido> tablaAutoresMasLeidos;
 
     //    TABLA + COLUMNAS AUTORLIBRO
-
     @FXML
     private TableView<AutorLibro> mostrarLibroAutor;
     @FXML
@@ -33,7 +31,7 @@ public class autoresMasLeidosController {
     @FXML
     private TableColumn<AutorLibro, Integer> colPublicacionLibroAutor;
 
-    // COLUMNAS AUTOR MÁS LEÍDO
+    // COLUMNAS DE LA TABLA AUTOR MÁS LEÍDO
     @FXML
     private TableColumn<autorMasLeido, Integer> colid;
     @FXML
@@ -47,7 +45,7 @@ public class autoresMasLeidosController {
 
     ObservableList<autorMasLeido> autoresMasLeidosObservable = FXCollections.observableArrayList();
 
-    public void initialize(){
+    public void initialize() {
 
         //VALORES DE LAS COLUMNAS QUE MUESTRAN NOMBRE Y NÚMERO DE LIBROS DE CADA AUTOR
         colid.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -62,15 +60,14 @@ public class autoresMasLeidosController {
         colApellido2.setPrefWidth(200);
         colCantidadLibros.setPrefWidth(100);
 
-//        RELLENO DE LA TABLA
-        autoresMasLeidosObservable.addAll(autoresmasleidodao.getAutoresMasLeidos());
+//        "RELLENO" DE LA TABLA
+        autoresMasLeidosObservable.addAll(autoresMasLeidosdao.getAutoresMasLeidos());
         tablaAutoresMasLeidos.setItems(autoresMasLeidosObservable);
 
 
 //      CREANDO LISTENER DE UNA TABLA DEPENDIENDO DE OTRA
         ObservableList<AutorLibro> observableLibros = FXCollections.observableArrayList();
-
-        mostrarLibroAutor.setItems(observableLibros); // la vinculas una vez aquí
+        mostrarLibroAutor.setItems(observableLibros);
 
 // El listener reacciona cada vez que el usuario selecciona una fila
         tablaAutoresMasLeidos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -91,10 +88,9 @@ public class autoresMasLeidosController {
         colPublicacionLibroAutor.setPrefWidth(250);
     }
 
-    public void cerrarVentana(){
+    public void cerrarVentana() {
 
         Stage estaVentana = (Stage) tablaAutoresMasLeidos.getScene().getWindow();
-
         estaVentana.close();
     }
 }

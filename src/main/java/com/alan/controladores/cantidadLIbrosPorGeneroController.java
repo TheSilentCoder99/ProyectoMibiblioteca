@@ -13,33 +13,31 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class cantidadLIbrosPorGeneroController {
+    cantidadLibrosPorGeneroDAO cantidadgenerodao = new cantidadLibrosPorGeneroDAO();
+    LibroDAO librodao = new LibroDAO();
 
+//    CREACIÓN DE LA TABLA QUE MUESTRA EL NÚMERO DE LIBROS POR GÉNERO
     @FXML
     TableView<cantidadLibrosPorGenero> numLibrosPorGenero;
     @FXML
-    TableColumn<String, cantidadLibrosPorGenero> colGenero;
+    TableColumn<cantidadLibrosPorGenero, String> colGenero;
     @FXML
-    TableColumn<Integer, cantidadLibrosPorGenero> colCantidad;
-
-    cantidadLibrosPorGeneroDAO cantidadgenerodao = new cantidadLibrosPorGeneroDAO();
+    TableColumn<cantidadLibrosPorGenero, Integer> colCantidad;
 
     ObservableList<cantidadLibrosPorGenero> observableLibrosPorGenero = FXCollections.observableArrayList();
-
-//    TABLA PARA MOSTRAR TITULOS SEGÚN EL GÉNERO PULSADO
-    @FXML
-    TableView <Libro> tablaTitulosPorGenero;
-    @FXML
-    TableColumn<Integer, Libro> colTitulo;
-    @FXML
-    TableColumn<String, Libro> colPages;
-    @FXML
-    TableColumn<Integer, Libro> colPublicacion;
-
-    LibroDAO librodao = new LibroDAO();
-
     ObservableList<Libro> observableLibros = FXCollections.observableArrayList();
 
-    public void initialize(){
+    //    TABLA PARA MOSTRAR TITULOS SEGÚN EL GÉNERO PULSADO
+    @FXML
+    TableView<Libro> tablaTitulosPorGenero;
+    @FXML
+    TableColumn<Libro, Integer> colTitulo;
+    @FXML
+    TableColumn<Libro, String> colPages;
+    @FXML
+    TableColumn<Libro,Integer> colPublicacion;
+
+    public void initialize() {
         observableLibrosPorGenero.addAll(cantidadgenerodao.getCantidadLibrosPorGenero());
 
         colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
@@ -50,8 +48,7 @@ public class cantidadLIbrosPorGeneroController {
 
         numLibrosPorGenero.setItems(observableLibrosPorGenero);
 
-//        RELLENANDO TABLA QUE MOSTRARÁ TITULOS SEGÚN EL GÉNERO SELECCIONADO
-
+//        RELLENANDO Y DANDO MEDIDAS A LA TABLA QUE MOSTRARÁ TITULOS SEGÚN EL GÉNERO SELECCIONADO
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         colTitulo.setPrefWidth(300);
 
@@ -61,18 +58,19 @@ public class cantidadLIbrosPorGeneroController {
         colPublicacion.setCellValueFactory(new PropertyValueFactory<>("yearPublicacion"));
         colPublicacion.setPrefWidth(100);
 
+//        TOMO EL ID DEL GÉNERO ACTUAL PARA MOSTRAR LOS LIBROS QUE CONTIENE (CONSULTA EN LIBRODAO)
         numLibrosPorGenero.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldValue, newValue) ->{
+                (obs, oldValue, newValue) -> {
                     observableLibros.clear();
                     observableLibros.addAll(librodao.librosPorGenero(newValue.getGenero()));
                     tablaTitulosPorGenero.setItems(observableLibros);
-        });
+                });
     }
 
-    public void cerrarVentana(){
+    public void cerrarVentana() {
 
-            Stage estaVentana = (Stage) numLibrosPorGenero.getScene().getWindow();
+        Stage estaVentana = (Stage) numLibrosPorGenero.getScene().getWindow();
 
-            estaVentana.close();
-        }
+        estaVentana.close();
     }
+}
