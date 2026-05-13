@@ -113,10 +113,6 @@
         <ImageView fx:id="contenedorLibroGenerico"/>
       </StackPane>
 
-      <StackPane VBox.vgrow="NEVER">
-        <ProgressIndicator fx:id="cargador"/>
-      </StackPane>
-
       <TableView fx:id="mostrarLibroAutor" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="colTituloLibroAutor" text="Título"/>

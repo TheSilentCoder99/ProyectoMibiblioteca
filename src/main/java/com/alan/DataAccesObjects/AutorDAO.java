@@ -1,5 +1,6 @@
 package com.alan.DataAccesObjects;
 
+import com.alan.clases.Alertas;
 import com.alan.clases.Autor;
 import com.alan.clases.conexionDB;
 
@@ -68,7 +69,6 @@ public class AutorDAO {
             consulta.setInt(6, yearMuerte);
 
             consulta.executeUpdate();
-            ;
 
         } catch (SQLException e) {
             e.printStackTrace();

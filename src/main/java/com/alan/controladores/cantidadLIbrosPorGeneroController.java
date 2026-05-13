@@ -61,6 +61,9 @@ public class cantidadLIbrosPorGeneroController {
 //        TOMO EL ID DEL GÉNERO ACTUAL PARA MOSTRAR LOS LIBROS QUE CONTIENE (CONSULTA EN LIBRODAO)
         numLibrosPorGenero.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldValue, newValue) -> {
+                    if(newValue == null){
+                        return;
+                    }
                     observableLibros.clear();
                     observableLibros.addAll(librodao.librosPorGenero(newValue.getGenero()));
                     tablaTitulosPorGenero.setItems(observableLibros);

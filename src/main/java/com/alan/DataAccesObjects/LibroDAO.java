@@ -36,7 +36,22 @@ public class LibroDAO {
                 listaLibros.add(libro);
             }
 
-        } catch (SQLException e) {
+        }catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
         return listaLibros;
@@ -58,16 +73,32 @@ public class LibroDAO {
 //            ESTO DEVUELVE EL ID DEL LIBRO QUE SE ACABA DE INGRESAR, ES LO QUE USAS EN EL CONTROLADOR DE VENTANA ADD LIBRO
 //            PARA ACTUALIZAR LA TABLA DE AUTOR Y LIBRO
             ResultSet rs = consulta.getGeneratedKeys();
+
             if (rs.next()) {
-                return rs.getInt(1); // devuelve
+                return rs.getInt(1);
             } else {
                 return -1;
             }
 
-
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
+            e.printStackTrace();
         }
+        return -1;
     }
 
     public void borrarLibro(int idLibro) {
@@ -81,6 +112,21 @@ public class LibroDAO {
             consulta.executeUpdate();
 
         } catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
     }
@@ -100,7 +146,22 @@ public class LibroDAO {
 
             consulta.executeUpdate();
 
-        } catch (SQLException e) {
+        }catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
     }
@@ -123,7 +184,22 @@ public class LibroDAO {
                 listaLibrosAnterioresSXII.add(libroVista);
             }
 
-        } catch (SQLException e) {
+        }catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
 
@@ -150,10 +226,26 @@ public class LibroDAO {
             }
 
         } catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
         return listaLibrosPosterioresSXII;
     }
+
 
     public List<Libro> librosPorGenero(String nombreGenero) {
         List<Libro> listaLibrosPorGenero = new ArrayList<>();
@@ -175,6 +267,21 @@ public class LibroDAO {
             }
 
         } catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[LibroDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[LibroDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[LibroDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[LibroDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[LibroDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
         return listaLibrosPorGenero;

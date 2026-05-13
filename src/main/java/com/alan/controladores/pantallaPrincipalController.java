@@ -54,9 +54,6 @@ public class pantallaPrincipalController {
     private ImageView contenedorLibroGenerico;
 
     @FXML
-    ProgressIndicator cargador;
-
-    @FXML
     private
     Button botonEliminarElemento;
 
@@ -243,34 +240,26 @@ public class pantallaPrincipalController {
                 return;  //  EVITA NULL POINTER EXCEPTION
             panelLateral.setVisible(true);
             panelLateral.setManaged(true);
+
             if (newValue.getDescripcion() == null && newValue.getOpinion() == null) {
                 mostrarDescripcion.setText("DEscripción no añadida.".toUpperCase());
                 mostrarOpinion.setText("opinión no añadida.".toUpperCase());
+                contenedorLibroGenerico.setVisible(false);
             } else {
                 mostrarDescripcion.setText(newValue.getDescripcion());
                 mostrarDescripcion.setVisible(true);
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
+                contenedorLibroGenerico.setVisible(true);
 
                 if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
                     Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
                     contenedorLibroGenerico.setImage(fotoGenerica);
-                    return;
+
+                } else {
+                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
+                    contenedorLibroGenerico.setImage(fotoEsteLibro);
                 }
-
-                Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"), true);
-
-                fotoEsteLibro.progressProperty().addListener((obse, oldProgress, newProgress) -> {
-
-                    Platform.runLater(() -> {
-                        if (newProgress.doubleValue() >= 1.0) {
-                            cargador.setVisible(false);
-                            contenedorLibroGenerico.setImage(fotoEsteLibro);
-                            contenedorLibroGenerico.setVisible(true);
-                        }
-                    });
-                });
-
             }
         });
 
@@ -432,19 +421,22 @@ public class pantallaPrincipalController {
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
 
-        //        SOLO MUESTRO LOS LIBROS Y EL BUSCADOR DE LIBROS
         mostrarLibros.setVisible(true);
         mostrarLibros.setManaged(true);
 
         inputBuscarLibro.setVisible(true);
         inputBuscarLibro.setManaged(true);
+
+        mostrarDescripcion.setVisible(true);
+        mostrarDescripcion.setManaged(true);
+        mostrarOpinion.setVisible(true);
+        mostrarOpinion.setManaged(true);
     }
 
 
     public void mostrarAutores() {
         panelLateral.setVisible(true);
         panelLateral.setManaged(true);
-
         botonEliminarElemento.setText("Eliminar autor");
         botonEditarElemento.setVisible(true);
         botonEditarElemento.setText("Editar autor");
@@ -457,11 +449,14 @@ public class pantallaPrincipalController {
         inputBuscarPais.setVisible(false);
         mostrarDescripcion.setVisible(false);
         mostrarDescripcion.setManaged(false);
+        mostrarOpinion.setVisible(false);
+        mostrarOpinion.setManaged(false);
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
 
         contenedorLibroGenerico.setVisible(false);
         contenedorLibroGenerico.setManaged(false);
+        contenedorLibroGenerico.setImage(null);
 
 //        SOLO MUESTRO LOS AUTORES Y SU BUSCADOR Y LOS LIBROS DE CADA AUTOR
         mostrarAutores.setVisible(true);
@@ -491,6 +486,14 @@ public class pantallaPrincipalController {
         inputBuscarLibro.setVisible(false);
         inputBuscarPais.setVisible(false);
         mostrarDescripcion.setVisible(false);
+        mostrarDescripcion.setManaged(false);
+
+        mostrarOpinion.setVisible(false);
+        mostrarOpinion.setManaged(false);
+
+        contenedorLibroGenerico.setVisible(false);
+        contenedorLibroGenerico.setManaged(false);
+        contenedorLibroGenerico.setImage(null);
 
         mostrarPaises.setVisible(false);
         mostrarPaises.setManaged(false);
@@ -519,13 +522,22 @@ public class pantallaPrincipalController {
 
         inputBuscarAutor.setVisible(false);
         inputBuscarLibro.setVisible(false);
+
         mostrarDescripcion.setVisible(false);
+        mostrarDescripcion.setManaged(false);
+
+        mostrarOpinion.setVisible(false);
+        mostrarOpinion.setManaged(false);
 
         mostrarGeneros.setVisible(false);
         mostrarGeneros.setManaged(false);
 
         inputBuscarGenero.setVisible(false);
         inputBuscarGenero.setManaged(false);
+
+        contenedorLibroGenerico.setVisible(false);
+        contenedorLibroGenerico.setManaged(false);
+        contenedorLibroGenerico.setImage(null);
 
         //        SOLO MUESTRO LOS PAÍSES Y EL BUSCADOR DE PAÍSES
         inputBuscarPais.setVisible(true);
@@ -583,6 +595,12 @@ public class pantallaPrincipalController {
         if (mostrarLibros.isVisible()) {
             Libro seleccionado = mostrarLibros.getSelectionModel().getSelectedItem();
 
+            if (seleccionado == null) {
+                Alertas alerta = new Alertas();
+                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                return;
+            }
+
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
             alertaConfirmacion.setContentText("¿ELIMINAR LIBRO " + seleccionado.getTitulo().toUpperCase() + "?");
             alertaConfirmacion.showAndWait();
@@ -599,18 +617,34 @@ public class pantallaPrincipalController {
         //ELIMINAR AUTOR
         if (mostrarAutores.isVisible()) {
             Autor seleccionado = mostrarAutores.getSelectionModel().getSelectedItem();
+
+            if (seleccionado == null) {
+                Alertas alerta = new Alertas();
+                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                return;
+            }
+
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
-            alertaConfirmacion.setContentText("ELIMINAR AUTOR " + seleccionado.getNombre().toUpperCase() + " " + seleccionado.getApellido1().toUpperCase());
+            alertaConfirmacion.setContentText("ELIMINAR AUTOR");
             alertaConfirmacion.showAndWait();
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 autordao.borrarAutor(seleccionado.getId());
                 listaAutoresObservable.remove(seleccionado);
+                autorLibroObservable.clear();
                 alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO", seleccionado.getNombre().toUpperCase() + "  " + seleccionado.getApellido1().toUpperCase(), "EL AUTOR SE HA ELIMINADO");
             }
         }
+
         //ELIMINAR GÉNERO
         if (mostrarGeneros.isVisible()) {
             Genero seleccionado = mostrarGeneros.getSelectionModel().getSelectedItem();
+
+            if (seleccionado == null) {
+                Alertas alerta = new Alertas();
+                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                return;
+            }
+
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
             alertaConfirmacion.setContentText("ELIMINAR GÉNERO " + seleccionado.getNombre().toUpperCase() + " ?");
             alertaConfirmacion.showAndWait();
@@ -625,15 +659,24 @@ public class pantallaPrincipalController {
         if (mostrarPaises.isVisible()) {
             Pais seleccionado = mostrarPaises.getSelectionModel().getSelectedItem();
 
+            if (seleccionado == null) {
+                Alertas alerta = new Alertas();
+                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                return;
+            }
+
             alertaConfirmacion.setHeaderText("CONFIRMAR ELIMINACIÓN");
             alertaConfirmacion.setContentText("¿ELIMINAR PAÍS " + seleccionado.getNombrePais().toUpperCase() + " ?");
             alertaConfirmacion.showAndWait();
+
             if (alertaConfirmacion.getResult() == ButtonType.OK) {
                 paisdao.borrarPais(seleccionado.getId());
                 listaPaisesObservable.remove(seleccionado);
                 alertainfo.mostrarAlertaInfo("SE HA ELIMINADO EL PAÍS ", seleccionado.getNombrePais().toUpperCase(), " PAÍS ELIMINADO");
             }
         }
+
+        actualizarVentana();
     }
 
     public void actualizarVentana() {
@@ -662,7 +705,8 @@ public class pantallaPrincipalController {
         } else {
 //            PARA CUALQUIER OTRA SITUACIÓN
             Alertas alerta = new Alertas();
-            alerta.mostrarAlertaInfo("FALTAN LIBRO O AUTOR", "DEBES ELEGIR UN LIBRO O AUTOR A EDITAR", "ELIGE UN ELEMENTO");
+            alerta.mostrarAlertaError("FALTAN LIBRO O AUTOR", "DEBES ELEGIR UN LIBRO O AUTOR A EDITAR", "ELIGE UN ELEMENTO");
+            return;
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaVentana));

@@ -99,6 +99,15 @@ public class ventanaAddLibroController {
             String yearPublicacion = inputYearPublicacion.getText();
             String paginas = inputPaginas.getText();
 
+            ObservableList<Autor> autoresSeleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
+            ObservableList<Genero> generosSeleccionados = listaTablaGenero.getSelectionModel().getSelectedItems();
+
+            //            COMPROBAR QUE SE HA ELEGIDO AL MENOS UN GÉNERO Y AUTOR PARA EL LIBRO INSERTADO
+            if(listaTablaAutor.getSelectionModel().getSelectedItem() == null || listaTablaGenero.getSelectionModel().getSelectedItem() == null){
+                tipoAlerta.mostrarAlertaError("FALTAN DATOS","DEBES SELECCIONAR AL MENOS UN GÉNERO Y UN AUTOR PARA EL LIBRO","INGRESAR GÉNERO Y AUTOR");
+                return;
+            }
+
             // VALIDACIONES SEPARADAS PARA DAR MENSAJES MÁS ESPECÍFICOS
             if (titulo.length() < 2) {
                 tipoAlerta.mostrarAlertaWarning("TÍTULO INCORRECTO", "EL TÍTULO DEBE TENER AL MENOS 2 CARACTERES.", "RELLENAR CAMPO TÍTULO");
@@ -113,7 +122,7 @@ public class ventanaAddLibroController {
                 return;
             }
             // VALIDAR QUE PÁGINAS Y AÑO SON NÚMEROS ANTES DE PARSEAR
-            if (!paginas.matches("[0-9]+")) {
+            if (!paginas.matches("[0-9]+") || Integer.parseInt(paginas) < 1) {
                 tipoAlerta.mostrarAlertaWarning("FORMATO INCORRECTO", "EL Nº DE PÁGINAS SOLO PUEDE CONTENER NÚMEROS.", "REVISAR CAMPO PÁGINAS");
                 return;
             }
@@ -129,7 +138,7 @@ public class ventanaAddLibroController {
             String opinion = inputOpinion.getText().isEmpty() ? " " : inputOpinion.getText();
 
             Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO LIBRO");
-
+            System.out.println("LLEGO");
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
                 int idLibro = librodao.insertarLibro(titulo, yearPublicacionParseado, paginasParseadas, descripcion, opinion);
 
@@ -137,24 +146,26 @@ public class ventanaAddLibroController {
                 // Y SE INTENTAN INSERTAR AUTORES CON id=0, LO QUE FALLA EN LA BD
                 // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
                 if (idLibro != -1) {
-                    ObservableList<Autor> autoresSeleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
 
-                    ObservableList<Genero> generosSeleccionados = listaTablaGenero.getSelectionModel().getSelectedItems();
+                        for (int i = 0; i < autoresSeleccionados.size(); i++) {
+                            listaAutoresParaLibro.add(autoresSeleccionados.get(i).getId());
+                        }
 
-                    for (int i = 0; i < autoresSeleccionados.size(); i++) {
-                        listaAutoresParaLibro.add(autoresSeleccionados.get(i).getId());
-                    }
-
-                    for (int i = 0; i < generosSeleccionados.size(); i++) {
-                        listaGenerosParaLibro.add(generosSeleccionados.get(i).getId());
-                    }
+                        for (int i = 0; i < generosSeleccionados.size(); i++) {
+                            listaGenerosParaLibro.add(generosSeleccionados.get(i).getId());
+                        }
 
                 } else {
                     tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
                     return;
                 }
+
                 autorlibrodao.actualizarTablaLibroAutor(idLibro, listaAutoresParaLibro);
                 generodao.actualizarTablaGeneroLibro(idLibro, listaGenerosParaLibro);
+
+//                VACÍO LAS LISTAS DE GÉNERO Y AUTORES PARA QUE NO SE ACUMULEN
+                autoresSeleccionados.clear();
+                generosSeleccionados.clear();
 
                 // LIMPIAR CAMPOS TRAS AÑADIR UN LIBRO
                 List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
@@ -163,11 +174,11 @@ public class ventanaAddLibroController {
                     else if (elemento instanceof TextArea ta) ta.clear();
                 }
             }
-
         } catch (NumberFormatException e) {
             e.printStackTrace();
             tipoAlerta.mostrarAlertaError("HA OCURRIDO UN ERROR", "SE HA INGRESADO UN FORMATO ERRÓNEO EN ALGÚN CAMPO.", "REVISAR CAMPOS");
         }
+
     }
 
     public void abrirInsertarAutor() throws IOException {

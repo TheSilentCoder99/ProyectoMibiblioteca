@@ -120,7 +120,13 @@ public class ventanaEditarAutorController {
             // PARSEO DESPUÉS DE VALIDAR, YA SABEMOS QUE NO ESTÁ VACÍO
             int nacimiento = Integer.parseInt(inputYearNacimiento.getText());
 
-            if (nacimiento > fechaActual || Integer.parseInt(fallecimiento) > fechaActual) {
+            int fallecimientoParseado = 0;
+
+            if(!fallecimiento.isEmpty()){
+                fallecimientoParseado = Integer.parseInt(fallecimiento);
+            }
+
+            if (nacimiento > fechaActual || fallecimientoParseado > fechaActual) {
                 alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE NACIMIENTO O FALLECIMIENTO NO PUEDEN SER MAYOR AL AÑO ACTUAL", "INGRESA UN AÑO VÁLIDO");
                 return;
             }

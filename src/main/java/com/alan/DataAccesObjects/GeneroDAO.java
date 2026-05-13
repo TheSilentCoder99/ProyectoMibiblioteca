@@ -33,7 +33,22 @@ public class GeneroDAO {
                 listaGeneros.add(autor);
             }
 
-        } catch (SQLException e) {
+        }catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[AutorDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[AutorDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[AutorDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[AutorDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[AutorDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
         return listaGeneros;
@@ -51,6 +66,21 @@ public class GeneroDAO {
             consulta.executeUpdate();
 
         } catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[AutorDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[AutorDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[AutorDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[AutorDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[AutorDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
     }
@@ -66,7 +96,22 @@ public class GeneroDAO {
 
             consulta.executeUpdate();
 
-        } catch (SQLException e) {
+        }catch (SQLException e) {
+            String estado = e.getSQLState();
+            if (estado == null) {
+                System.err.println("[AutorDAO] Error desconocido: " + e.getMessage());
+            } else if (estado.startsWith("08")) {
+                // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                System.err.println("[AutorDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+            } else if (estado.startsWith("23")) {
+                // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                System.err.println("[AutorDAO] Operación rechazada por la base de datos: " + e.getMessage());
+            } else if (estado.startsWith("42")) {
+                // 42xxx = tabla o columna no existe, error en la query
+                System.err.println("[AutorDAO] Error en la consulta SQL: " + e.getMessage());
+            } else {
+                System.err.println("[AutorDAO] Error SQL (" + estado + "): " + e.getMessage());
+            }
             e.printStackTrace();
         }
     }
@@ -84,7 +129,22 @@ public class GeneroDAO {
                 consulta.executeUpdate();
 
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                String estado = e.getSQLState();
+                if (estado == null) {
+                    System.err.println("[AutorDAO] Error desconocido: " + e.getMessage());
+                } else if (estado.startsWith("08")) {
+                    // 08xxx = errores de conexión (servidor caído, timeout, puerto incorrecto...)
+                    System.err.println("[AutorDAO] No se pudo conectar a la base de datos. Verifica que el servidor esté activo.");
+                } else if (estado.startsWith("23")) {
+                    // 23xxx = violación de restricción (clave foránea, NOT NULL, duplicado...)
+                    System.err.println("[AutorDAO] Operación rechazada por la base de datos: " + e.getMessage());
+                } else if (estado.startsWith("42")) {
+                    // 42xxx = tabla o columna no existe, error en la query
+                    System.err.println("[AutorDAO] Error en la consulta SQL: " + e.getMessage());
+                } else {
+                    System.err.println("[AutorDAO] Error SQL (" + estado + "): " + e.getMessage());
+                }
+                e.printStackTrace();
             }
 
         }
