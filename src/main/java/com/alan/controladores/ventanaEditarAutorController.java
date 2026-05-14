@@ -74,8 +74,7 @@ public class ventanaEditarAutorController {
         // Rellena los campos con los datos del autor recibido
         inputNombre.setText(autor.getNombre());
         inputApellido1.setText(autor.getApellido1());
-        inputApellido2.setText((autor.getApellido2()));
-
+        inputApellido2.setText(autor.getApellido2() != null ? autor.getApellido2() : "");
 //        OBTENGO EL PAIS DEL AUTOR A TRAVÉS DEL MÉTDO BUSCAR PAÍS DEL DAO
         Pais paisAutor = paisdao.buscarPais(autor.getPais_id());
 
@@ -102,18 +101,18 @@ public class ventanaEditarAutorController {
             Alertas alertas = new Alertas();
 
             // VALIDACIONES ANTES DE PARSEAR
-            if (nombre.isEmpty() || apellido1.isEmpty() || nombre.length() < 2) {
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL NOMBRE Y APELLIDO NO PUEDEN ESTAR VACÍOS.", "INGRESA VALORES VÁLIDOS");
+            if (!nombre.matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || !apellido1.matches("[a-záéíóúüñA-ZÁÉÍÓÚÜÑ ]+") || nombre.isEmpty() || apellido1.isEmpty() || nombre.length() < 3 || apellido1.length() < 3) {
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "EL NOMBRE Y APELLIDO 1 NO PUEDEN ESTAR VACÍOS Y DEBEN TENER AL MENOS 3 CARACTÉRES.", "INGRESA VALORES VÁLIDOS.");
                 return; // <-- FALTABA EL RETURN, sin él el código seguía ejecutándose aunque hubiera error
             }
 
             if (inputYearNacimiento.getText().isEmpty()) {
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL CAMPO AÑO DE NACIMIENTO NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO");
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "EL CAMPO AÑO DE NACIMIENTO NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO.");
                 return; // <-- MISMO PROBLEMA
             }
 
             if (paisActual == null) {
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "DEBES SELECCIONAR UN PAÍS.", "SELECCIONA UN PAÍS");
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "DEBES SELECCIONAR UN PAÍS.", "SELECCIONA UN PAÍS.");
                 return;
             }
 
@@ -127,7 +126,7 @@ public class ventanaEditarAutorController {
             }
 
             if (nacimiento > fechaActual || fallecimientoParseado > fechaActual) {
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE NACIMIENTO O FALLECIMIENTO NO PUEDEN SER MAYOR AL AÑO ACTUAL", "INGRESA UN AÑO VÁLIDO");
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "EL AÑO DE NACIMIENTO O FALLECIMIENTO NO PUEDEN SER MAYOR AL AÑO ACTUAL.", "INGRESA UN AÑO VÁLIDO.");
                 return;
             }
 
@@ -135,7 +134,7 @@ public class ventanaEditarAutorController {
 
             if (confirmacionActualizacion.getResult() == ButtonType.OK) {
                 autordao.ActualizarAutor(this.autorAEditar.getId(), nombre, apellido1, apellido2, nacimiento, fallecimiento, paisActual.getId());
-                alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA", "SE HA ACTUALIZADO EL AUTOR", null);
+                alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA.", "SE HA ACTUALIZADO EL AUTOR", null);
                 Stage stage = (Stage) inputNombre.getScene().getWindow();
                 stage.close();
             } else {

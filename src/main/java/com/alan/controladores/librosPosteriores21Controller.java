@@ -48,7 +48,7 @@ public class librosPosteriores21Controller {
             if (newValue == null) return; // evita NullPointerException al deseleccionar
 
             if (newValue.getDescripcion() == null || newValue.getDescripcion().isBlank()) {
-                descripcionLibro.setText("Descripción no añadida.");
+                descripcionLibro.setText("Descripción no añadida.".toUpperCase());
             } else {
                 descripcionLibro.setText(newValue.getDescripcion());
             }

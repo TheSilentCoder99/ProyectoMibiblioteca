@@ -41,7 +41,7 @@ public class ventanaAddGeneroController {
                 return;
             }
 
-            Alert resultadoIngresoGenero = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO", "VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BBDD: " + nombreGenero.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO GÉNERO");
+            Alert resultadoIngresoGenero = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO", "VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BASE DE DATOS: " + nombreGenero.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO GÉNERO");
 
             if (resultadoIngresoGenero.getResult() == ButtonType.OK) {
                 generodao.insertarGenero(nombreGenero);

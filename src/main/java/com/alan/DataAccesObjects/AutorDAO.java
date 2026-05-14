@@ -43,8 +43,15 @@ public class AutorDAO {
 
 //            RECORRE LA TABLA Y OBTIENE VALORES HASTA QUE EL SIGUIENTE ESPACIO RECORRIDO (UNA FILA) DEVUELVA NULL
             while (rs.next()) {
-                Autor autor = new Autor(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getInt("pais_id"), rs.getString("estado"), rs.getString("fallecido"));
+                Autor autor = new Autor();
 
+                autor.setId(rs.getInt("id"));
+                autor.setNombre(rs.getString("nombre"));
+                autor.setApellido1(rs.getString("apellido1") != null ? rs.getString("apellido1") : "");
+                autor.setApellido2(rs.getString("apellido2") != null ? rs.getString("apellido2") : "");
+                autor.setPais_id(rs.getInt("pais_id"));
+                autor.setYearNacimiento(rs.getString("estado"));
+                autor.setYearFallecimiento(rs.getString("fallecido"));
                 listaAutores.add(autor);
             }
 

@@ -9,7 +9,7 @@ public class Autor {
     private String yearNacimiento;
     private String yearFallecimiento;
 
-    Autor() {
+    public Autor() {
 
     }
 

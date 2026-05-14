@@ -250,16 +250,16 @@ public class pantallaPrincipalController {
                 mostrarDescripcion.setVisible(true);
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
-                contenedorLibroGenerico.setVisible(true);
-
-                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
-                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
-                    contenedorLibroGenerico.setImage(fotoGenerica);
-
-                } else {
-                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
-                    contenedorLibroGenerico.setImage(fotoEsteLibro);
-                }
+//                contenedorLibroGenerico.setVisible(true);
+//
+//                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
+//                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+//                    contenedorLibroGenerico.setImage(fotoGenerica);
+//
+//                } else {
+//                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
+//                    contenedorLibroGenerico.setImage(fotoEsteLibro);
+//                }
             }
         });
 
@@ -365,7 +365,7 @@ public class pantallaPrincipalController {
 //                    SI RESULTA QUE EL ID BUSCADO COINCIDE CON ALGÚN PAÍS, ÉSTE SE MOSTRARÁ, SINO NO.
                     coincideId = Integer.parseInt(textoBusqueda) == l.getId();
                 } catch (NumberFormatException e) {
-                    // No es un número, simplemente coincideId se queda en false
+                    // Si no es un número, simplemente coincideId se queda en false
                 }
                 return coincideNombre || coincideId || coincideISO;
             });
@@ -597,7 +597,7 @@ public class pantallaPrincipalController {
 
             if (seleccionado == null) {
                 Alertas alerta = new Alertas();
-                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                alerta.mostrarAlertaInfo("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
                 return;
             }
 
@@ -620,7 +620,7 @@ public class pantallaPrincipalController {
 
             if (seleccionado == null) {
                 Alertas alerta = new Alertas();
-                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                alerta.mostrarAlertaInfo("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
                 return;
             }
 
@@ -631,7 +631,14 @@ public class pantallaPrincipalController {
                 autordao.borrarAutor(seleccionado.getId());
                 listaAutoresObservable.remove(seleccionado);
                 autorLibroObservable.clear();
-                alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO", seleccionado.getNombre().toUpperCase() + "  " + seleccionado.getApellido1().toUpperCase(), "EL AUTOR SE HA ELIMINADO");
+
+                if(seleccionado.getApellido1() != null && seleccionado.getApellido2() != null){
+                    alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO",seleccionado.getNombre() + " " + seleccionado.getApellido1() + " " + seleccionado.getApellido2(), "EL AUTOR SE HA ELIMINADO");
+                } else if(seleccionado.getApellido2() == null){
+                    alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO",seleccionado.getNombre() + " " + seleccionado.getApellido1(), "EL AUTOR SE HA ELIMINADO");
+                } else{
+                    alertainfo.mostrarAlertaInfo("AUTOR ELIMINADO",seleccionado.getNombre(), "EL AUTOR SE HA ELIMINADO");
+                }
             }
         }
 
@@ -641,7 +648,7 @@ public class pantallaPrincipalController {
 
             if (seleccionado == null) {
                 Alertas alerta = new Alertas();
-                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                alerta.mostrarAlertaInfo("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
                 return;
             }
 
@@ -661,7 +668,7 @@ public class pantallaPrincipalController {
 
             if (seleccionado == null) {
                 Alertas alerta = new Alertas();
-                alerta.mostrarAlertaError("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
+                alerta.mostrarAlertaInfo("ERROR AL ELIMINAR", "DEBES SELECCIONAR UN ELEMENTO A ELIMINAR", "NO SE PUEDE ELIMINAR");
                 return;
             }
 
@@ -807,7 +814,7 @@ public class pantallaPrincipalController {
 
                         tabla = new PdfPTable(3); // 3 columnas
                         // Cabeceras
-                        tabla.addCell("Titulo".toUpperCase());
+                        tabla.addCell("Título".toUpperCase());
                         tabla.addCell("AÑO publicación".toUpperCase());
                         tabla.addCell("páginas".toUpperCase());
                         // Datos
@@ -830,7 +837,7 @@ public class pantallaPrincipalController {
                         tabla.addCell("Apellido 2".toUpperCase());
                         tabla.addCell("Año nacimiento".toUpperCase());
                         tabla.addCell("Año fallecimiento".toUpperCase());
-                        tabla.addCell("Pais".toUpperCase());
+                        tabla.addCell("País".toUpperCase());
                         // Datos
                         for (Autor autor : listaAutoresObservable) {
                             tabla.addCell(autor.getNombre());
@@ -871,8 +878,8 @@ public class pantallaPrincipalController {
                         document.open();
                         tabla = new PdfPTable(3); // 3 columnas
 
-                        tabla.addCell("Titulo".toUpperCase());
-                        tabla.addCell("Paginas".toUpperCase());
+                        tabla.addCell("Título".toUpperCase());
+                        tabla.addCell("Páginas".toUpperCase());
                         tabla.addCell("Publicación".toUpperCase());
                         // Datos
                         for (Libro libro : librosSXXI) {
@@ -889,8 +896,8 @@ public class pantallaPrincipalController {
                         document.open();
                         tabla = new PdfPTable(3); // 3 columnas
 
-                        tabla.addCell("Titulo".toUpperCase());
-                        tabla.addCell("Paginas".toUpperCase());
+                        tabla.addCell("Título".toUpperCase());
+                        tabla.addCell("Páginas".toUpperCase());
                         tabla.addCell("Publicación".toUpperCase());
                         // Datos
                         for (Libro libro : librosAnterioresSXXI) {

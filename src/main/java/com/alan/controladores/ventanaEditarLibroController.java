@@ -77,12 +77,12 @@ public class ventanaEditarLibroController {
             }
 
             if (paginas.isEmpty()) {
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL Nº DE PÁGINAS NO PUEDE ESTAR VACÍO.", "INGRESA UN VALOR VÁLIDO.");
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "EL Nº DE PÁGINAS NO PUEDE ESTAR VACÍO.", "INGRESA UN VALOR VÁLIDO.");
                 return;
             }
 
             if (yearPublicacion.isEmpty()) {
-                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN", "EL AÑO DE PUBLICACIÓN NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO.");
+                alertas.mostrarAlertaError("ERROR EN LA INFORMACIÓN.", "EL AÑO DE PUBLICACIÓN NO PUEDE ESTAR VACÍO.", "INGRESA UN AÑO VÁLIDO.");
                 return;
             }
 
