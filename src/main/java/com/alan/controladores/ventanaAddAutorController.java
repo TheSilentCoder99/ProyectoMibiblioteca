@@ -140,7 +140,6 @@ public class ventanaAddAutorController {
             }
 
             String apellido2Final = apellido2.isEmpty() ? " " : apellido2;
-            String fallecimientoFinal = yearFallecimiento.isEmpty() ? " " : yearFallecimiento;
 
             Alert resultadoIngresoAutor = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR AUTOR", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + " " + apellido1 + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR");
 

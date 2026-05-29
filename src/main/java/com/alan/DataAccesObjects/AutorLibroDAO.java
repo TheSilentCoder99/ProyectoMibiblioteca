@@ -56,6 +56,7 @@ public class AutorLibroDAO {
         return librosDelAutor;
     }
 
+//    El bucle se encarga de ejecutar la consulta de actualización con cada uno de los ID de los autores seleccionados. Por ejemplo, si un libro tiene 2 autores (id-7 e id-3), cuando se seleccionen uno u otro, les será marcado como propio ese determinado libro a ambos.
     public void actualizarTablaLibroAutor(int idLibro, List<Integer> idAutor) {
         for (int i = 0; i < idAutor.size(); i++) {
 
@@ -65,6 +66,7 @@ public class AutorLibroDAO {
                 );
                 consulta.setInt(1, idLibro);
                 consulta.setInt(2, idAutor.get(i));
+
                 consulta.executeUpdate();
 
             } catch (SQLException e) {

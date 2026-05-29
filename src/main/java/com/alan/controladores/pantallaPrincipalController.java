@@ -250,16 +250,16 @@ public class pantallaPrincipalController {
                 mostrarDescripcion.setVisible(true);
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
-//                contenedorLibroGenerico.setVisible(true);
-//
-//                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
-//                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
-//                    contenedorLibroGenerico.setImage(fotoGenerica);
-//
-//                } else {
-//                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
-//                    contenedorLibroGenerico.setImage(fotoEsteLibro);
-//                }
+                contenedorLibroGenerico.setVisible(true);
+
+                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
+                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+                    contenedorLibroGenerico.setImage(fotoGenerica);
+
+                } else {
+                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
+                    contenedorLibroGenerico.setImage(fotoEsteLibro);
+           }
             }
         });
 

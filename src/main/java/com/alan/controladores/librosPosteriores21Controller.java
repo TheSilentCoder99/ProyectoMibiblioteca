@@ -53,7 +53,6 @@ public class librosPosteriores21Controller {
                 descripcionLibro.setText(newValue.getDescripcion());
             }
         });
-
     }
 
 

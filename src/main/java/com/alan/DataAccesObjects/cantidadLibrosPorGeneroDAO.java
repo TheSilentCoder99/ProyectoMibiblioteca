@@ -17,8 +17,10 @@ public class cantidadLibrosPorGeneroDAO {
 
         try (Connection conn = conexionDB.getConnection()) {
             PreparedStatement consulta = conn.prepareStatement(
+//                    cantidadLibros_por_Genero es una vista ya creada directamente en la BD
                     "SELECT * FROM cantidadLibros_por_Genero"
             );
+
             ResultSet rs = consulta.executeQuery();
 
             while (rs.next()) {

@@ -18,6 +18,7 @@ public class autoresMasLeidosDAO {
         List<autorMasLeido> listaAutoresMasLeidos = new ArrayList<>();
 
         try (Connection conn = conexionDB.getConnection()) {
+            // autores_mas_leidos es una vista ya creada directamente en la BD
             PreparedStatement consulta = conn.prepareStatement("SELECT * FROM autores_mas_leidos"
             );
 
@@ -31,6 +32,7 @@ public class autoresMasLeidosDAO {
                 autorDeLaLista.setApellido1(rs.getString("apellido1"));
                 autorDeLaLista.setApellido2(rs.getString("apellido2"));
                 autorDeLaLista.setLibros(rs.getInt("libros"));
+
                 listaAutoresMasLeidos.add(autorDeLaLista);
             }
 

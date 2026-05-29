@@ -68,7 +68,7 @@ public class ventanaEditarAutorController {
         });
     }
 
-    //    CON ESTE SETTER, AL AUTOR DE ESTA CLASE SE LE PASAN LAS CARACTERÍSTICAS DEL AUTOR SELECCIONADO MEDIANTE LOS LISTENER DEL MÉTDO AbrirVentanaEditarElemento(). AUTOR DE ESTA CLASE ES UN SIMPLE RECEPTOR VACÍO DEL AUTOR IMPORTANTE, QUE ES EL QUE VIENE DEL CONTROLADOR DE LA PANTALLA PRINCIPAL
+    //    CON ESTE SETTER, AL AUTOR DE ESTA CLASE SE LE PASAN LAS CARACTERÍSTICAS DEL AUTOR SELECCIONADO MEDIANTE LOS LISTENER DEL MÉTDO AbrirVentanaEditarElemento(). "AUTOR" DE ESTA CLASE ES UN SIMPLE RECEPTOR VACÍO DEL AUTOR IMPORTANTE, QUE ES EL QUE VIENE DEL CONTROLADOR DE LA PANTALLA PRINCIPAL.
     public void setAutor(Autor autor) {
         this.autorAEditar = autor;
         // Rellena los campos con los datos del autor recibido
@@ -90,7 +90,7 @@ public class ventanaEditarAutorController {
         inputYearFallecimiento.setPromptText(String.valueOf(autor.getYearFallecimiento()));
     }
 
-    //    MANEJO DE EXCEPCIONES DEL MÉTTODO
+    //    MANEJO DE EXCEPCIONES DEL MÉTODO
     public void actualizarAutor() {
         try {
             String nombre = inputNombre.getText();

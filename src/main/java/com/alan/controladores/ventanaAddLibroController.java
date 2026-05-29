@@ -144,7 +144,7 @@ public class ventanaAddLibroController {
 
                 // PROBLEMA: SI EL USUARIO CANCELA LA CONFIRMACIÓN, idLibro ES 0
                 // Y SE INTENTAN INSERTAR AUTORES CON id=0, LO QUE FALLA EN LA BD
-                // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE
+                // AHORA SOLO SE INSERTAN AUTORES SI EL LIBRO SE GUARDÓ CORRECTAMENTE (EN LIBRODAO SE DEVUELVE EL ID DEL LIBRO SI LA INSERCIÓN FUE CORRECTA O -1 SI FALLÓ)
                 if (idLibro != -1) {
 
                         for (int i = 0; i < autoresSeleccionados.size(); i++) {

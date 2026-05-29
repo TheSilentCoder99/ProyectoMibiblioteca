@@ -64,7 +64,6 @@ public class autoresMasLeidosController {
         autoresMasLeidosObservable.addAll(autoresMasLeidosdao.getAutoresMasLeidos());
         tablaAutoresMasLeidos.setItems(autoresMasLeidosObservable);
 
-
 //      CREANDO LISTENER DE UNA TABLA DEPENDIENDO DE OTRA
         ObservableList<AutorLibro> observableLibros = FXCollections.observableArrayList();
         mostrarLibroAutor.setItems(observableLibros);
@@ -89,7 +88,6 @@ public class autoresMasLeidosController {
     }
 
     public void cerrarVentana() {
-
         Stage estaVentana = (Stage) tablaAutoresMasLeidos.getScene().getWindow();
         estaVentana.close();
     }

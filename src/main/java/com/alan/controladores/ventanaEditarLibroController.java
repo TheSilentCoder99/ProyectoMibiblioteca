@@ -39,7 +39,7 @@ public class ventanaEditarLibroController {
 
     private Libro libroAEditar;
 
-    //    MISMA UTILIDAD QUE SETAUTOR EN EDITAR AUTOR CONTROLLER
+    //    MISMA UTILIDAD QUE SET AUTOR EN EDITAR AUTOR CONTROLLER
     public void setLibro(Libro libro) {
 
         this.libroAEditar = libro;

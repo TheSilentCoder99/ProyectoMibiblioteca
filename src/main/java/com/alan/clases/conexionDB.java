@@ -13,8 +13,7 @@ public class conexionDB {
     private static String password;
     private static boolean useSSL;
 
-    // Bloque estático: se ejecuta UNA SOLA vez al cargar la clase. Es como un initialize(), CREAS ESTE BLOQUE PARA PREPRAR
-//    TODA LA CONEXIÓN: EL USER, LA CONTRASEÑA, CONEXIÓN SEGURA...
+    // Bloque estático: se ejecuta UNA SOLA vez al cargar la clase. Es como un initialize(), CREAS ESTE BLOQUE PARA PREPARAR TODA LA CONEXIÓN: EL USER, LA CONTRASEÑA, CONEXIÓN SEGURA...
     static {
         try (InputStream input = conexionDB.class
                 .getClassLoader()
