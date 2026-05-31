@@ -251,15 +251,16 @@ public class pantallaPrincipalController {
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
                 contenedorLibroGenerico.setVisible(true);
+//                SI SE DESCOMENTA EL CÓDIGO DE ABAJO, AL PULSAR EN CADA LIBRO, OBTENDRÁS LA PORTADA DESDE OPENLIBRARY. SI LA CONEXIÓN A INTERNET NO ES BUENA, EL PROGRAMA IRÁ MUY LENTO.
 
-                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
-                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
-                    contenedorLibroGenerico.setImage(fotoGenerica);
-
-                } else {
-                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
-                    contenedorLibroGenerico.setImage(fotoEsteLibro);
-           }
+//                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
+//                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+//                    contenedorLibroGenerico.setImage(fotoGenerica);
+//
+//                } else {
+//                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
+//                    contenedorLibroGenerico.setImage(fotoEsteLibro);
+//           }
             }
         });
 
@@ -695,6 +696,9 @@ public class pantallaPrincipalController {
 
         listaGenerosObservable.clear();
         listaGenerosObservable.addAll(generodao.getAllGeneros());
+
+        listaPaisesObservable.clear();
+        listaPaisesObservable.addAll(paisdao.getAllPaises());
     }
 
     public void AbrirVentanaEditarElemento() throws IOException {

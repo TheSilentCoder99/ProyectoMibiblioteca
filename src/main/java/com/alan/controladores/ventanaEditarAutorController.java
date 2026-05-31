@@ -75,7 +75,7 @@ public class ventanaEditarAutorController {
         inputNombre.setText(autor.getNombre());
         inputApellido1.setText(autor.getApellido1());
         inputApellido2.setText(autor.getApellido2() != null ? autor.getApellido2() : "");
-//        OBTENGO EL PAIS DEL AUTOR A TRAVÉS DEL MÉTDO BUSCAR PAÍS DEL DAO
+//        OBTENGO EL PAIS DEL AUTOR A TRAVÉS DEL MÉTODO BUSCAR PAÍS DEL DAO
         Pais paisAutor = paisdao.buscarPais(autor.getPais_id());
 
         cbPais.setValue(paisAutor);
@@ -133,15 +133,18 @@ public class ventanaEditarAutorController {
             Alert confirmacionActualizacion = alertas.mostrarAlertaConfirmacion("ACTUALIZAR AUTOR.", "¿CONTINUAR CON LA ACTUALIZACIÓN?", "ACEPTAR PARA CONTINUAR.");
 
             if (confirmacionActualizacion.getResult() == ButtonType.OK) {
-                autordao.ActualizarAutor(this.autorAEditar.getId(), nombre, apellido1, apellido2, nacimiento, fallecimiento, paisActual.getId());
-                alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA.", "SE HA ACTUALIZADO EL AUTOR", null);
-                Stage stage = (Stage) inputNombre.getScene().getWindow();
-                stage.close();
-            } else {
+
+                boolean isActualizado = autordao.ActualizarAutor(this.autorAEditar.getId(), nombre, apellido1, apellido2, nacimiento, fallecimiento, paisActual.getId());
+
+                if(isActualizado){
+                    alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA.", "SE HA ACTUALIZADO EL AUTOR", null);
+                    Stage stage = (Stage) inputNombre.getScene().getWindow();
+                    stage.close();
+                } else {
                 alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL AUTOR.", null);
             }
 
-        } catch (NumberFormatException e) {
+        } }catch (NumberFormatException e) {
             Alertas alertas = new Alertas();
             alertas.mostrarAlertaError("ERROR DE FORMATO.", "EL AÑO DE NACIMIENTO Y FALLECIMIENTO DEBEN SER UN NÚMERO.", "INGRESA UN AÑO VÁLIDO.");
         }

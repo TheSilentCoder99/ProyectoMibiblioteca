@@ -1,0 +1,409 @@
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Manual de usuario de Mi Biblioteca — Aplicación JavaFX para gestionar libros, autores y géneros literarios</h2>
+
+<style>
+:root {
+  --accent: #3C3489;
+  --accent-light: #EEEDFE;
+  --accent-mid: #7F77DD;
+}
+* { box-sizing: border-box; margin: 0; padding: 10; }
+body { font-family: var(--font-sans); }
+
+.manual-header {
+  padding: 2rem 0 1.5rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  margin-bottom: 1.5rem;
+}
+.manual-header h1 {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+.manual-header p {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-right: 4px;
+}
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+.badge-teal   { background: #E1F5EE; color: #0F6E56; }
+.badge-amber  { background: #FAEEDA; color: #854F0B; }
+.badge-red    { background: #FCEBEB; color: #A32D2D; }
+
+.nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.nav-btn {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.nav-btn:hover, .nav-btn.active {
+  background: #EEEDFE;
+  color: #3C3489;
+  border-color: #AFA9EC;
+}
+
+.section { display: none; }
+.section.visible { display: block; }
+
+.section-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title i { font-size: 20px; color: var(--accent-mid); }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.info-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+}
+.info-card .card-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.info-card .card-label i { font-size: 15px; }
+.info-card .card-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.step-list { list-style: none; margin-bottom: 1.5rem; }
+.step-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+.step-list li:last-child { border-bottom: none; }
+.step-num {
+  min-width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #EEEDFE;
+  color: #3C3489;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.tip-box {
+  background: var(--color-background-secondary);
+  border-left: 3px solid var(--accent-mid);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.tip-box strong { color: var(--color-text-primary); font-weight: 500; }
+
+.warn-box {
+  background: #FAEEDA;
+  border-left: 3px solid #854F0B;
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #633806;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.feature-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.feature-row:last-child { border-bottom: none; }
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.fi-purple { background: #EEEDFE; color: #534AB7; }
+.fi-teal   { background: #E1F5EE; color: #0F6E56; }
+.fi-amber  { background: #FAEEDA; color: #854F0B; }
+.fi-red    { background: #FCEBEB; color: #993535; }
+.fi-blue   { background: #E6F1FB; color: #185FA5; }
+
+.feature-text h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 3px;
+}
+.feature-text p {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.shortcut-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.shortcut-table tr { border-bottom: 0.5px solid var(--color-border-tertiary); }
+.shortcut-table td { padding: 9px 4px; color: var(--color-text-primary); vertical-align: middle; }
+.shortcut-table td:first-child { color: var(--color-text-secondary); width: 40%; }
+kbd {
+  display: inline-block;
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-primary);
+}
+
+.divider {
+  height: 0.5px;
+  background: var(--color-border-tertiary);
+  margin: 1.5rem 0;
+}
+
+.section-desc {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+</style>
+
+<div class="manual-header">
+  <h1><i class="ti ti-books" aria-hidden="true" style="font-size:24px; vertical-align:-4px; margin-right:8px; color:#7F77DD;"></i>Mi biblioteca — manual de usuario</h1>
+  <p>Guía para gestionar tu colección de libros, autores y géneros literarios</p>
+</div>
+
+<div class="nav" id="nav">
+  <button class="nav-btn active" onclick="showSection('inicio')"><i class="ti ti-home" aria-hidden="true"></i> Inicio</button>
+  <button class="nav-btn" onclick="showSection('libros')"><i class="ti ti-book" aria-hidden="true"></i> Libros</button>
+  <button class="nav-btn" onclick="showSection('autores')"><i class="ti ti-user" aria-hidden="true"></i> Autores</button>
+  <button class="nav-btn" onclick="showSection('generos')"><i class="ti ti-tag" aria-hidden="true"></i> Géneros</button>
+  <button class="nav-btn" onclick="showSection('eliminar')"><i class="ti ti-trash" aria-hidden="true"></i> Eliminar</button>
+  <button class="nav-btn" onclick="showSection('buscar')"><i class="ti ti-search" aria-hidden="true"></i> Buscar</button>
+</div>
+
+<div id="inicio" class="section visible">
+  <p class="section-title"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Pantalla principal</p>
+  <p class="section-desc">Al abrir la aplicación verás la pantalla principal con tres secciones: <strong>Libros</strong>, <strong>Autores</strong> y <strong>Géneros</strong>. Por defecto se muestra el catálogo de libros.</p>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <div class="card-label"><i class="ti ti-book" aria-hidden="true"></i> Libros</div>
+      <div class="card-value">Catálogo completo</div>
+    </div>
+    <div class="info-card">
+      <div class="card-label"><i class="ti ti-user" aria-hidden="true"></i> Autores</div>
+      <div class="card-value">Con sus libros asociados</div>
+    </div>
+    <div class="info-card">
+      <div class="card-label"><i class="ti ti-tag" aria-hidden="true"></i> Géneros</div>
+      <div class="card-value">Categorías literarias</div>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-icon fi-purple"><i class="ti ti-layout-sidebar-right" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Panel lateral</h3>
+      <p>Al seleccionar un libro, el panel lateral muestra su descripción completa. Al seleccionar un autor, muestra todos los libros que tienes de ese autor.</p>
+    </div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-icon fi-teal"><i class="ti ti-arrows-exchange" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Cambiar de sección</h3>
+      <p>Usa los botones de la barra superior (<strong>Libros</strong>, <strong>Autores</strong>, <strong>Géneros</strong>) para navegar entre las distintas vistas. Solo se muestra una a la vez.</p>
+    </div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-icon fi-amber"><i class="ti ti-refresh" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Actualización automática</h3>
+      <p>Al cerrar cualquier ventana de añadir (libro, autor o género), la tabla principal se actualiza automáticamente con los nuevos datos.</p>
+    </div>
+  </div>
+</div>
+
+<div id="libros" class="section">
+  <p class="section-title"><i class="ti ti-book-2" aria-hidden="true"></i> Gestión de libros</p>
+  <p class="section-desc">Desde la vista de libros puedes ver el catálogo completo, buscar por título, consultar descripción y añadir nuevos libros a la colección.</p>
+
+  <p style="font-size:13px; font-weight:500; color:var(--color-text-secondary); margin-bottom:8px;">Cómo añadir un libro nuevo</p>
+  <ul class="step-list">
+    <li><span class="step-num">1</span> Pulsa el botón <span class="badge badge-purple">+ Añadir libro</span> en la barra superior.</li>
+    <li><span class="step-num">2</span> Rellena el <strong>título</strong>, el <strong>año de publicación</strong> y el <strong>número de páginas</strong>. Son campos obligatorios.</li>
+    <li><span class="step-num">3</span> Opcionalmente, escribe una <strong>descripción</strong> y tu <strong>opinión personal</strong> sobre el libro.</li>
+    <li><span class="step-num">4</span> Selecciona el <strong>autor o autores</strong> en la lista de la derecha. Puedes seleccionar varios a la vez manteniendo <kbd>Ctrl</kbd>.</li>
+    <li><span class="step-num">5</span> Si el autor no existe todavía, usa el botón <strong>Añadir autor</strong> dentro de esta misma ventana.</li>
+    <li><span class="step-num">6</span> Pulsa <strong>Guardar</strong> y confirma en el diálogo que aparece.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Descripción en el panel lateral:</strong> Al hacer clic sobre cualquier libro de la tabla, su descripción aparecerá automáticamente en el panel lateral derecho. Si el libro no tiene descripción, se mostrará el texto "Descripción no añadida."
+  </div>
+
+  <div class="warn-box">
+    <i class="ti ti-alert-triangle" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>
+    Los campos de año de publicación y páginas solo admiten números. Introducir letras causará un error al guardar.
+  </div>
+</div>
+
+<div id="autores" class="section">
+  <p class="section-title"><i class="ti ti-users" aria-hidden="true"></i> Gestión de autores</p>
+  <p class="section-desc">La vista de autores muestra la lista completa con nombre, apellidos, años de nacimiento y fallecimiento, y país. Al seleccionar un autor, el panel lateral muestra los libros que tienes de él.</p>
+
+  <p style="font-size:13px; font-weight:500; color:var(--color-text-secondary); margin-bottom:8px;">Cómo añadir un autor nuevo</p>
+  <ul class="step-list">
+    <li><span class="step-num">1</span> Pulsa el botón <span class="badge badge-teal">+ Añadir autor</span> en la barra superior.</li>
+    <li><span class="step-num">2</span> Introduce el <strong>nombre</strong>, el <strong>primer apellido</strong> y el <strong>año de nacimiento</strong>. Son obligatorios.</li>
+    <li><span class="step-num">3</span> El <strong>segundo apellido</strong> y el <strong>año de fallecimiento</strong> son opcionales. Si el autor está vivo, deja el año de fallecimiento vacío.</li>
+    <li><span class="step-num">4</span> Selecciona el <strong>país</strong> en el desplegable.</li>
+    <li><span class="step-num">5</span> Pulsa <strong>Guardar</strong> y confirma.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Libros del autor:</strong> Al hacer clic sobre cualquier autor, el panel lateral mostrará automáticamente los libros que tienes registrados de esa persona, con título, páginas y año de publicación.
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-icon fi-blue"><i class="ti ti-id" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Autores con un solo nombre (clásicos)</h3>
+      <p>Para autores que se conocen por un único nombre como Voltaire, Epicteto o Sun Tzu, introduce el nombre en el campo principal y deja los apellidos en blanco.</p>
+    </div>
+  </div>
+</div>
+
+<div id="generos" class="section">
+  <p class="section-title"><i class="ti ti-tags" aria-hidden="true"></i> Gestión de géneros</p>
+  <p class="section-desc">Los géneros literarios son las categorías que se asocian a los libros (Novela, Ensayo, Ciencia ficción, etc.). Puedes consultar los existentes, añadir nuevos o eliminarlos.</p>
+
+  <p style="font-size:13px; font-weight:500; color:var(--color-text-secondary); margin-bottom:8px;">Cómo añadir un género nuevo</p>
+  <ul class="step-list">
+    <li><span class="step-num">1</span> Pulsa el botón <span class="badge badge-amber">+ Añadir género</span> en la barra superior.</li>
+    <li><span class="step-num">2</span> Escribe el nombre del género (mínimo 3 letras, solo caracteres alfabéticos).</li>
+    <li><span class="step-num">3</span> Pulsa <strong>Guardar</strong> y confirma en el diálogo.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Cancelar limpia el campo:</strong> Si pulsas el botón Cancelar mientras hay texto escrito, el campo se limpia pero la ventana no se cierra. Para cerrarla, vuelve a pulsar Cancelar con el campo vacío.
+  </div>
+
+  <div class="warn-box">
+    <i class="ti ti-alert-triangle" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>
+    Eliminar un género puede afectar a los libros que lo tengan asignado. Comprueba antes que no está en uso.
+  </div>
+</div>
+
+<div id="eliminar" class="section">
+  <p class="section-title"><i class="ti ti-trash" aria-hidden="true"></i> Eliminar registros</p>
+  <p class="section-desc">Puedes eliminar libros, autores y géneros desde sus respectivas vistas. El proceso siempre pide confirmación para evitar borrados accidentales.</p>
+
+  <ul class="step-list">
+    <li><span class="step-num">1</span> Navega a la vista que corresponda (libros, autores o géneros).</li>
+    <li><span class="step-num">2</span> <strong>Haz clic</strong> sobre el elemento que quieres eliminar para seleccionarlo.</li>
+    <li><span class="step-num">3</span> Pulsa el botón <span class="badge badge-red">Eliminar</span> (su texto cambia según la vista activa).</li>
+    <li><span class="step-num">4</span> Confirma la eliminación en el diálogo de confirmación.</li>
+    <li><span class="step-num">5</span> El elemento desaparece de la tabla automáticamente, sin necesidad de recargar.</li>
+  </ul>
+
+  <div class="warn-box">
+    <i class="ti ti-alert-triangle" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>
+    <strong>Esta acción es irreversible.</strong> Al eliminar un libro, se borran también sus relaciones con autores y géneros. Al eliminar un autor, se desvincula de todos sus libros.
+  </div>
+
+  <div class="tip-box">
+    Si intentas eliminar sin haber seleccionado nada primero, la aplicación puede mostrar un error. Asegúrate de hacer clic en una fila antes de pulsar el botón de eliminar.
+  </div>
+</div>
+
+<div id="buscar" class="section">
+  <p class="section-title"><i class="ti ti-search" aria-hidden="true"></i> Buscar y filtrar</p>
+  <p class="section-desc">Cada vista tiene su propio campo de búsqueda. El filtrado es en tiempo real: la tabla se actualiza mientras escribes, sin necesidad de pulsar Enter.</p>
+
+  <div class="feature-row">
+    <div class="feature-icon fi-purple"><i class="ti ti-book" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Buscar libros</h3>
+      <p>Escribe parte del título en el campo de búsqueda. La tabla mostrará solo los libros cuyo título contenga ese texto, sin distinguir mayúsculas y minúsculas.</p>
+    </div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-icon fi-teal"><i class="ti ti-user" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Buscar autores</h3>
+      <p>El filtro funciona sobre el <strong>nombre</strong> y el <strong>primer apellido</strong> simultáneamente. Puedes buscar por cualquiera de los dos.</p>
+    </div>
+  </div>
+  <div class="feature-row">
+    <div class="feature-icon fi-amber"><i class="ti ti-tag" aria-hidden="true"></i></div>
+    <div class="feature-text">
+      <h3>Buscar géneros</h3>
+      <p>Escribe el nombre del género o parte de él para filtrar la lista de categorías literarias disponibles.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="tip-box">
+    <strong>Borrar el campo de búsqueda</strong> restaura automáticamente la lista completa. No hace falta ningún botón adicional para limpiar el filtro.
+  </div>
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('visible');
+  const btns = document.querySelectorAll('.nav-btn');
+  const map = { inicio:0, libros:1, autores:2, generos:3, eliminar:4, buscar:5 };
+  btns[map[id]].classList.add('active');
+}
+</script>

@@ -99,6 +99,7 @@ public class ventanaAddLibroController {
             String yearPublicacion = inputYearPublicacion.getText();
             String paginas = inputPaginas.getText();
 
+//            Guardo estas listas para trabajar con más comodidad, pero no son modificables
             ObservableList<Autor> autoresSeleccionados = listaTablaAutor.getSelectionModel().getSelectedItems();
             ObservableList<Genero> generosSeleccionados = listaTablaGenero.getSelectionModel().getSelectedItems();
 
@@ -138,7 +139,6 @@ public class ventanaAddLibroController {
             String opinion = inputOpinion.getText().isEmpty() ? " " : inputOpinion.getText();
 
             Alert resultadoIngresoLibro = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR LIBRO", "VAS A INGRESAR EL SIGUIENTE LIBRO EN LA BBDD: " + titulo.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO LIBRO");
-            System.out.println("LLEGO");
             if (resultadoIngresoLibro.getResult() == ButtonType.OK) {
                 int idLibro = librodao.insertarLibro(titulo, yearPublicacionParseado, paginasParseadas, descripcion, opinion);
 
@@ -155,17 +155,22 @@ public class ventanaAddLibroController {
                             listaGenerosParaLibro.add(generosSeleccionados.get(i).getId());
                         }
 
+                    autorlibrodao.actualizarTablaLibroAutor(idLibro, listaAutoresParaLibro);
+                    generodao.actualizarTablaGeneroLibro(idLibro, listaGenerosParaLibro);
+
+                    tipoAlerta.mostrarAlertaInfo("LIBRO INSERTADO", "SE HA INSERTADO EL LIBRO: " + titulo.toUpperCase(), null);
+
+
+                    //                VACÍO LAS LISTAS DE GÉNERO Y AUTORES PARA QUE NO SE ACUMULEN
+                    listaAutoresParaLibro.clear();
+                    listaGenerosParaLibro.clear();
+                    listaTablaAutor.getSelectionModel().clearSelection();
+                    listaTablaGenero.getSelectionModel().clearSelection();
+
                 } else {
                     tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
                     return;
                 }
-
-                autorlibrodao.actualizarTablaLibroAutor(idLibro, listaAutoresParaLibro);
-                generodao.actualizarTablaGeneroLibro(idLibro, listaGenerosParaLibro);
-
-//                VACÍO LAS LISTAS DE GÉNERO Y AUTORES PARA QUE NO SE ACUMULEN
-                autoresSeleccionados.clear();
-                generosSeleccionados.clear();
 
                 // LIMPIAR CAMPOS TRAS AÑADIR UN LIBRO
                 List<Node> elementosVentana = new ArrayList<>(Arrays.asList(inputTitulo, inputDescripcion, inputYearPublicacion, inputPaginas, inputOpinion));
@@ -173,6 +178,7 @@ public class ventanaAddLibroController {
                     if (elemento instanceof TextField tf) tf.clear();
                     else if (elemento instanceof TextArea ta) ta.clear();
                 }
+
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();

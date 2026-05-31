@@ -60,10 +60,10 @@ public class AutorDAO {
         return listaAutores;
     }
 
-    public void insertarAutor(String nombre, String apellido1, String apellido2, String paisNombre, int yearNacimiento, int yearMuerte) {
+    public int insertarAutor(String nombre, String apellido1, String apellido2, String paisNombre, int yearNacimiento, int yearMuerte) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("INSERT INTO autor (nombre,apellido1,apellido2, pais_id ,year_nacimiento,year_fallecimiento) VALUES (?,?,?,(SELECT id FROM pais WHERE nombre = (?)),?,?)"
+            PreparedStatement consulta = conn.prepareStatement("INSERT INTO autor (nombre,apellido1,apellido2, pais_id ,year_nacimiento,year_fallecimiento) VALUES (?,?,?,(SELECT id FROM pais WHERE nombre = (?)),?,?)",Statement.RETURN_GENERATED_KEYS
             );
 
 //            ASIGNAS UN VALOR AL PLACEHOLDER DE LA COLUMNA QUE VAS A INSERTAR
@@ -76,10 +76,20 @@ public class AutorDAO {
 
             consulta.executeUpdate();
 
+            ResultSet rs = consulta.getGeneratedKeys();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error al insertar el autor. Comprueba la conexión a la base de datos.");
             e.printStackTrace();
         }
+
+        return -1;
     }
 
     public void borrarAutor(int idAutor) {
@@ -98,7 +108,7 @@ public class AutorDAO {
         }
     }
 
-    public void ActualizarAutor(int idAutor, String nombre, String apellido1, String apellido2, int nacimiento, String muerte, int idPais) {
+    public boolean ActualizarAutor(int idAutor, String nombre, String apellido1, String apellido2, int nacimiento, String muerte, int idPais) {
 
         try (Connection conn = conexionDB.getConnection()) {
             PreparedStatement consulta = conn.prepareStatement("UPDATE autor SET nombre = ?, apellido1 = ?, apellido2 = ?, year_nacimiento = ?, year_fallecimiento = ?, pais_id = ? WHERE id = ?"
@@ -119,12 +129,13 @@ public class AutorDAO {
             consulta.setInt(6, idPais);
             consulta.setInt(7, idAutor);
 
-            consulta.executeUpdate();
+            return consulta.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error al actualizar el autor. Comprueba que el autor exista y la conexión a la base de datos.");
             e.printStackTrace();
         }
+        return false;
     }
 
 

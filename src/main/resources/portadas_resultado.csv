@@ -1,0 +1,146 @@
+id_bd,titulo,autor,cover_id,url,estado
+1,Frankenstein o el moderno prometeo,Mary Shelley,13678546,https://covers.openlibrary.org/b/id/13678546-L.jpg,✓ OK
+2,Cuento de Navidad,Charles Dickens,7400302,https://covers.openlibrary.org/b/id/7400302-L.jpg,✓ OK
+3,El Lazarillo de Tormes,Anonimo,3359629,https://covers.openlibrary.org/b/id/3359629-L.jpg,✓ OK
+4,Breve historia del tiempo,Stephen Hawking,,,✗ NO ENCONTRADO
+5,El caballero de la armadura oxidada,Robert Fisher,5271077,https://covers.openlibrary.org/b/id/5271077-L.jpg,✓ OK
+6,Corazon,Edmondo De Amicis,5240329,https://covers.openlibrary.org/b/id/5240329-L.jpg,✓ OK
+7,Cronica de una muerte anunciada,Gabriel Garcia Marquez,8489859,https://covers.openlibrary.org/b/id/8489859-L.jpg,✓ OK
+8,Diez negritos,Agatha Christie,15159936,https://covers.openlibrary.org/b/id/15159936-L.jpg,✓ OK
+9,Discurso del metodo,Rene Descartes,3348569,https://covers.openlibrary.org/b/id/3348569-L.jpg,✓ OK
+10,El arte de la guerra,Sun Tzu,13723515,https://covers.openlibrary.org/b/id/13723515-L.jpg,✓ OK
+11,El arte de la prudencia,Baltasar Gracian,10863198,https://covers.openlibrary.org/b/id/10863198-L.jpg,✓ OK
+12,El corazon de las tinieblas,Joseph Conrad,12325082,https://covers.openlibrary.org/b/id/12325082-L.jpg,✓ OK
+13,El guardian entre el centeno,J.D. Salinger,10091527,https://covers.openlibrary.org/b/id/10091527-L.jpg,✓ OK
+14,El malestar en la cultura,Sigmund Freud,5258660,https://covers.openlibrary.org/b/id/5258660-L.jpg,✓ OK
+15,El viejo y el mar,Ernest Hemingway,14289984,https://covers.openlibrary.org/b/id/14289984-L.jpg,✓ OK
+16,El arbol de la ciencia,Pio Baroja,,,✗ NO ENCONTRADO
+17,Manual de Epicteto,Epicteto,6585530,https://covers.openlibrary.org/b/id/6585530-L.jpg,✓ OK
+18,Escuela de Robinsones,Jules Verne,13526764,https://covers.openlibrary.org/b/id/13526764-L.jpg,✓ OK
+19,Las 48 leyes del poder,Robert Greene,13482302,https://covers.openlibrary.org/b/id/13482302-L.jpg,✓ OK
+20,Por fin libres,Daniel Greenberg,13851312,https://covers.openlibrary.org/b/id/13851312-L.jpg,✓ OK
+21,La isla del tesoro,Robert Louis Stevenson,12331377,https://covers.openlibrary.org/b/id/12331377-L.jpg,✓ OK
+22,La metamorfosis,Franz Kafka,14073660,https://covers.openlibrary.org/b/id/14073660-L.jpg,✓ OK
+23,Las nieves del Kilimanjaro,Ernest Hemingway,,,✗ NO ENCONTRADO
+24,Meditaciones,Marco Aurelio,10469464,https://covers.openlibrary.org/b/id/10469464-L.jpg,✓ OK
+25,Memorias del subsuelo,Fyodor Dostoyevsky,13975529,https://covers.openlibrary.org/b/id/13975529-L.jpg,✓ OK
+26,El rayo que no cesa,Miguel Hernandez,6880094,https://covers.openlibrary.org/b/id/6880094-L.jpg,✓ OK
+27,Quien se ha llevado mi queso,Spencer Johnson,1048628,https://covers.openlibrary.org/b/id/1048628-L.jpg,✓ OK
+28,Rashomon y otros cuentos,Ryunosuke Akutagawa,13659238,https://covers.openlibrary.org/b/id/13659238-L.jpg,✓ OK
+29,Sobre la brevedad de la vida,Seneca,13454302,https://covers.openlibrary.org/b/id/13454302-L.jpg,✓ OK
+30,Sobre la felicidad,Seneca,12345067,https://covers.openlibrary.org/b/id/12345067-L.jpg,✓ OK
+31,Tokyo Blues,Haruki Murakami,11074301,https://covers.openlibrary.org/b/id/11074301-L.jpg,✓ OK
+32,Vida de un loco,Ryunosuke Akutagawa,3344635,https://covers.openlibrary.org/b/id/3344635-L.jpg,✓ OK
+33,Amazonia-China,Oscar Calavia,,,✗ NO ENCONTRADO
+34,Un secuestro de pelicula,Enrique Paez,5264964,https://covers.openlibrary.org/b/id/5264964-L.jpg,✓ OK
+35,Eclipse de sol,Albert Lijanov,,,✗ NO ENCONTRADO
+36,Tao te Ching,Lao Tse,662232,https://covers.openlibrary.org/b/id/662232-L.jpg,✓ OK
+37,El discreto,Baltasar Gracian,2269576,https://covers.openlibrary.org/b/id/2269576-L.jpg,✓ OK
+38,7 habitos de la gente altamente efectiva,Stephen Covey,1051915,https://covers.openlibrary.org/b/id/1051915-L.jpg,✓ OK
+39,De la firmeza del sabio,Seneca,,,✗ NO ENCONTRADO
+40,El arte de tener la razon,Arthur Schopenhauer,13763688,https://covers.openlibrary.org/b/id/13763688-L.jpg,✓ OK
+41,De la ira,Seneca,13660066,https://covers.openlibrary.org/b/id/13660066-L.jpg,✓ OK
+42,El hombre en busca de sentido,Viktor Frankl,,,✗ NO ENCONTRADO
+43,El poder de las tinieblas,Leon Tolstoi,12330953,https://covers.openlibrary.org/b/id/12330953-L.jpg,✓ OK
+44,El principe,Nicolas Maquiavelo,12328579,https://covers.openlibrary.org/b/id/12328579-L.jpg,✓ OK
+45,Relato de un naufrago,Gabriel Garcia Marquez,9486827,https://covers.openlibrary.org/b/id/9486827-L.jpg,✓ OK
+46,Asi hablo Zarathustra,Friedrich Nietzsche,12903097,https://covers.openlibrary.org/b/id/12903097-L.jpg,✓ OK
+47,Lord Edgware Dies,Agatha Christie,9492111,https://covers.openlibrary.org/b/id/9492111-L.jpg,✓ OK
+48,Kafka en la orilla,Haruki Murakami,,,✗ NO ENCONTRADO
+49,Trece cartas a Dios,Ricardo Moreno,,,✗ NO ENCONTRADO
+50,De la tranquilidad del animo,Seneca,12072346,https://covers.openlibrary.org/b/id/12072346-L.jpg,✓ OK
+51,Come comida real,Carlos Rios,10412369,https://covers.openlibrary.org/b/id/10412369-L.jpg,✓ OK
+52,Asesinato en el Orient Express,Agatha Christie,10527425,https://covers.openlibrary.org/b/id/10527425-L.jpg,✓ OK
+53,El sueno,Luis Maria Gonzalo,6670184,https://covers.openlibrary.org/b/id/6670184-L.jpg,✓ OK
+54,El metodo Kaizen,Robert Maurer,,,✗ NO ENCONTRADO
+55,El Principito,Antoine de Saint-Exupery,13499066,https://covers.openlibrary.org/b/id/13499066-L.jpg,✓ OK
+56,Cards on the table,Agatha Christie,6469172,https://covers.openlibrary.org/b/id/6469172-L.jpg,✓ OK
+57,Logica viva,Carlos Vaz Ferreira,4369796,https://covers.openlibrary.org/b/id/4369796-L.jpg,✓ OK
+58,Como ser un estoico,Massimo Pigliucci,11290703,https://covers.openlibrary.org/b/id/11290703-L.jpg,✓ OK
+59,El reino de Kensuke,Michael Morpurgo,,,✗ NO ENCONTRADO
+60,Principe y mendigo,Mark Twain,13527937,https://covers.openlibrary.org/b/id/13527937-L.jpg,✓ OK
+61,El cuerpo femenino,Anne de Kervasdoue,13704158,https://covers.openlibrary.org/b/id/13704158-L.jpg,✓ OK
+62,La vuelta al mundo en 80 dias,Jules Verne,11637458,https://covers.openlibrary.org/b/id/11637458-L.jpg,✓ OK
+63,De la vida bienaventurada,Seneca,3326429,https://covers.openlibrary.org/b/id/3326429-L.jpg,✓ OK
+64,En el enjambre,Byung-Chul Han,14550155,https://covers.openlibrary.org/b/id/14550155-L.jpg,✓ OK
+65,La sociedad de la transparencia,Byung-Chul Han,,,✗ NO ENCONTRADO
+66,La sociedad del cansancio,Byung-Chul Han,,,✗ NO ENCONTRADO
+67,1Q84 libros 1 y 2,Haruki Murakami,,,✗ NO ENCONTRADO
+68,1Q84 libro 3,Haruki Murakami,12325149,https://covers.openlibrary.org/b/id/12325149-L.jpg,✓ OK
+69,Hasta que la muerte nos separe,Antonio Martos,14044988,https://covers.openlibrary.org/b/id/14044988-L.jpg,✓ OK
+70,10 razones para borrar tus redes sociales,Jaron Lanier,,,✗ NO ENCONTRADO
+71,El asesinato de Roger Ackroyd,Agatha Christie,,,✗ NO ENCONTRADO
+72,Ideas y creencias,Jose Ortega y Gasset,2269620,https://covers.openlibrary.org/b/id/2269620-L.jpg,✓ OK
+73,Padre rico padre pobre,Robert Kiyosaki,8078169,https://covers.openlibrary.org/b/id/8078169-L.jpg,✓ OK
+74,El millonario de la puerta de al lado,Thomas Stanley,11124239,https://covers.openlibrary.org/b/id/11124239-L.jpg,✓ OK
+75,Los hermanos Karamazov,Fyodor Dostoyevsky,11609759,https://covers.openlibrary.org/b/id/11609759-L.jpg,✓ OK
+76,La caida de la casa de Usher,Edgar Allan Poe,12579568,https://covers.openlibrary.org/b/id/12579568-L.jpg,✓ OK
+77,Tiempos liquidos,Zygmunt Bauman,14128208,https://covers.openlibrary.org/b/id/14128208-L.jpg,✓ OK
+78,Minimalismo digital,Cal Newport,13760130,https://covers.openlibrary.org/b/id/13760130-L.jpg,✓ OK
+79,1984,George Orwell,8745958,https://covers.openlibrary.org/b/id/8745958-L.jpg,✓ OK
+80,Rebelion en la granja,George Orwell,13712713,https://covers.openlibrary.org/b/id/13712713-L.jpg,✓ OK
+81,El senor de las moscas,William Golding,,,✗ NO ENCONTRADO
+82,Vida liquida,Zygmunt Bauman,13661891,https://covers.openlibrary.org/b/id/13661891-L.jpg,✓ OK
+83,El concepto de la angustia,Soren Kierkegaard,12333692,https://covers.openlibrary.org/b/id/12333692-L.jpg,✓ OK
+84,El ego es el enemigo,Ryan Holiday,,,✗ NO ENCONTRADO
+85,Viaje al centro de la tierra,Jules Verne,2129972,https://covers.openlibrary.org/b/id/2129972-L.jpg,✓ OK
+86,El obstaculo es el camino,Ryan Holiday,13776953,https://covers.openlibrary.org/b/id/13776953-L.jpg,✓ OK
+87,El mito de Sisifo,Albert Camus,13635800,https://covers.openlibrary.org/b/id/13635800-L.jpg,✓ OK
+88,El extranjero,Albert Camus,7912110,https://covers.openlibrary.org/b/id/7912110-L.jpg,✓ OK
+89,El huesped,Albert Camus,5288048,https://covers.openlibrary.org/b/id/5288048-L.jpg,✓ OK
+90,El misterioso caso de Styles,Agatha Christie,15160980,https://covers.openlibrary.org/b/id/15160980-L.jpg,✓ OK
+91,La muerte feliz,Albert Camus,14091237,https://covers.openlibrary.org/b/id/14091237-L.jpg,✓ OK
+92,No-cosas,Byung-Chul Han,12954033,https://covers.openlibrary.org/b/id/12954033-L.jpg,✓ OK
+93,Salud salvaje,Marcos Vazquez,12824228,https://covers.openlibrary.org/b/id/12824228-L.jpg,✓ OK
+94,Si esto es un hombre,Primo Levi,,,✗ NO ENCONTRADO
+95,Un mundo feliz,Aldous Huxley,12527373,https://covers.openlibrary.org/b/id/12527373-L.jpg,✓ OK
+96,Trafalgar,Benito Perez Galdos,10858724,https://covers.openlibrary.org/b/id/10858724-L.jpg,✓ OK
+97,Nociones elementales de ajedrez,Jose Raul Capablanca,,,✗ NO ENCONTRADO
+98,Muerte en el Nilo,Agatha Christie,,,✗ NO ENCONTRADO
+99,De la providencia,Seneca,11233042,https://covers.openlibrary.org/b/id/11233042-L.jpg,✓ OK
+100,Antifragil,Nassim Nicholas Taleb,9180157,https://covers.openlibrary.org/b/id/9180157-L.jpg,✓ OK
+101,Pierre et Jean,Guy de Maupassant,8245172,https://covers.openlibrary.org/b/id/8245172-L.jpg,✓ OK
+102,La revolucion de la inteligencia,Luis Alberto Machado,4445273,https://covers.openlibrary.org/b/id/4445273-L.jpg,✓ OK
+103,El camino de la soledad,Musashi Miyamoto,,,✗ NO ENCONTRADO
+104,Your brain on porn,Gary Wilson,12446752,https://covers.openlibrary.org/b/id/12446752-L.jpg,✓ OK
+105,La comunicacion no verbal,Flora Davis,10463650,https://covers.openlibrary.org/b/id/10463650-L.jpg,✓ OK
+106,The brain that changes itself,Norman Doidge,1333251,https://covers.openlibrary.org/b/id/1333251-L.jpg,✓ OK
+107,Une bouteille dans la mer de Gaza,Valerie Zenatti,11342199,https://covers.openlibrary.org/b/id/11342199-L.jpg,✓ OK
+108,Un avventura di viaggio,Marcel Brion,,,✗ NO ENCONTRADO
+109,Martin Eden,Jack London,9223765,https://covers.openlibrary.org/b/id/9223765-L.jpg,✓ OK
+110,La Presentacion de la persona en la vida cotidiana,Erving Goffman,8104174,https://covers.openlibrary.org/b/id/8104174-L.jpg,✓ OK
+111,Invierte en ti,Natalia de Santiago,10553652,https://covers.openlibrary.org/b/id/10553652-L.jpg,✓ OK
+112,La caida,Albert Camus,7263762,https://covers.openlibrary.org/b/id/7263762-L.jpg,✓ OK
+113,El anticristo,Friedrich Nietzsche,12339246,https://covers.openlibrary.org/b/id/12339246-L.jpg,✓ OK
+114,Dos conceptos de libertad,Isaiah Berlin,13983238,https://covers.openlibrary.org/b/id/13983238-L.jpg,✓ OK
+115,El hombre mas rico de babilonia,George Clason,3356007,https://covers.openlibrary.org/b/id/3356007-L.jpg,✓ OK
+116,Hable menos y actue mas,Brian Tracy,,,✗ NO ENCONTRADO
+117,La economia en una leccion,Henry Hazlitt,14110889,https://covers.openlibrary.org/b/id/14110889-L.jpg,✓ OK
+118,La biblia del vendedor,Alex Dey,14312163,https://covers.openlibrary.org/b/id/14312163-L.jpg,✓ OK
+119,El arte de la buena vida,Willam Irvine,13661934,https://covers.openlibrary.org/b/id/13661934-L.jpg,✓ OK
+120,Los 10 principios basicos del orden politico liberal,Juan Ramon Rallo,,,✗ NO ENCONTRADO
+121,Los 4 acuerdos,Miguel Ruiz,,,✗ NO ENCONTRADO
+122,Ten peor coche que tu vecino,Luis Pita,13803173,https://covers.openlibrary.org/b/id/13803173-L.jpg,✓ OK
+123,El gen egoista,Richard Dawkins,8105040,https://covers.openlibrary.org/b/id/8105040-L.jpg,✓ OK
+124,Una habitacion propia,Virginia Woolf,14052170,https://covers.openlibrary.org/b/id/14052170-L.jpg,✓ OK
+125,La rebelion de las masas,Jose Ortega y Gasset,1047124,https://covers.openlibrary.org/b/id/1047124-L.jpg,✓ OK
+126,Falacias de la justicia social,Thomas Sowell,,,✗ NO ENCONTRADO
+127,Tratado sobre la tolerancia,Voltaire,12336633,https://covers.openlibrary.org/b/id/12336633-L.jpg,✓ OK
+128,El mito de la monogamia,David Barash,,,✗ NO ENCONTRADO
+129,Seis lecciones sobre el capitalismo,Ludwig Von Mises,14110303,https://covers.openlibrary.org/b/id/14110303-L.jpg,✓ OK
+130,El hombre contra el estado,Herbert Spencer,14110992,https://covers.openlibrary.org/b/id/14110992-L.jpg,✓ OK
+131,Walden,Henry David Thoreau,11248037,https://covers.openlibrary.org/b/id/11248037-L.jpg,✓ OK
+132,Caminar,Henry David Thoreau,14191851,https://covers.openlibrary.org/b/id/14191851-L.jpg,✓ OK
+133,El crepusculo de los idolos,Friedrich Nietzsche,11865361,https://covers.openlibrary.org/b/id/11865361-L.jpg,✓ OK
+134,El economista callejero,Axel Kaiser,13106894,https://covers.openlibrary.org/b/id/13106894-L.jpg,✓ OK
+135,Temor y temblor,Soren Kierkegaard,13215927,https://covers.openlibrary.org/b/id/13215927-L.jpg,✓ OK
+136,La ciencia del sexo,Pere Stupinya,14085889,https://covers.openlibrary.org/b/id/14085889-L.jpg,✓ OK
+137,Que hago con mi vida,Po Bronson,14018195,https://covers.openlibrary.org/b/id/14018195-L.jpg,✓ OK
+138,Discriminacion y disparidades,Thomas Sowell,,,✗ NO ENCONTRADO
+139,El sabueso de los Baskerville,Arthur Conan Doyle,14279159,https://covers.openlibrary.org/b/id/14279159-L.jpg,✓ OK
+140,Angeli,Maurizio de Giovani,14561733,https://covers.openlibrary.org/b/id/14561733-L.jpg,✓ OK
+141,Invierte con poco,Natalia de Santiago,12838796,https://covers.openlibrary.org/b/id/12838796-L.jpg,✓ OK
+142,Sapiens de animales a dioses,Yuval Noah Harari,,,✗ NO ENCONTRADO
+143,Basta ya de ser un Tipo Lindo,Robert Glover,,,✗ NO ENCONTRADO
+144,La energia nuclear salvara el mundo,Alfredo Garcia,10221409,https://covers.openlibrary.org/b/id/10221409-L.jpg,✓ OK
+144,El hombre del traje color castaño,Agatha Christie,,,✗ NO ENCONTRADO

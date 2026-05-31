@@ -143,9 +143,17 @@ public class ventanaAddAutorController {
 
             Alert resultadoIngresoAutor = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR AUTOR", "VAS A INGRESAR EL SIGUIENTE AUTOR EN LA BBDD: " + nombre + " " + apellido1 + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO AUTOR");
 
+//            haya o no haya conexión, mientras se pulse ok, saldrá un mensaje de que se ha insertado, siendo que puede ser mentira.
             if (resultadoIngresoAutor.getResult() == ButtonType.OK) {
-                autordao.insertarAutor(nombre, apellido1, apellido2Final, paisSeleccionado.getNombrePais(), nacimientoParseado, fallecimientoParseado);
-                tipoAlerta.mostrarAlertaInfo("AUTOR INSERTADO", "SE HA INSERTADO EL AUTOR: " + nombre + " " + apellido1, null); // FALTABA CONFIRMACIÓN DE ÉXITO
+
+                int idLibro = autordao.insertarAutor(nombre, apellido1, apellido2Final, paisSeleccionado.getNombrePais(), nacimientoParseado, fallecimientoParseado);
+
+                if (idLibro != -1) {
+                    tipoAlerta.mostrarAlertaInfo("AUTOR INSERTADO", "SE HA INSERTADO EL AUTOR: " + nombre + " " + apellido1, null); // FALTABA CONFIRMACIÓN DE ÉXITO
+                } else {
+                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL AUTOR EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
+                    return;
+                }
             }
 
             // LIMPIAR CAMPOS

@@ -2,9 +2,12 @@ package com.alan.controladores;
 
 import com.alan.DataAccesObjects.GeneroDAO;
 import com.alan.clases.Alertas;
+import com.alan.clases.Genero;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class ventanaAddGeneroController {
     Alertas tipoAlerta = new Alertas();
@@ -44,8 +47,16 @@ public class ventanaAddGeneroController {
             Alert resultadoIngresoGenero = tipoAlerta.mostrarAlertaConfirmacion("INGRESAR GÉNERO", "VAS A INGRESAR EL SIGUIENTE GÉNERO EN LA BASE DE DATOS: " + nombreGenero.toUpperCase() + " ¿ESTÁS SEGURO DE CONTINUAR?", "INGRESAR NUEVO GÉNERO");
 
             if (resultadoIngresoGenero.getResult() == ButtonType.OK) {
-                generodao.insertarGenero(nombreGenero);
-                tipoAlerta.mostrarAlertaInfo("GÉNERO INSERTADO", "SE HA INSERTADO EL GÉNERO: " + nombreGenero.toUpperCase(), null); // FALTABA CONFIRMACIÓN DE ÉXITO
+
+                int idGenero = generodao.insertarGenero(nombreGenero);
+
+                if(idGenero != -1){
+                    tipoAlerta.mostrarAlertaInfo("GÉNERO INSERTADO", "SE HA INSERTADO EL GÉNERO: " + nombreGenero.toUpperCase(), null); // FALTABA CONFIRMACIÓN DE ÉXITO
+                }else{
+                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL GÉNERO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
+                    return;
+                }
+
             }
 
             inputNombre.clear();

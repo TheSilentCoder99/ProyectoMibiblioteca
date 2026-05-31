@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" alignment="TOP_CENTER"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.alan.controladores.librosAnteriores21Controller">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="LIBROS ANTERIORES AL SIGLO XXI" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Separator/>
+
+    <TableView fx:id="listaLibros" prefHeight="500">
+        <columns>
+            <TableColumn fx:id="colTitulo" text="Título" prefWidth="400"/>
+            <TableColumn fx:id="colPublicacion" text="Año" prefWidth="150"/>
+            <TableColumn fx:id="colPaginas" text="Páginas" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <HBox>
+        <TextArea fx:id="descripcionLibro" text="Selecciona un libro para ver su descripción..." wrapText="true"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cerrar" onAction="#cerrarVentana" />
+    </HBox>
+
+</VBox>

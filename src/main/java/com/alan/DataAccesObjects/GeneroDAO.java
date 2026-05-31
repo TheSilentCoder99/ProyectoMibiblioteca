@@ -51,15 +51,24 @@ public class GeneroDAO {
         return listaGeneros;
     }
 
-    public void insertarGenero(String nombre) {
+    public int insertarGenero(String nombre) {
 
         try (Connection conn = conexionDB.getConnection()) {
-            PreparedStatement consulta = conn.prepareStatement("INSERT INTO genero (nombre) VALUES (?)"
+            PreparedStatement consulta = conn.prepareStatement("INSERT INTO genero (nombre) VALUES (?)",Statement.RETURN_GENERATED_KEYS
             );
 
             consulta.setString(1, nombre);
 
             consulta.executeUpdate();
+
+
+            ResultSet rs = consulta.getGeneratedKeys();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
 
         } catch (SQLException e) {
             String estado = e.getSQLState();
@@ -79,6 +88,7 @@ public class GeneroDAO {
             }
             e.printStackTrace();
         }
+        return -1;
     }
 
     public void borrarGenero(int idGenero) {
@@ -121,6 +131,7 @@ public class GeneroDAO {
                 );
                 consulta.setInt(1, idLibro);
                 consulta.setInt(2, idGenero.get(i));
+
                 consulta.executeUpdate();
 
             } catch (SQLException e) {

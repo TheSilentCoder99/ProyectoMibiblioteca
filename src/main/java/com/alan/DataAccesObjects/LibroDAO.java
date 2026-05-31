@@ -122,7 +122,7 @@ public class LibroDAO {
         }
     }
 
-    public void ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion, String description, String opinion) {
+    public boolean ActualizarLibro(int idLibro, String titulo, int paginas, int yearPublicacion, String description, String opinion) {
 
         try (Connection conn = conexionDB.getConnection()) {
             PreparedStatement consulta = conn.prepareStatement("UPDATE libro SET title = ?, pages = ?, year_publicacion = ?, description = ?, opinion = ? WHERE id = ?");
@@ -134,7 +134,7 @@ public class LibroDAO {
             consulta.setString(5, opinion);
             consulta.setInt(6, idLibro);
 
-            consulta.executeUpdate();
+            return consulta.executeUpdate() > 0;
 
         }catch (SQLException e) {
             String estado = e.getSQLState();
@@ -154,6 +154,8 @@ public class LibroDAO {
             }
             e.printStackTrace();
         }
+
+        return false;
     }
 
 //    VISTAS QUE SE MUESTRAN EN LA OPCIÓN DE VISTAS RESUMEN:

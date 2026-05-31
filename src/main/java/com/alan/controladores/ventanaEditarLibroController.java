@@ -93,14 +93,17 @@ public class ventanaEditarLibroController {
             Alert confirmacionActualizacion = alertas.mostrarAlertaConfirmacion("ACTUALIZAR LIBRO.", "¿CONTINUAR CON LA ACTUALIZACIÓN?", "ACEPTAR PARA CONTINUAR.");
 
             if (confirmacionActualizacion.getResult() == ButtonType.OK) {
-                librodao.ActualizarLibro(this.libroAEditar.getId(), titulo, paginasParseadas, yearPublicacionParseado, descripcion, opinion);
-                alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA.", "SE HA ACTUALIZADO EL LIBRO.", null);
-                Stage stage = (Stage) inputTitulo.getScene().getWindow();
-                stage.close();
-            } else {
-                alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL LIBRO.", null);
-            }
 
+                boolean isActualizado = librodao.ActualizarLibro(this.libroAEditar.getId(), titulo, paginasParseadas, yearPublicacionParseado, descripcion, opinion);
+
+                if(isActualizado){
+                    alertas.mostrarAlertaInfo("ACTUALIZACIÓN REALIZADA.", "SE HA ACTUALIZADO EL LIBRO.", null);
+                    Stage stage = (Stage) inputTitulo.getScene().getWindow();
+                    stage.close();
+                }else{
+                    alertas.mostrarAlertaError("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL LIBRO. COMPROBAR LA CONEXIÓN A LA BASE DE DATOS.", null);
+                }
+        }
         } catch (NumberFormatException e) {
             Alertas alertas = new Alertas();
             alertas.mostrarAlertaError("ERROR DE FORMATO.", "LAS PÁGINAS Y EL AÑO DE PUBLICACIÓN DEBEN SER NÚMEROS.", "INGRESA VALORES VÁLIDOS.");
