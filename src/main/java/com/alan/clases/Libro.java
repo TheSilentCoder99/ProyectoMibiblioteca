@@ -9,10 +9,22 @@ public class Libro {
     private String descripcion;
     private String opinion;
     private int coverID;
+    private String imagen;
 
     //    CONSTRUCTORES
     public Libro() {
 
+    }
+
+    public Libro(int id, String titulo, int yearPublicacion, int paginas, String descripcion, String opinion, int coverID, String imagen) {
+        this.id = id;
+        this.titulo = titulo;
+        this.yearPublicacion = yearPublicacion;
+        this.paginas = paginas;
+        this.descripcion = descripcion;
+        this.opinion = opinion;
+        this.coverID = coverID;
+        this.imagen = imagen;
     }
 
     public Libro(int id, String titulo, int yearPublicacion, int paginas, String descripcion, String opinion, int coverID) {
@@ -89,6 +101,14 @@ public class Libro {
 
     public void setCoverID(int coverID) {
         this.coverID = coverID;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @Override

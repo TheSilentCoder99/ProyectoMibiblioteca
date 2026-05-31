@@ -251,16 +251,15 @@ public class pantallaPrincipalController {
                 mostrarOpinion.setText(newValue.getOpinion());
                 mostrarOpinion.setVisible(true);
                 contenedorLibroGenerico.setVisible(true);
-//                SI SE DESCOMENTA EL CÓDIGO DE ABAJO, AL PULSAR EN CADA LIBRO, OBTENDRÁS LA PORTADA DESDE OPENLIBRARY. SI LA CONEXIÓN A INTERNET NO ES BUENA, EL PROGRAMA IRÁ MUY LENTO.
 
-//                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
-//                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
-//                    contenedorLibroGenerico.setImage(fotoGenerica);
-//
-//                } else {
-//                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
-//                    contenedorLibroGenerico.setImage(fotoEsteLibro);
-//           }
+                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
+                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+                    contenedorLibroGenerico.setImage(fotoGenerica);
+
+                } else {
+                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
+                    contenedorLibroGenerico.setImage(fotoEsteLibro);
+           }
             }
         });
 
@@ -432,6 +431,9 @@ public class pantallaPrincipalController {
         mostrarDescripcion.setManaged(true);
         mostrarOpinion.setVisible(true);
         mostrarOpinion.setManaged(true);
+//        En caso de que se vaya la conexión y vuelva, actualizo/traigo todos los datos de las tablas de nuevo.
+        actualizarVentana();
+
     }
 
 
@@ -466,6 +468,8 @@ public class pantallaPrincipalController {
         inputBuscarAutor.setManaged(true);
         mostrarLibroAutor.setVisible(true);
         mostrarLibroAutor.setManaged(true);
+        actualizarVentana();
+
     }
 
     public void mostrarGeneros() {
@@ -504,6 +508,7 @@ public class pantallaPrincipalController {
         mostrarGeneros.setManaged(true);
         inputBuscarGenero.setVisible(true);
         inputBuscarGenero.setManaged(true);
+        actualizarVentana();
     }
 
     public void mostrarPaises() {
@@ -545,6 +550,7 @@ public class pantallaPrincipalController {
         inputBuscarPais.setManaged(true);
         mostrarPaises.setVisible(true);
         mostrarPaises.setManaged(true);
+        actualizarVentana();
     }
 
     public void cambiarVentanas(Event e) throws IOException {
