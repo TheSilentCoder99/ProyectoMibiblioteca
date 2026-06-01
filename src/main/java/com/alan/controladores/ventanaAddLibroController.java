@@ -158,7 +158,7 @@ public class ventanaAddLibroController {
                     autorlibrodao.actualizarTablaLibroAutor(idLibro, listaAutoresParaLibro);
                     generodao.actualizarTablaGeneroLibro(idLibro, listaGenerosParaLibro);
 
-                    tipoAlerta.mostrarAlertaInfo("LIBRO INSERTADO", "SE HA INSERTADO EL LIBRO: " + titulo.toUpperCase(), null);
+                    tipoAlerta.mostrarAlertaInfo("LIBRO INSERTADO", "SE HA INSERTADO EL LIBRO: " + titulo.toUpperCase(), "INSERTAR LIBRO.");
 
 
                     //                VACÍO LAS LISTAS DE GÉNERO Y AUTORES PARA QUE NO SE ACUMULEN
@@ -168,7 +168,7 @@ public class ventanaAddLibroController {
                     listaTablaGenero.getSelectionModel().clearSelection();
 
                 } else {
-                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
+                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL LIBRO. REVISA LA CONEXIÓN A LA BASE DE DATOS.", "REVISAR CONEXIÓN.");
                     return;
                 }
 

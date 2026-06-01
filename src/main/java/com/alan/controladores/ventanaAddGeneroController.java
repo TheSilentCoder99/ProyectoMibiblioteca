@@ -53,7 +53,7 @@ public class ventanaAddGeneroController {
                 if(idGenero != -1){
                     tipoAlerta.mostrarAlertaInfo("GÉNERO INSERTADO", "SE HA INSERTADO EL GÉNERO: " + nombreGenero.toUpperCase(), null); // FALTABA CONFIRMACIÓN DE ÉXITO
                 }else{
-                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL GÉNERO EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
+                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL GÉNERO LITERARIO. COMPROBAR LA CONEXIÓN A LA BASE DE DATOS.", "REVISAR CONEXIÓN.");
                     return;
                 }
 

@@ -141,7 +141,7 @@ public class ventanaEditarAutorController {
                     Stage stage = (Stage) inputNombre.getScene().getWindow();
                     stage.close();
                 } else {
-                alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL AUTOR.", null);
+                alertas.mostrarAlertaInfo("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL AUTOR. COMPRUEBA LA CONEXIÓN A LA BASE DE DATOS", "COMPROBAR LA CONEXIÓN.");
             }
 
         } }catch (NumberFormatException e) {

@@ -101,7 +101,7 @@ public class ventanaEditarLibroController {
                     Stage stage = (Stage) inputTitulo.getScene().getWindow();
                     stage.close();
                 }else{
-                    alertas.mostrarAlertaError("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL LIBRO. COMPROBAR LA CONEXIÓN A LA BASE DE DATOS.", null);
+                    alertas.mostrarAlertaError("ACTUALIZACIÓN NO REALIZADA.", "NO SE HA ACTUALIZADO EL LIBRO. COMPRUEBA LA CONEXIÓN A LA BASE DE DATOS.", null);
                 }
         }
         } catch (NumberFormatException e) {

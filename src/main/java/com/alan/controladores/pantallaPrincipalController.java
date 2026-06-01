@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -252,14 +253,16 @@ public class pantallaPrincipalController {
                 mostrarOpinion.setVisible(true);
                 contenedorLibroGenerico.setVisible(true);
 
-                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
-                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
-                    contenedorLibroGenerico.setImage(fotoGenerica);
+//                DESCOMENTAR PARA LA PRESENTACIÓN
 
-                } else {
-                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
-                    contenedorLibroGenerico.setImage(fotoEsteLibro);
-           }
+//                if (newValue.getCoverID() == 0 || String.valueOf(newValue.getCoverID()).isBlank()) {
+//                    Image fotoGenerica = new Image(getClass().getResourceAsStream("/Fotogenericalibro.png"));
+//                    contenedorLibroGenerico.setImage(fotoGenerica);
+//
+//                } else {
+//                    Image fotoEsteLibro = new Image(("https://covers.openlibrary.org/b/id/" + newValue.getCoverID() + "-L.jpg"));
+//                    contenedorLibroGenerico.setImage(fotoEsteLibro);
+//           }
             }
         });
 
@@ -814,114 +817,123 @@ public class pantallaPrincipalController {
         Alert confirmacionCerrarVentana = alertas.mostrarAlertaConfirmacion("EXPORTAR A PDF", "¿EXPORTAR A PDF?", null);
 
         if (confirmacionCerrarVentana.getResult() == ButtonType.OK) {
-            try (Document document = new Document()) {
-                PdfPTable tabla = null;
 
-                switch (idItem) {
-                    case "pdfLibros":
-                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS"));
-                        document.open();
+            boolean isConnected = autordao.ActualizarAutor(1,"Mary","Shelley",null,1797,"1851",1);
 
-                        tabla = new PdfPTable(3); // 3 columnas
-                        // Cabeceras
-                        tabla.addCell("Título".toUpperCase());
-                        tabla.addCell("AÑO publicación".toUpperCase());
-                        tabla.addCell("páginas".toUpperCase());
-                        // Datos
-                        for (Libro libro : listaLibrosObservable) {
-                            tabla.addCell(libro.getTitulo());
-                            tabla.addCell(String.valueOf(libro.getYearPublicacion()));
-                            tabla.addCell(String.valueOf(libro.getPaginas()));
-                        }
+            if(isConnected){
+                try (Document document = new Document()) {
+                    PdfPTable tabla = null;
 
-                        break;
+                    switch (idItem) {
+                        case "pdfLibros":
+                            PdfWriter.getInstance(document, new FileOutputStream("LIBROS"));
+                            document.open();
 
-                    case "pdfAutores":
-                        PdfWriter.getInstance(document, new FileOutputStream("AUTORES"));
-                        document.open();
+                            tabla = new PdfPTable(3); // 3 columnas
+                            // Cabeceras
+                            tabla.addCell("Título".toUpperCase());
+                            tabla.addCell("AÑO publicación".toUpperCase());
+                            tabla.addCell("páginas".toUpperCase());
+                            // Datos
+                            for (Libro libro : listaLibrosObservable) {
+                                tabla.addCell(libro.getTitulo());
+                                tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                                tabla.addCell(String.valueOf(libro.getPaginas()));
+                            }
 
-                        tabla = new PdfPTable(6); // 5 columnas
+                            break;
 
-                        tabla.addCell("Nombre".toUpperCase());
-                        tabla.addCell("Apellido 1".toUpperCase());
-                        tabla.addCell("Apellido 2".toUpperCase());
-                        tabla.addCell("Año nacimiento".toUpperCase());
-                        tabla.addCell("Año fallecimiento".toUpperCase());
-                        tabla.addCell("País".toUpperCase());
-                        // Datos
-                        for (Autor autor : listaAutoresObservable) {
-                            tabla.addCell(autor.getNombre());
-                            tabla.addCell(autor.getApellido1());
-                            tabla.addCell(autor.getApellido2());
-                            tabla.addCell(autor.getYearNacimiento());
-                            tabla.addCell(autor.getYearFallecimiento());
-                            tabla.addCell(String.valueOf(paisdao.buscarPais(autor.getPais_id())));
-                        }
+                        case "pdfAutores":
+                            PdfWriter.getInstance(document, new FileOutputStream("AUTORES"));
+                            document.open();
 
-                        break;
+                            tabla = new PdfPTable(6); // 5 columnas
 
-                    case "pdfLibrosPorAutor":
-                        if (mostrarAutores.getSelectionModel().getSelectedItem() == null) {
-                            alertas.mostrarAlertaError("ELIGE UN AUTOR", "PRIMERO DEBES SELECCIONAR UN AUTOR PARA EXPORTAR SUS LIBROS", "FALLO AL EXPORTAR");
-                            return;
-                        }
+                            tabla.addCell("Nombre".toUpperCase());
+                            tabla.addCell("Apellido 1".toUpperCase());
+                            tabla.addCell("Apellido 2".toUpperCase());
+                            tabla.addCell("Año nacimiento".toUpperCase());
+                            tabla.addCell("Año fallecimiento".toUpperCase());
+                            tabla.addCell("País".toUpperCase());
+                            // Datos
+                            for (Autor autor : listaAutoresObservable) {
+                                tabla.addCell(autor.getNombre());
+                                tabla.addCell(autor.getApellido1());
+                                tabla.addCell(autor.getApellido2());
+                                tabla.addCell(autor.getYearNacimiento());
+                                tabla.addCell(autor.getYearFallecimiento());
+                                tabla.addCell(String.valueOf(paisdao.buscarPais(autor.getPais_id())));
+                            }
 
-                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS DE AUTOR"));
-                        document.open();
-                        tabla = new PdfPTable(3); // 5 columnas
+                            break;
 
-                        tabla.addCell("TÍTULO");
-                        tabla.addCell("PÁGINAS");
-                        tabla.addCell("AÑO PUBLICACIÓN");
-                        // Datos
-                        for (AutorLibro libroAutor : autorLibroObservable) {
-                            tabla.addCell(libroAutor.getTitle());
-                            tabla.addCell(String.valueOf(libroAutor.getPaginas()));
-                            tabla.addCell(String.valueOf(libroAutor.getYearPublicacion()));
-                        }
-                        break;
+                        case "pdfLibrosPorAutor":
+                            if (mostrarAutores.getSelectionModel().getSelectedItem() == null) {
+                                alertas.mostrarAlertaError("ELIGE UN AUTOR", "PRIMERO DEBES SELECCIONAR UN AUTOR PARA EXPORTAR SUS LIBROS", "FALLO AL EXPORTAR");
+                                return;
+                            }
 
-                    case "pdfLibrosXXI":
-                        List<Libro> librosSXXI = new ArrayList<>(librodao.librosPosterioresSXII());
+                            PdfWriter.getInstance(document, new FileOutputStream("LIBROS DE AUTOR"));
+                            document.open();
+                            tabla = new PdfPTable(3); // 5 columnas
 
-                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS DEL S.XXI"));
-                        document.open();
-                        tabla = new PdfPTable(3); // 3 columnas
+                            tabla.addCell("TÍTULO");
+                            tabla.addCell("PÁGINAS");
+                            tabla.addCell("AÑO PUBLICACIÓN");
+                            // Datos
+                            for (AutorLibro libroAutor : autorLibroObservable) {
+                                tabla.addCell(libroAutor.getTitle());
+                                tabla.addCell(String.valueOf(libroAutor.getPaginas()));
+                                tabla.addCell(String.valueOf(libroAutor.getYearPublicacion()));
+                            }
+                            break;
 
-                        tabla.addCell("Título".toUpperCase());
-                        tabla.addCell("Páginas".toUpperCase());
-                        tabla.addCell("Publicación".toUpperCase());
-                        // Datos
-                        for (Libro libro : librosSXXI) {
-                            tabla.addCell(libro.getTitulo());
-                            tabla.addCell(String.valueOf(libro.getYearPublicacion()));
-                            tabla.addCell(String.valueOf(libro.getPaginas()));
-                        }
-                        break;
+                        case "pdfLibrosXXI":
+                            List<Libro> librosSXXI = new ArrayList<>(librodao.librosPosterioresSXII());
 
-                    case "pdfLibrosAnterioresXXI":
-                        List<Libro> librosAnterioresSXXI = new ArrayList<>(librodao.librosAnterioresSXII());
+                            PdfWriter.getInstance(document, new FileOutputStream("LIBROS DEL S.XXI"));
+                            document.open();
+                            tabla = new PdfPTable(3); // 3 columnas
 
-                        PdfWriter.getInstance(document, new FileOutputStream("LIBROS ANTERIORES AL S.XXI"));
-                        document.open();
-                        tabla = new PdfPTable(3); // 3 columnas
+                            tabla.addCell("Título".toUpperCase());
+                            tabla.addCell("Páginas".toUpperCase());
+                            tabla.addCell("Publicación".toUpperCase());
+                            // Datos
+                            for (Libro libro : librosSXXI) {
+                                tabla.addCell(libro.getTitulo());
+                                tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                                tabla.addCell(String.valueOf(libro.getPaginas()));
+                            }
+                            break;
 
-                        tabla.addCell("Título".toUpperCase());
-                        tabla.addCell("Páginas".toUpperCase());
-                        tabla.addCell("Publicación".toUpperCase());
-                        // Datos
-                        for (Libro libro : librosAnterioresSXXI) {
-                            tabla.addCell(libro.getTitulo());
-                            tabla.addCell(String.valueOf(libro.getYearPublicacion()));
-                            tabla.addCell(String.valueOf(libro.getPaginas()));
-                        }
-                        break;
+                        case "pdfLibrosAnterioresXXI":
+                            List<Libro> librosAnterioresSXXI = new ArrayList<>(librodao.librosAnterioresSXII());
+
+                            PdfWriter.getInstance(document, new FileOutputStream("LIBROS ANTERIORES AL S.XXI"));
+                            document.open();
+                            tabla = new PdfPTable(3); // 3 columnas
+
+                            tabla.addCell("Título".toUpperCase());
+                            tabla.addCell("Páginas".toUpperCase());
+                            tabla.addCell("Publicación".toUpperCase());
+                            // Datos
+                            for (Libro libro : librosAnterioresSXXI) {
+                                tabla.addCell(libro.getTitulo());
+                                tabla.addCell(String.valueOf(libro.getYearPublicacion()));
+                                tabla.addCell(String.valueOf(libro.getPaginas()));
+                            }
+                            break;
+                    }
+                    document.add(tabla);
+                    alertas.mostrarAlertaInfo("EXPORTAR DATOS","EXPORTACIÓN REALIZADA","EXPORTACIÓN COMPLETADA.");
+
+                } catch (Exception x) {
+                    x.printStackTrace();
                 }
-                document.add(tabla);
-
-            } catch (Exception x) {
-                x.printStackTrace();
+            } else{
+                alertas.mostrarAlertaError("REVISAR CONEXIÓN.","ERROR AL EXPORTAR LOS DATOS. REVISA LA CONEXIÓN A LA BASE DE DATOS.", "DATOS NO EXPORTADOS.");
             }
+
         }
     }
 

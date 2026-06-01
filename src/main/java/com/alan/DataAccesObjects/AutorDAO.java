@@ -132,7 +132,7 @@ public class AutorDAO {
             return consulta.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("Ha ocurrido un error al actualizar el autor. Comprueba que el autor exista y la conexión a la base de datos.");
+            System.out.println("Ha ocurrido un error al actualizar el autor. Comprueba que el autor exista y la conexión a la base de datos.".toUpperCase());
             e.printStackTrace();
         }
         return false;

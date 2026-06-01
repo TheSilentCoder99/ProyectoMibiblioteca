@@ -53,7 +53,7 @@
         <!-- Fila 6: Año de fallecimiento -->
         <Label text="Año fallecimiento:" GridPane.columnIndex="0" GridPane.rowIndex="5" style="-fx-font-weight: bold;"/>
         <TextField fx:id="inputYearFallecimiento" GridPane.columnIndex="1" GridPane.rowIndex="5"
-                   promptText="Ej: 2014 (dejar vacío si vive)"/>
+                   promptText="Ej: 2014 (déjalo vacío si no lo sabes)"/>
         
         <!-- Fila 7: Mensaje -->
         <Label fx:id="lblMensaje" GridPane.columnIndex="1" GridPane.rowIndex="6"/>

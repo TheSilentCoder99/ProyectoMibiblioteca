@@ -151,7 +151,7 @@ public class ventanaAddAutorController {
                 if (idLibro != -1) {
                     tipoAlerta.mostrarAlertaInfo("AUTOR INSERTADO", "SE HA INSERTADO EL AUTOR: " + nombre + " " + apellido1, null); // FALTABA CONFIRMACIÓN DE ÉXITO
                 } else {
-                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL AUTOR EN LA BASE DE DATOS.", "REVISAR CONEXIÓN");
+                    tipoAlerta.mostrarAlertaError("ERROR AL GUARDAR", "NO SE HA PODIDO GUARDAR EL AUTOR. REVISAR CONEXIÓN A LA BASE DE DATOS.", "REVISAR CONEXIÓN");
                     return;
                 }
             }
